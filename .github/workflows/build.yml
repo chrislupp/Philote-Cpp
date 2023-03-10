@@ -20,7 +20,6 @@ jobs:
         matrix:
           os: [ubuntu-22.04]
           compiler: [
-            {c: gcc-8, cpp: g++-8},
             {c: gcc-9, cpp: g++-9},
             {c: gcc-10, cpp: g++-10},
             {c: gcc-11, cpp: g++-11},
