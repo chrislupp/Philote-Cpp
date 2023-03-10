@@ -1,4 +1,4 @@
-name: Build and Regression Tests
+name: Build and Unit Tests
 
 on:
   push:
