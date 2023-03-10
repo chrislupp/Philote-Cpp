@@ -24,7 +24,11 @@ jobs:
             {c: gcc-10, cpp: g++-10},
             {c: gcc-11, cpp: g++-11},
             {c: gcc-12, cpp: g++-12},
-            {c: clang, cpp: clang++}
+            {c: clang-10, cpp: clang++-10},
+            {c: clang-11, cpp: clang++-11},
+            {c: clang-12, cpp: clang++-12},
+            {c: clang-13, cpp: clang++-13},
+            {c: clang-14, cpp: clang++-14}
             ]
       runs-on: ${{ matrix.os }}
       steps:
