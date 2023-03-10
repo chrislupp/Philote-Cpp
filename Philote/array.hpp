@@ -21,8 +21,8 @@ public:
 
 private:
     //! array shape
-    std::vector<size_t> shape;
+    std::vector<size_t> shape_;
 
     //! raw data (serialized, row major)
-    std::vector<double> data;
+    std::vector<double> data_;
 };

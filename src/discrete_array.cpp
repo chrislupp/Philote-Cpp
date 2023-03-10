@@ -17,5 +17,5 @@ long DiscreteArray::operator()(size_t params, ...)
     }
     va_end(args);
 
-    return data[index];
+    return data_[index];
 }
