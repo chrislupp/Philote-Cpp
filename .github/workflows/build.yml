@@ -16,22 +16,22 @@ env:
 
 jobs:
   release_build:
-    runs-on: ubuntu-22.04
-    steps:
-    - uses: actions/checkout@v2
+      strategy:
+        matrix:
+          os: [windows-latest, ubuntu-latest]
+          compiler: [{c: gcc, cpp: g++}, {c: clang, cpp: clang++}]
+      runs-on: ${{ matrix.os }}
+      steps:
+      - uses: actions/checkout@v2
+      
+      - name: Prepare Build
+        run: mkdir build
+        working-directory: ${{github.workspace}}
 
-    - name: Install Eigen
-      run: git clone https://gitlab.com/libeigen/eigen.git
-      working-directory: ${{github.workspace}}
+      - name: Configure PhiloteCpp
+        run: cmake .. -DCMAKE_C_COMPILER=${{ matrix.compiler.c }} -DCMAKE_CXX_COMPILER=${{ matrix.compiler.cpp }}
+        working-directory: ${{github.workspace}}/build
 
-    - name: Prepare Build
-      run: mkdir build
-      working-directory: ${{github.workspace}}
-
-    - name: Configure PhiloteCpp
-      run: cmake ..
-      working-directory: ${{github.workspace}}/build
-
-    - name: Build PhiloteCpp
-      run: make
-      working-directory: ${{github.workspace}}/build
+      - name: Build PhiloteCpp
+        run: make
+        working-directory: ${{github.workspace}}/build
