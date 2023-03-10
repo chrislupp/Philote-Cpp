@@ -24,6 +24,10 @@ jobs:
       run: git clone https://gitlab.com/libeigen/eigen.git
       working-directory: ${{github.workspace}}
 
+    - name: Prepare Build
+      run: mkdir build
+      working-directory: ${{github.workspace}}
+
     - name: Configure PhiloteCpp
       run: cmake ..
       working-directory: ${{github.workspace}}/build
