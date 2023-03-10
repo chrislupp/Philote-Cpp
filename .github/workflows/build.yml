@@ -18,7 +18,7 @@ jobs:
   release_build:
       strategy:
         matrix:
-          os: [windows-latest, ubuntu-latest]
+          os: [ubuntu-22.04]
           compiler: [{c: gcc, cpp: g++}, {c: clang, cpp: clang++}]
       runs-on: ${{ matrix.os }}
       steps:
