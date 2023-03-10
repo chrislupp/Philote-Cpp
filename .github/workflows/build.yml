@@ -19,7 +19,7 @@ jobs:
       strategy:
         matrix:
           os: [ubuntu-22.04]
-          compiler: [{c: gcc, cpp: g++}, {c: clang, cpp: clang++}]
+          compiler: [{c: gcc-10, cpp: g++-10}, {c: gcc-11, cpp: g++-11}, {c: clang, cpp: clang++}]
       runs-on: ${{ matrix.os }}
       steps:
       - uses: actions/checkout@v2
