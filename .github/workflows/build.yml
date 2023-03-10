@@ -15,7 +15,7 @@ env:
   BUILD_TYPE: Release
 
 jobs:
-  release_build:
+  build:
       strategy:
         matrix:
           os: [ubuntu-22.04]
@@ -28,6 +28,7 @@ jobs:
             {c: clang-13, cpp: clang++-13},
             {c: clang-14, cpp: clang++-14}
             ]
+          build_type: [Debug, Release]
       runs-on: ${{ matrix.os }}
       steps:
       - uses: actions/checkout@v2
@@ -37,7 +38,7 @@ jobs:
         working-directory: ${{github.workspace}}
 
       - name: Configure PhiloteCpp
-        run: cmake .. -DCMAKE_C_COMPILER=${{ matrix.compiler.c }} -DCMAKE_CXX_COMPILER=${{ matrix.compiler.cpp }}
+        run: cmake .. -DCMAKE_C_COMPILER=${{ matrix.compiler.c }} -DCMAKE_CXX_COMPILER=${{ matrix.compiler.cpp }} -DCMAKE_BUILD_TYPE=${{ matrix.compiler.build_type }}
         working-directory: ${{github.workspace}}/build
 
       - name: Build PhiloteCpp
