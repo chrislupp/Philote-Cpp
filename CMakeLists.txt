@@ -29,5 +29,9 @@ add_subdirectory(src)
 
 if (BUILD_TESTS)
     message("Building with tests.")
+
+    enable_testing()
+    find_package(GTest REQUIRED)
+    include(GoogleTest)
     add_subdirectory(test)
 endif (BUILD_TESTS)

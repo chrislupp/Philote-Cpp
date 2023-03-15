@@ -3,7 +3,7 @@
 #include <gtest/gtest.h>
 
 // Demonstrate some basic assertions.
-TEST(ArrayTests, Constructor)
+TEST(DiscreteArrayTests, Constructor)
 {
     Array a = Array();
 
@@ -15,7 +15,7 @@ TEST(ArrayTests, Constructor)
 }
 
 // Demonstrate some basic assertions.
-TEST(ArrayTests, Segment)
+TEST(DiscreteArrayTests, Segment)
 {
     // Expect two strings not to be equal.
     EXPECT_STRNE("hello", "world");
@@ -25,7 +25,7 @@ TEST(ArrayTests, Segment)
 }
 
 // Demonstrate some basic assertions.
-TEST(ArrayTests, Size)
+TEST(DiscreteArrayTests, Size)
 {
     // Expect two strings not to be equal.
     EXPECT_STRNE("hello", "world");
@@ -35,7 +35,7 @@ TEST(ArrayTests, Size)
 }
 
 // Demonstrate some basic assertions.
-TEST(ArrayTests, Shape)
+TEST(DiscreteArrayTests, Shape)
 {
     // Expect two strings not to be equal.
     EXPECT_STRNE("hello", "world");
@@ -45,7 +45,7 @@ TEST(ArrayTests, Shape)
 }
 
 // Demonstrate some basic assertions.
-TEST(ArrayTests, ElementRetrieval)
+TEST(DiscreteArrayTests, ElementRetrieval)
 {
     // Expect two strings not to be equal.
     EXPECT_STRNE("hello", "world");
