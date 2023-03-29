@@ -16,16 +16,19 @@ set(
 # add cmake scripts
 LIST(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
-
-# find required packages
-
+# Find gRPC and its dependencies
+find_package(protobuf CONFIG REQUIRED)
+find_package(gRPC CONFIG REQUIRED)
 
 # add include directories
 include_directories(.)
 
 
+
+
 # add subdirectories
 add_subdirectory(src)
+
 
 if (BUILD_TESTS)
     message("Building with tests.")

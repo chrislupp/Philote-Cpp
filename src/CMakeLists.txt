@@ -1,22 +1,6 @@
-
-
-add_library(Array OBJECT array.cpp)
-set_property(TARGET Array PROPERTY POSITION_INDEPENDENT_CODE TRUE)
-
-add_library(DiscreteArray OBJECT discrete_array.cpp)
-set_property(TARGET DiscreteArray PROPERTY POSITION_INDEPENDENT_CODE TRUE)
-
-add_library(ExplicitServer OBJECT explicit_server.cpp)
-set_property(TARGET ExplicitServer PROPERTY POSITION_INDEPENDENT_CODE TRUE)
-
-add_library(ExplicitClient OBJECT explicit_client.cpp)
-set_property(TARGET ExplicitClient PROPERTY POSITION_INDEPENDENT_CODE TRUE)
-
-add_library(ImplicitServer OBJECT implicit_server.cpp)
-set_property(TARGET ImplicitServer PROPERTY POSITION_INDEPENDENT_CODE TRUE)
-
-add_library(ImplicitClient OBJECT implicit_client.cpp)
-set_property(TARGET ImplicitClient PROPERTY POSITION_INDEPENDENT_CODE TRUE)
+add_subdirectory(generated)
+add_subdirectory(general)
+add_subdirectory(utils)
 
 
 add_library(PhiloteCpp SHARED
