@@ -21,8 +21,8 @@ find_package(protobuf CONFIG REQUIRED)
 find_package(gRPC CONFIG REQUIRED)
 
 # add include directories
-include_directories(.)
-
+include_directories(${Protobuf_INCLUDE_DIRS})
+include_directories(${CMAKE_SOURCE_DIR})
 
 
 

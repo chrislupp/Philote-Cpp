@@ -31,4 +31,19 @@ add_custom_target(
 )
 
 
+# add the grpc generated headers to the include path
+include_directories(${CMAKE_CURRENT_SOURCE_DIR})
+
+
 # create targets for the generated source so it can be used with other targets
+add_library(ArrayGrpc OBJECT array.pb.cc)
+set_property(TARGET ArrayGrpc PROPERTY POSITION_INDEPENDENT_CODE TRUE)
+
+add_library(MetaDataGrpc OBJECT metadata.pb.cc)
+set_property(TARGET MetaDataGrpc PROPERTY POSITION_INDEPENDENT_CODE TRUE)
+
+add_library(OptionsGrpc OBJECT options.pb.cc)
+set_property(TARGET OptionsGrpc PROPERTY POSITION_INDEPENDENT_CODE TRUE)
+
+add_library(ExplicitGrpc OBJECT explicit.pb.cc)
+set_property(TARGET ExplicitGrpc PROPERTY POSITION_INDEPENDENT_CODE TRUE)
