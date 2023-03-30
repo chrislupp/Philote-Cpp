@@ -10,6 +10,13 @@ add_library(PhiloteCpp SHARED
     $<TARGET_OBJECTS:ExplicitClient>
     $<TARGET_OBJECTS:ImplicitServer>
     $<TARGET_OBJECTS:ImplicitClient>
+    # $<TARGET_OBJECTS:GrpcGenerated>
+
+)
+
+target_link_libraries(PhiloteCpp
+    ${_GRPC_GRPCPP}
+    ${_PROTOBUF_LIBPROTOBUF}
 )
 
 # set position independent code property
