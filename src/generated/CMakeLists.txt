@@ -25,7 +25,11 @@ set(PROTO_DIR ${CMAKE_SOURCE_DIR}/proto)
 # protoc
 add_custom_command(
     OUTPUT ${PROTO_HEADERS} ${PROTO_SRC}
-    COMMAND protoc -I${PROTO_DIR} --cpp_out=${GENERATED_DIR} ${PROTO_FILES}
+    COMMAND protoc
+        -I${PROTO_DIR}
+        --grpc_out ${GENERATED_DIR}
+        --cpp_out=${GENERATED_DIR}
+        ${PROTO_FILES}
     # DEPENDS ${PROTO_FILES_DEPEND}
     COMMENT "Generating C++ headers from protobuf files"
     VERBATIM
