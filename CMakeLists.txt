@@ -16,12 +16,17 @@ set(
 # add cmake scripts
 LIST(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
+# set the C++ standard
+set(CMAKE_CXX_STANDARD 17)
+
+
+
 # Find gRPC and its dependencies
 find_package(Protobuf REQUIRED)
 find_package(gRPC REQUIRED)
 
 # add include directories
-include_directories(${PROTOBUF_INCLUDE_DIR})
+include_directories(${Protobuf_INCLUDE_DIR})
 include_directories(${_GRPC_GRPCPP_INCLUDE_DIRS})
 include_directories(${CMAKE_SOURCE_DIR})
 

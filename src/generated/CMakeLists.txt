@@ -8,6 +8,7 @@ set(PROTO_FILES array.proto explicit.proto metadata.proto options.proto)
 
 # Combine the two lists element-wise
 set(PROTO_FILES_DEPEND "")
+
 foreach(elem ${PROTO_FILES})
     string(REPLACE ".proto" "" file_no_ext ${elem})
     list(APPEND PROTO_FILES_DEPEND ${CMAKE_SOURCE_DIR}/proto/${elem})
@@ -25,9 +26,9 @@ set(PROTO_DIR ${CMAKE_SOURCE_DIR}/proto)
 # protoc
 add_custom_command(
     OUTPUT ${PROTO_HEADERS} ${PROTO_SRC}
-    COMMAND protoc
+    COMMAND protobuf::protoc
         -I${PROTO_DIR}
-        --grpc_out ${GENERATED_DIR}
+        --grpc_out=${GENERATED_DIR}
         --cpp_out=${GENERATED_DIR}
         ${PROTO_FILES}
     # DEPENDS ${PROTO_FILES_DEPEND}
@@ -36,8 +37,28 @@ add_custom_command(
 )
 
 # add the grpc generated headers to the include path
-include_directories(${CMAKE_CURRENT_SOURCE_DIR})
+include_directories(.)
 
 # create targets for the generated source so it can be used with other targets
 add_library(GrpcGenerated OBJECT ${PROTO_SRC})
+
+# target_link_libraries(GrpcGenerated PRIVATE protobuf::libprotobuf)
+target_link_libraries(GrpcGenerated PRIVATE
+    gRPC::grpc++
+    gRPC::grpc++_reflection
+    gRPC::grpc++_unsecure
+    protobuf::libprotobuf
+    protobuf::libprotoc
+    protobuf::libprotobuf-lite
+)
+
+target_include_directories(GrpcGenerated PRIVATE
+    $<TARGET_PROPERTY:protobuf::libprotobuf,INTERFACE_INCLUDE_DIRECTORIES>
+    $<TARGET_PROPERTY:protobuf::libprotoc,INTERFACE_INCLUDE_DIRECTORIES>
+    $<TARGET_PROPERTY:gRPC::grpc++,INTERFACE_INCLUDE_DIRECTORIES>
+    $<TARGET_PROPERTY:gRPC::grpc++_reflection,INTERFACE_INCLUDE_DIRECTORIES>
+    $<TARGET_PROPERTY:gRPC::grpc++_unsecure,INTERFACE_INCLUDE_DIRECTORIES>
+)
+
+# target_include_directories(GrpcGenerated PRIVATE ${PROTOBUF_INCLUDE_DIRS})
 set_property(TARGET GrpcGenerated PROPERTY POSITION_INDEPENDENT_CODE TRUE)
