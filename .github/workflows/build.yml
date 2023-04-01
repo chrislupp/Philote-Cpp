@@ -39,14 +39,14 @@ jobs:
         working-directory: ${{github.workspace}}
 
       - name: Get gRPC
-        run: git clone --recurse-submodules -b v1.53.0 --depth 1 --shallow-submodules https://github.com/grpc/grpc
+        run: git clone --recurse-submodules -b v1.53.0 --depth 1 --shallow-submodules https://github.com/grpc/grpc;  mkdir grpc/cmake/build
         working-directory: ${{github.workspace}}/dependencies
 
       - name: Configure gRPC
         run: cmake -DgRPC_INSTALL=ON \
               -DgRPC_BUILD_TESTS=OFF \
               -DCMAKE_INSTALL_PREFIX=${{github.workspace}}/grpc \
-              ../..; mkdir grpc/cmake/build
+              ../..
         working-directory: ${{github.workspace}}/dependencies/grpc/cmake/build
 
       - name: Build gRPC
