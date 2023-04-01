@@ -33,13 +33,28 @@ jobs:
       runs-on: ${{ matrix.os }}
       steps:
       - uses: actions/checkout@v2
+
+      - name: Get gRPC
+        run: git clone --recurse-submodules -b v1.53.0 --depth 1 --shallow-submodules https://github.com/grpc/grpc
+        working-directory: ${{github.workspace}}/dependencies
+
+      - name: Configure gRPC
+        run: cmake -DgRPC_INSTALL=ON \
+              -DgRPC_BUILD_TESTS=OFF \
+              -DCMAKE_INSTALL_PREFIX=${{github.workspace}}/grpc \
+              ../..
+        working-directory: ${{github.workspace}}/dependencies/grpc/cmake/build
+
+      - name: Build gRPC
+        run: make -j`nproc` install
+        working-directory: ${{github.workspace}}/dependencies/grpc/cmake/build
       
       - name: Prepare Build
         run: mkdir build
         working-directory: ${{github.workspace}}
 
       - name: Configure PhiloteCpp
-        run: cmake .. -DCMAKE_C_COMPILER=${{ matrix.compiler.c }} -DCMAKE_CXX_COMPILER=${{ matrix.compiler.cpp }} -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
+        run: cmake .. -DCMAKE_C_COMPILER=${{ matrix.compiler.c }} -DCMAKE_CXX_COMPILER=${{ matrix.compiler.cpp }} -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DCMAKE_PREFIX=${{github.workspace}}/grpc
         working-directory: ${{github.workspace}}/build
 
       - name: Build PhiloteCpp
