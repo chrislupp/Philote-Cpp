@@ -12,6 +12,3 @@ add_library(PhiloteCpp STATIC
     $<TARGET_OBJECTS:ImplicitClient>
     $<TARGET_OBJECTS:GrpcGenerated>
 )
-
-# set position independent code property
-set_property(TARGET PhiloteCpp PROPERTY POSITION_INDEPENDENT_CODE TRUE)

@@ -40,7 +40,3 @@ add_custom_command(
 add_library(GrpcGenerated OBJECT ${PROTO_HEADERS} ${PROTO_SRC})
 
 target_link_libraries(GrpcGenerated PRIVATE protobuf::libprotobuf gRPC::grpc++)
-
-
-# target_include_directories(GrpcGenerated PRIVATE ${PROTOBUF_INCLUDE_DIRS})
-set_property(TARGET GrpcGenerated PROPERTY POSITION_INDEPENDENT_CODE TRUE)
