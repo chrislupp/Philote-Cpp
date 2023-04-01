@@ -34,6 +34,10 @@ jobs:
       steps:
       - uses: actions/checkout@v2
 
+      - name: Prepare gRPC Build
+        run: mkdir dependencies
+        working-directory: ${{github.workspace}}
+
       - name: Get gRPC
         run: git clone --recurse-submodules -b v1.53.0 --depth 1 --shallow-submodules https://github.com/grpc/grpc
         working-directory: ${{github.workspace}}/dependencies
@@ -42,14 +46,14 @@ jobs:
         run: cmake -DgRPC_INSTALL=ON \
               -DgRPC_BUILD_TESTS=OFF \
               -DCMAKE_INSTALL_PREFIX=${{github.workspace}}/grpc \
-              ../..
+              ../..; mkdir grpc/cmake/build
         working-directory: ${{github.workspace}}/dependencies/grpc/cmake/build
 
       - name: Build gRPC
         run: make -j`nproc` install
         working-directory: ${{github.workspace}}/dependencies/grpc/cmake/build
       
-      - name: Prepare Build
+      - name: Prepare PhilotCpp Build
         run: mkdir build
         working-directory: ${{github.workspace}}
 
