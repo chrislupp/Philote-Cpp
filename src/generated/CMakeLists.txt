@@ -36,29 +36,11 @@ add_custom_command(
     VERBATIM
 )
 
-# add the grpc generated headers to the include path
-include_directories(.)
-
 # create targets for the generated source so it can be used with other targets
-add_library(GrpcGenerated OBJECT ${PROTO_SRC})
+add_library(GrpcGenerated OBJECT ${PROTO_HEADERS} ${PROTO_SRC})
 
-# target_link_libraries(GrpcGenerated PRIVATE protobuf::libprotobuf)
-target_link_libraries(GrpcGenerated PRIVATE
-    gRPC::grpc++
-    gRPC::grpc++_reflection
-    gRPC::grpc++_unsecure
-    protobuf::libprotobuf
-    protobuf::libprotoc
-    protobuf::libprotobuf-lite
-)
+target_link_libraries(GrpcGenerated PRIVATE protobuf::libprotobuf gRPC::grpc++)
 
-target_include_directories(GrpcGenerated PRIVATE
-    $<TARGET_PROPERTY:protobuf::libprotobuf,INTERFACE_INCLUDE_DIRECTORIES>
-    $<TARGET_PROPERTY:protobuf::libprotoc,INTERFACE_INCLUDE_DIRECTORIES>
-    $<TARGET_PROPERTY:gRPC::grpc++,INTERFACE_INCLUDE_DIRECTORIES>
-    $<TARGET_PROPERTY:gRPC::grpc++_reflection,INTERFACE_INCLUDE_DIRECTORIES>
-    $<TARGET_PROPERTY:gRPC::grpc++_unsecure,INTERFACE_INCLUDE_DIRECTORIES>
-)
 
 # target_include_directories(GrpcGenerated PRIVATE ${PROTOBUF_INCLUDE_DIRS})
 set_property(TARGET GrpcGenerated PROPERTY POSITION_INDEPENDENT_CODE TRUE)

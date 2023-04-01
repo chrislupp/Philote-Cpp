@@ -3,7 +3,7 @@ add_subdirectory(general)
 add_subdirectory(utils)
 
 
-add_library(PhiloteCpp SHARED
+add_library(PhiloteCpp STATIC
     $<TARGET_OBJECTS:Array>
     $<TARGET_OBJECTS:DiscreteArray>
     $<TARGET_OBJECTS:ExplicitServer>
@@ -12,7 +12,6 @@ add_library(PhiloteCpp SHARED
     $<TARGET_OBJECTS:ImplicitClient>
     $<TARGET_OBJECTS:GrpcGenerated>
 )
-
 
 # set position independent code property
 set_property(TARGET PhiloteCpp PROPERTY POSITION_INDEPENDENT_CODE TRUE)

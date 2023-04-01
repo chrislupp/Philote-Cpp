@@ -22,12 +22,10 @@ set(CMAKE_CXX_STANDARD 17)
 
 
 # Find gRPC and its dependencies
-find_package(Protobuf REQUIRED)
-find_package(gRPC REQUIRED)
+find_package(Protobuf CONFIG REQUIRED)
+find_package(gRPC CONFIG REQUIRED)
 
 # add include directories
-include_directories(${Protobuf_INCLUDE_DIR})
-include_directories(${_GRPC_GRPCPP_INCLUDE_DIRS})
 include_directories(${CMAKE_SOURCE_DIR})
 
 
