@@ -43,10 +43,7 @@ jobs:
         working-directory: ${{github.workspace}}/dependencies
 
       - name: Configure gRPC
-        run: cmake -DgRPC_INSTALL=ON \
-              -DgRPC_BUILD_TESTS=OFF \
-              -DCMAKE_INSTALL_PREFIX=${{github.workspace}}/grpc \
-              ../..
+        run: cmake -DgRPC_INSTALL=ON -DgRPC_BUILD_TESTS=OFF -DCMAKE_INSTALL_PREFIX=${{github.workspace}}/grpc ../..
         working-directory: ${{github.workspace}}/dependencies/grpc/cmake/build
 
       - name: Build gRPC
