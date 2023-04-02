@@ -28,7 +28,7 @@ jobs:
             # {c: clang-13, cpp: clang++-13},
             # {c: clang-14, cpp: clang++-14}
             ]
-          build_type: [Debug, Release]
+          build_type: [Release]
             
       runs-on: ${{ matrix.os }}
       steps:
