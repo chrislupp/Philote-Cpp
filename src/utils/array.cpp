@@ -3,18 +3,22 @@
 #include <stdexcept>
 #include <Philote/array.hpp>
 
+#include <iostream>
+
 Array::Array() {}
 
-Array::Array(size_t params, ...)
+Array::Array(const std::vector<size_t> &shape)
 {
-    // get the indices for assignment
-    std::va_list args;
-    va_start(args, params);
-    for (size_t i = 0; i < params; ++i)
-    {
-        shape_.push_back(va_arg(args, size_t));
-    }
-    va_end(args);
+    // assign the array shape
+    shape_ = shape;
+
+    // serialized array size
+    size_t size = 1;
+    for (size_t i = 0; i < shape_.size(); i++)
+        size *= shape_[i];
+
+    // initialize the array from the shape input
+    data_.resize(size);
 }
 
 Array::~Array() {}

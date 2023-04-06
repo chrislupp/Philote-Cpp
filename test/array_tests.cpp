@@ -5,13 +5,16 @@
 // Demonstrate some basic assertions.
 TEST(ArrayTests, Constructor)
 {
-    Array a = Array();
+    // create a 3 dimensional array
+    Array array = Array({3, 4, 2});
 
-    // Expect two strings not to be equal.
-    EXPECT_STRNE("hello", "world");
+    // check the shape of the array
+    auto shape = array.Shape();
 
     // Expect equality.
-    EXPECT_EQ(7 * 6, 42);
+    EXPECT_EQ(shape[0], 3);
+    EXPECT_EQ(shape[1], 4);
+    EXPECT_EQ(shape[2], 2);
 }
 
 // Demonstrate some basic assertions.

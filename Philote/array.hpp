@@ -14,7 +14,7 @@ public:
     Array();
 
     //! Default Constructor
-    Array(size_t params, ...);
+    Array(const std::vector<size_t> &shape);
 
     //! Destructor
     ~Array();
