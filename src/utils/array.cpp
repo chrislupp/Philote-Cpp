@@ -1,7 +1,7 @@
 
 #include <cstdarg>
 #include <stdexcept>
-#include <Philote/array.hpp>
+#include <Philote/array.h>
 
 #include <iostream>
 

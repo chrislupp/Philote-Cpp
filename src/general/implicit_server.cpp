@@ -1,5 +1,5 @@
 
-#include <Philote/implicit_server.hpp>
+#include <Philote/implicit_server.h>
 
 ImplicitServer::ImplicitServer() {}
 

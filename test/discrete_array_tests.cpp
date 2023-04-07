@@ -1,5 +1,5 @@
 
-#include <Philote/array.hpp>
+#include <Philote/array.h>
 #include <gtest/gtest.h>
 
 // Demonstrate some basic assertions.

@@ -1,6 +1,6 @@
 
 #include <cstdarg>
-#include <Philote/discrete_array.hpp>
+#include <Philote/discrete_array.h>
 
 DiscreteArray::DiscreteArray() {}
 

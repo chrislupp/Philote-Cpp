@@ -3,61 +3,46 @@
 #include <string>
 #include <map>
 #include <utility>
-#include <Philote/array.hpp>
-#include <Philote/discrete_array.hpp>
+#include <Philote/array.h>
+#include <Philote/discrete_array.h>
 
 /**
- * @brief Client class for calling a remote explicit discipline.
+ * @brief Server base class for an explicit discipline.
  *
- * This class may be inherited from or used by MDO framework developers.
- * However, it is a fully functional Philote MDO client.
+ * This class should be inherited from by analysis discipline developers to
+ * create analysis servers.
  */
-class ExplicitClient
+class ExplicitServer
 {
 public:
     //! Constructor
-    ExplicitClient();
+    ExplicitServer();
 
     //! Destructor
-    ~ExplicitClient();
+    ~ExplicitServer();
 
     /**
-     * @brief Calls the setup function on the remote analysis server.
-     *
-     */
-    void RemoteSetup();
-
-    /**
-     * @brief Calls the remote analysis server function evaluation via gRPC.
-     *
-     * Unlike the analysis server, this function does not need to be overridden,
-     * as it contains all logic necessary to retrieve the remote function
+     * @brief Sets up the analysis server before any function or gradient
      * evaluation.
      *
-     * @param inputs
-     * @param discrete_inputs
-     * @param outputs
-     * @param discrete_outputs
+     * This function should be overridden by the developer of the discipline.
      */
-    void RemoteCompute(std::map<std::string, Array> &inputs,
-                       std::map<std::string, DiscreteArray> &discrete_inputs,
-                       std::map<std::string, Array> &outputs,
-                       std::map<std::string, DiscreteArray> &discrete_outputs);
+    virtual void Setup();
 
     /**
-     * @brief Calls the remote analysis server function evaluation via gRPC.
+     * @brief Function evaluation for the discipline.
      *
-     * Unlike the analysis server, this function does not need to be overridden,
-     * as it contains all logic necessary to retrieve the remote function
-     * evaluation.
-     *
-     * @param inputs
-     * @param discrete_inputs
-     * @param partials
+     * This function should be overridden by the developer of the discipline.
      */
-    void RemotePartials(std::map<std::string, Array> &inputs,
-                        std::map<std::string, DiscreteArray> &discrete_inputs,
-                        std::map<std::pair<std::string, std::string>, Array> &partials);
+    virtual void Compute();
+
+    /**
+     * @brief Function evaluation for the discipline.
+     *
+     * This function should be overridden by the developer of the discipline, if
+     * applicable (not every discipline can provide partials).
+     */
+    virtual void ComputePartials();
 
 private:
     //! names of all functions defined for this discipline

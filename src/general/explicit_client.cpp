@@ -1,5 +1,5 @@
 
-#include <Philote/explicit_client.hpp>
+#include <Philote/explicit_client.h>
 
 ExplicitClient::ExplicitClient() {}
 
