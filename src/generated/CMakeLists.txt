@@ -28,10 +28,10 @@ foreach(elem ${PROTO_FILES})
         OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/${file_no_ext}.pb.h ${CMAKE_CURRENT_SOURCE_DIR}/${file_no_ext}.grpc.pb.h ${CMAKE_CURRENT_SOURCE_DIR}/${file_no_ext}.grpc.pb.cc ${CMAKE_CURRENT_SOURCE_DIR}/${file_no_ext}.pb.cc
         COMMAND protobuf::protoc
             --proto_path=${PROTO_DIR}
-            --grpc_out=${GENERATED_DIR}
+            # --grpc_out=${GENERATED_DIR}
             --cpp_out=${GENERATED_DIR}
             ${CMAKE_SOURCE_DIR}/proto/${elem}
-        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/proto
+        # WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/proto
         # DEPENDS ${PROTO_FILES_DEPEND}
         COMMENT "Generating C++ stubs from protobuf file: ${elem}" 
         VERBATIM
