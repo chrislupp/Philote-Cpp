@@ -11,7 +11,6 @@ set(PROTO_DIR ${CMAKE_SOURCE_DIR}/proto)
 
 # Set the paths to your .proto files
 set(PROTO_FILES array.proto explicit.proto metadata.proto options.proto)
-set(PROTO_FILES array.proto )
 
 
 # Combine the two lists element-wise
@@ -28,10 +27,10 @@ foreach(elem ${PROTO_FILES})
     add_custom_command(
         OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/${file_no_ext}.pb.h ${CMAKE_CURRENT_SOURCE_DIR}/${file_no_ext}.grpc.pb.h ${CMAKE_CURRENT_SOURCE_DIR}/${file_no_ext}.grpc.pb.cc ${CMAKE_CURRENT_SOURCE_DIR}/${file_no_ext}.pb.cc
         COMMAND protobuf::protoc
-            -I${PROTO_DIR}
+            --proto_path=${PROTO_DIR}
             --grpc_out=${GENERATED_DIR}
             --cpp_out=${GENERATED_DIR}
-            ${elem}
+            ${CMAKE_SOURCE_DIR}/proto/${elem}
         WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/proto
         # DEPENDS ${PROTO_FILES_DEPEND}
         COMMENT "Generating C++ stubs from protobuf file: ${elem}" 
