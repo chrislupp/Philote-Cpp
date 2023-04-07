@@ -14,7 +14,7 @@ public:
     Array();
 
     //! Default Constructor
-    Array(size_t params, ...);
+    Array(const std::vector<size_t> &shape);
 
     //! Destructor
     ~Array();
@@ -26,7 +26,8 @@ public:
      * @param end ending index of the segment
      * @param data data to be assigned to the segment
      */
-    void Segment(size_t &start, size_t &end, std::vector<double> &data);
+    void Segment(const size_t &start, const size_t &end,
+                 const std::vector<double> &data);
 
     /**
      * @brief Returns the shape of the array
@@ -43,15 +44,13 @@ public:
      */
     size_t Size() const;
 
-    //! Accessor
     /**
      * @brief Returns the value of the array at a given index
      *
-     * @param params indices
-     * @param ...
+     * @param indices indices at which the array should be accessed
      * @return double value of the array at the given indices
      */
-    double operator()(size_t params, ...) const;
+    double operator()(const size_t &i) const;
 
 private:
     //! array shape

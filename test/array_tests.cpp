@@ -2,54 +2,112 @@
 #include <Philote/array.hpp>
 #include <gtest/gtest.h>
 
-// Demonstrate some basic assertions.
+#include <iostream>
+
+// Test the constructor.
 TEST(ArrayTests, Constructor)
 {
-    Array a = Array();
+    // create a 3-dimensional array
+    Array array = Array({3, 4, 2});
 
-    // Expect two strings not to be equal.
-    EXPECT_STRNE("hello", "world");
+    // check the shape of the array
+    auto shape = array.Shape();
 
     // Expect equality.
-    EXPECT_EQ(7 * 6, 42);
+    EXPECT_EQ(shape[0], 3);
+    EXPECT_EQ(shape[1], 4);
+    EXPECT_EQ(shape[2], 2);
 }
 
-// Demonstrate some basic assertions.
+// Test the segment function.
 TEST(ArrayTests, Segment)
 {
-    // Expect two strings not to be equal.
-    EXPECT_STRNE("hello", "world");
+    // create a 2-dimensional array
+    Array array = Array({2, 2});
 
-    // Expect equality.
-    EXPECT_EQ(7 * 6, 42);
+    // assign some data
+    std::vector<double> data = {1.0, 2.0, 3.0, 4.0};
+    array.Segment(0, 3, data);
+
+    // now replace only the middle values
+    std::vector<double> data_seg = {1.0, 2.0};
+    array.Segment(1, 2, data_seg);
+
+    // check the element (0,0)
+    EXPECT_EQ(array(0), 1.0);
+
+    // check the element (0,1)
+    EXPECT_EQ(array(1), 1.0);
+
+    // check the element (1,0)
+    EXPECT_EQ(array(2), 2.0);
+
+    // check the element (1,1)
+    EXPECT_EQ(array(3), 4.0);
+
+    // now replace only the last value (to see if single values can be set)
+    data_seg = {1.0};
+    array.Segment(3, 3, data_seg);
+
+    // check the element (0,0)
+    EXPECT_EQ(array(0), 1.0);
+
+    // check the element (0,1)
+    EXPECT_EQ(array(1), 1.0);
+
+    // check the element (1,0)
+    EXPECT_EQ(array(2), 2.0);
+
+    // check the element (1,1)
+    EXPECT_EQ(array(3), 1.0);
 }
 
-// Demonstrate some basic assertions.
+// Test the size function.
 TEST(ArrayTests, Size)
 {
-    // Expect two strings not to be equal.
-    EXPECT_STRNE("hello", "world");
+    // create a 3-dimensional array
+    Array array = Array({3, 4, 2});
 
-    // Expect equality.
-    EXPECT_EQ(7 * 6, 42);
+    // check the shape of the array
+    auto size = array.Size();
+
+    EXPECT_EQ(size, 24);
 }
 
-// Demonstrate some basic assertions.
+// Test the shape function.
 TEST(ArrayTests, Shape)
 {
-    // Expect two strings not to be equal.
-    EXPECT_STRNE("hello", "world");
+    // create a 3-dimensional array
+    Array array = Array({3, 4, 2});
+
+    // check the shape of the array
+    auto shape = array.Shape();
 
     // Expect equality.
-    EXPECT_EQ(7 * 6, 42);
+    EXPECT_EQ(shape[0], 3);
+    EXPECT_EQ(shape[1], 4);
+    EXPECT_EQ(shape[2], 2);
 }
 
-// Demonstrate some basic assertions.
+// Test the element retrieval operator.
 TEST(ArrayTests, ElementRetrieval)
 {
-    // Expect two strings not to be equal.
-    EXPECT_STRNE("hello", "world");
+    // create a 2-dimensional array
+    Array array = Array({2, 2});
 
-    // Expect equality.
-    EXPECT_EQ(7 * 6, 42);
+    // assign some data
+    std::vector<double> data = {1.0, 2.0, 3.0, 4.0};
+    array.Segment(0, 3, data);
+
+    // check the element (0,0)
+    EXPECT_EQ(array(0), 1.0);
+
+    // check the element (0,1)
+    EXPECT_EQ(array(1), 2.0);
+
+    // check the element (1,0)
+    EXPECT_EQ(array(2), 3.0);
+
+    // check the element (1,1)
+    EXPECT_EQ(array(3), 4.0);
 }
