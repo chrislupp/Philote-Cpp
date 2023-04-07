@@ -2,6 +2,8 @@
 #include <cstdarg>
 #include <Philote/discrete_array.h>
 
+using namespace philote;
+
 DiscreteArray::DiscreteArray() {}
 
 DiscreteArray::~DiscreteArray() {}

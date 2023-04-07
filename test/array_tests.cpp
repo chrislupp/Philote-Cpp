@@ -4,6 +4,8 @@
 
 #include <iostream>
 
+using namespace philote;
+
 // Test the constructor.
 TEST(ArrayTests, Constructor)
 {

@@ -5,6 +5,8 @@
 
 #include <iostream>
 
+using namespace philote;
+
 Array::Array() {}
 
 Array::Array(const std::vector<size_t> &shape)

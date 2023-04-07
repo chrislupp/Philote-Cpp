@@ -1,6 +1,8 @@
 
 #include <Philote/explicit_client.h>
 
+using namespace philote;
+
 ExplicitClient::ExplicitClient() {}
 
 ExplicitClient::~ExplicitClient() {}
