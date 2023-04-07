@@ -29,7 +29,11 @@ jobs:
             
       runs-on: ${{ matrix.os }}
       steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
+
+      - uses: eWaterCycle/setup-grpc@v5
+        with:
+          grpc-version: 1.51.1
 
       # - name: Restore gRPC cache
       #   uses: actions/cache@v2
@@ -55,13 +59,6 @@ jobs:
       #   with:
       #     path: $GITHUB_WORKSPACE/grpc-install
       #     key: ${{ runner.os }}-grpc-${{ matrix.compiler.c }}-${{ matrix.build_type }}
-
-
-      - name: Install Dependencies
-        run: |
-          sudo apt-get install -y grpc-proto libgrpc++-dev libgrpc++1
-        working-directory: ${{github.workspace}}
-
 
       - name: PhiloteCpp Build
         run: |
