@@ -40,5 +40,5 @@ jobs:
           mkdir build
           cd build
           cmake .. -DCMAKE_VERBOSE_MAKEFILE=TRUE -DCMAKE_C_COMPILER=${{ matrix.compiler.c }} -DCMAKE_CXX_COMPILER=${{ matrix.compiler.cpp }} -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
-          make -j`nproc`
+          make
         working-directory: ${{github.workspace}}
