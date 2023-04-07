@@ -33,32 +33,7 @@ jobs:
 
       - uses: eWaterCycle/setup-grpc@v5
         with:
-          grpc-version: 1.51.1
-
-      # - name: Restore gRPC cache
-      #   uses: actions/cache@v2
-      #   id: restore-cache
-      #   with:
-      #     path: $GITHUB_WORKSPACE/grpc-install
-      #     key: ${{ runner.os }}-grpc-${{ matrix.compiler.c }}-${{ matrix.build_type }}
-          
-      # - name: Compile gRPC and protobuf
-      #   if: steps.restore-cache.outputs.cache-hit != 'true'
-      #   run: |
-      #     git clone --recurse-submodules -b v1.53.0 https://github.com/grpc/grpc.git
-      #     cd grpc
-      #     mkdir -p cmake/build
-      #     pushd cmake/build
-      #     cmake ../.. -DgRPC_INSTALL=ON -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/grpc-install -DCMAKE_C_COMPILER=${{ matrix.compiler.c }} -DCMAKE_CXX_COMPILER=${{ matrix.compiler.cpp }}
-      #     make -j$(nproc)
-      #     make install
-      #     popd
-
-      # - name: Cache gRPC
-      #   uses: actions/cache@v2
-      #   with:
-      #     path: $GITHUB_WORKSPACE/grpc-install
-      #     key: ${{ runner.os }}-grpc-${{ matrix.compiler.c }}-${{ matrix.build_type }}
+          grpc-version: 1.53.0
 
       - name: PhiloteCpp Build
         run: |
