@@ -11,6 +11,8 @@ set(PROTO_DIR ${CMAKE_SOURCE_DIR}/proto)
 
 # Set the paths to your .proto files
 set(PROTO_FILES array.proto explicit.proto metadata.proto options.proto)
+set(PROTO_FILES array.proto )
+
 
 # Combine the two lists element-wise
 set(PROTO_FILES_DEPEND "")
@@ -27,7 +29,6 @@ foreach(elem ${PROTO_FILES})
         OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/${file_no_ext}.pb.h ${CMAKE_CURRENT_SOURCE_DIR}/${file_no_ext}.grpc.pb.h ${CMAKE_CURRENT_SOURCE_DIR}/${file_no_ext}.grpc.pb.cc ${CMAKE_CURRENT_SOURCE_DIR}/${file_no_ext}.pb.cc
         COMMAND protobuf::protoc
             -I${PROTO_DIR}
-            -I${CMAKE_CURRENT_SOURCE_DIR}
             --grpc_out=${GENERATED_DIR}
             --cpp_out=${GENERATED_DIR}
             ${elem}
