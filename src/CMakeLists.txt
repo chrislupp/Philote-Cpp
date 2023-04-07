@@ -2,7 +2,6 @@ add_subdirectory(generated)
 add_subdirectory(general)
 add_subdirectory(utils)
 
-
 add_library(PhiloteCpp STATIC
     $<TARGET_OBJECTS:Array>
     $<TARGET_OBJECTS:DiscreteArray>

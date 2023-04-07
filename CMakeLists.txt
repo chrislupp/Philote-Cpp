@@ -27,6 +27,7 @@ find_package(gRPC CONFIG REQUIRED)
 
 # add include directories
 include_directories(${CMAKE_SOURCE_DIR})
+include_directories(${CMAKE_SOURCE_DIR}/src/generated)
 
 
 # add subdirectories
