@@ -31,6 +31,7 @@ foreach(elem ${PROTO_FILES})
             --grpc_out=${GENERATED_DIR}
             --cpp_out=${GENERATED_DIR}
             ${elem}
+        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/proto
         # DEPENDS ${PROTO_FILES_DEPEND}
         COMMENT "Generating C++ stubs from protobuf file: ${elem}" 
         VERBATIM
