@@ -8,6 +8,7 @@
 #include <explicit.pb.h>
 #include <explicit.grpc.pb.h>
 
+// namespace statements for readibility
 using std::map;
 using std::pair;
 using std::string;

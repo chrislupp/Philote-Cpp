@@ -1,23 +1,58 @@
 
 #include <cstdarg>
+#include <stdexcept>
 #include <Philote/discrete_array.h>
+
+#include <iostream>
 
 using namespace philote;
 
 DiscreteArray::DiscreteArray() {}
 
+DiscreteArray::DiscreteArray(const std::vector<size_t> &shape)
+{
+    // assign the array shape
+    shape_ = shape;
+
+    // serialized array size
+    size_t size = 1;
+    for (size_t i = 0; i < shape_.size(); i++)
+        size *= shape_[i];
+
+    // initialize the array from the shape input
+    data_.resize(size);
+}
+
 DiscreteArray::~DiscreteArray() {}
 
-long DiscreteArray::operator()(size_t params, ...)
+void DiscreteArray::Segment(const size_t &start, const size_t &end,
+                            const std::vector<long> &data)
 {
-    int index = 0;
-    std::va_list args;
-    va_start(args, params);
-    for (size_t i = 0; i < params; ++i)
+    // check that the segment matches length of (end - start)
+    if ((end - start) + 1 != data.size())
     {
-        index += va_arg(args, size_t);
+        std::string expected = std::to_string((end - start) + 1);
+        std::string actual = std::to_string(data.size());
+        throw std::length_error("Vector data has incompatable length. Should be " +
+                                expected + ", but received " + actual + ".");
     }
-    va_end(args);
 
-    return data_[index];
+    // assign the segment
+    for (size_t i = 0; i < (end - start) + 1; i++)
+        data_[start + i] = data[i];
+}
+
+std::vector<size_t> DiscreteArray::Shape() const
+{
+    return shape_;
+}
+
+size_t DiscreteArray::Size() const
+{
+    return data_.size();
+}
+
+double DiscreteArray::operator()(const size_t &i) const
+{
+    return data_[i];
 }

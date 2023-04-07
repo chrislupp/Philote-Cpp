@@ -1,55 +1,115 @@
 
-#include <Philote/array.h>
+#include <Philote/discrete_array.h>
 #include <gtest/gtest.h>
 
-// Demonstrate some basic assertions.
+#include <iostream>
+
+using namespace philote;
+
+// Test the constructor.
 TEST(DiscreteArrayTests, Constructor)
 {
-    Array a = Array();
+    // create a 3-dimensional array
+    DiscreteArray array = DiscreteArray({3, 4, 2});
 
-    // Expect two strings not to be equal.
-    EXPECT_STRNE("hello", "world");
+    // check the shape of the array
+    auto shape = array.Shape();
 
     // Expect equality.
-    EXPECT_EQ(7 * 6, 42);
+    EXPECT_EQ(shape[0], 3);
+    EXPECT_EQ(shape[1], 4);
+    EXPECT_EQ(shape[2], 2);
 }
 
-// Demonstrate some basic assertions.
+// Test the segment function.
 TEST(DiscreteArrayTests, Segment)
 {
-    // Expect two strings not to be equal.
-    EXPECT_STRNE("hello", "world");
+    // create a 2-dimensional array
+    DiscreteArray array = DiscreteArray({2, 2});
 
-    // Expect equality.
-    EXPECT_EQ(7 * 6, 42);
+    // assign some data
+    std::vector<long> data = {1, 2, 3, 4};
+    array.Segment(0, 3, data);
+
+    // now replace only the middle values
+    std::vector<long> data_seg = {1, 2};
+    array.Segment(1, 2, data_seg);
+
+    // check the element (0,0)
+    EXPECT_EQ(array(0), 1);
+
+    // check the element (0,1)
+    EXPECT_EQ(array(1), 1);
+
+    // check the element (1,0)
+    EXPECT_EQ(array(2), 2);
+
+    // check the element (1,1)
+    EXPECT_EQ(array(3), 4);
+
+    // now replace only the last value (to see if single values can be set)
+    data_seg = {1};
+    array.Segment(3, 3, data_seg);
+
+    // check the element (0,0)
+    EXPECT_EQ(array(0), 1);
+
+    // check the element (0,1)
+    EXPECT_EQ(array(1), 1);
+
+    // check the element (1,0)
+    EXPECT_EQ(array(2), 2);
+
+    // check the element (1,1)
+    EXPECT_EQ(array(3), 1);
 }
 
-// Demonstrate some basic assertions.
+// Test the size function.
 TEST(DiscreteArrayTests, Size)
 {
-    // Expect two strings not to be equal.
-    EXPECT_STRNE("hello", "world");
+    // create a 3-dimensional array
+    DiscreteArray array = DiscreteArray({3, 4, 2});
 
-    // Expect equality.
-    EXPECT_EQ(7 * 6, 42);
+    // check the shape of the array
+    auto size = array.Size();
+
+    EXPECT_EQ(size, 24);
 }
 
-// Demonstrate some basic assertions.
+// Test the shape function.
 TEST(DiscreteArrayTests, Shape)
 {
-    // Expect two strings not to be equal.
-    EXPECT_STRNE("hello", "world");
+    // create a 3-dimensional array
+    DiscreteArray array = DiscreteArray({3, 4, 2});
+
+    // check the shape of the array
+    auto shape = array.Shape();
 
     // Expect equality.
-    EXPECT_EQ(7 * 6, 42);
+    EXPECT_EQ(shape[0], 3);
+    EXPECT_EQ(shape[1], 4);
+    EXPECT_EQ(shape[2], 2);
 }
 
-// Demonstrate some basic assertions.
+// Test the element retrieval operator.
 TEST(DiscreteArrayTests, ElementRetrieval)
 {
-    // Expect two strings not to be equal.
-    EXPECT_STRNE("hello", "world");
+    // create a 2-dimensional array
+    DiscreteArray array = DiscreteArray({2, 2});
 
-    // Expect equality.
-    EXPECT_EQ(7 * 6, 42);
+    // assign some data
+    std::vector<long> data = {1, 2, 3, 4};
+    array.Segment(0, 3, data);
+
+    // check the element (0,0)
+    EXPECT_EQ(array(0), 1);
+
+    // check the element (0,1)
+    EXPECT_EQ(array(1), 2);
+
+    // check the element (1,0)
+    EXPECT_EQ(array(2), 3);
+
+    // check the element (1,1)
+    EXPECT_EQ(array(3), 4);
 }
