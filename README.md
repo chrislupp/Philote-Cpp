@@ -9,7 +9,7 @@ C++ library for using and creating Philote analysis disciplines.
 Philote-Cpp is tested against the following platforms and compilers:
 
     - Ubuntu 22.04
-        - gRPC 1.53.0 using:
+        - gRPC 1.51.1 using:
             - gcc-9/g++-9
             - gcc-10/g++-10
             - gcc-11/g++-11
