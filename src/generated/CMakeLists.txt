@@ -28,7 +28,7 @@ add_custom_command(
     OUTPUT ${PROTO_HEADERS} ${PROTO_SRC}
     COMMAND protobuf::protoc
         --proto_path=${PROTO_DIR}
-        # --grpc_out=${GENERATED_DIR}
+        --grpc_out=${GENERATED_DIR}
         --cpp_out=${GENERATED_DIR}
         ${PROTO_FILES}
     # WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/proto
