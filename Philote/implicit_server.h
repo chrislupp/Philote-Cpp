@@ -1,10 +1,12 @@
 
-
-class ImplicitServer
+namespace philote
 {
-    //! Constructor
-    ImplicitServer();
+    class ImplicitServer
+    {
+        //! Constructor
+        ImplicitServer();
 
-    //! Destructor
-    ~ImplicitServer();
-};
+        //! Destructor
+        ~ImplicitServer();
+    };
+} // namespace philote

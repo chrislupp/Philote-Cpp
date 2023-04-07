@@ -1,10 +1,12 @@
 
-
-class ImplicitClient
+namespace philote
 {
-    //! Constructor
-    ImplicitClient();
+    class ImplicitClient
+    {
+        //! Constructor
+        ImplicitClient();
 
-    //! Destructor
-    ~ImplicitClient();
-};
+        //! Destructor
+        ~ImplicitClient();
+    };
+} // namespace philote
