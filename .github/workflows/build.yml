@@ -33,7 +33,7 @@ jobs:
 
       - uses: eWaterCycle/setup-grpc@v5
         with:
-          grpc-version: 1.53.0
+          grpc-version: 1.51.1
 
       - name: PhiloteCpp Build
         run: |
