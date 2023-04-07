@@ -8,6 +8,10 @@
 #include <explicit.pb.h>
 #include <explicit.grpc.pb.h>
 
+using std::map;
+using std::pair;
+using std::string;
+using std::vector;
 using namespace philote;
 
 ExplicitClient::ExplicitClient() {}
@@ -17,17 +21,17 @@ ExplicitClient::~ExplicitClient() {}
 void ExplicitClient::RemoteSetup()
 {
     // call remote setup function
-    std::vector<std::string> vars;
-    std::vector<std::string> discrete_vars;
-    std::vector<std::string> funcs;
-    std::vector<std::string> discrete_funcs;
+    vector<string> vars;
+    vector<string> discrete_vars;
+    vector<string> funcs;
+    vector<string> discrete_funcs;
 
     // temp
     bool input = false;
     bool discrete = false;
-    std::string name;
-    std::vector<size_t> shape;
-    std::string units;
+    string name;
+    vector<size_t> shape;
+    string units;
     for (size_t i = 0; i < 0; i++)
     {
         if (input)
@@ -67,10 +71,10 @@ void ExplicitClient::RemoteSetup()
     }
 }
 
-void ExplicitClient::RemoteCompute(std::map<std::string, Array> &inputs,
-                                   std::map<std::string, DiscreteArray> &discrete_inputs,
-                                   std::map<std::string, Array> &outputs,
-                                   std::map<std::string, DiscreteArray> &discrete_outputs)
+void ExplicitClient::RemoteCompute(map<string, Array> &inputs,
+                                   map<string, DiscreteArray> &discrete_inputs,
+                                   map<string, Array> &outputs,
+                                   map<string, DiscreteArray> &discrete_outputs)
 {
     // assign inputs
     for (auto &key : vars_)
@@ -105,9 +109,9 @@ void ExplicitClient::RemoteCompute(std::map<std::string, Array> &inputs,
     }
 }
 
-void ExplicitClient::RemotePartials(std::map<std::string, Array> &inputs,
-                                    std::map<std::string, DiscreteArray> &discrete_inputs,
-                                    std::map<std::pair<std::string, std::string>, Array> &partials)
+void ExplicitClient::RemotePartials(map<string, Array> &inputs,
+                                    map<string, DiscreteArray> &discrete_inputs,
+                                    map<pair<string, string>, Array> &partials)
 {
     // assign inputs
     for (auto &key : vars_)
