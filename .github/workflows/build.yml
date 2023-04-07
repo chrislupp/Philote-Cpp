@@ -30,6 +30,8 @@ jobs:
       runs-on: ${{ matrix.os }}
       steps:
       - uses: actions/checkout@v3
+        with:
+          submodules: recursive
 
       - uses: eWaterCycle/setup-grpc@v5
         with:
