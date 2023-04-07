@@ -22,11 +22,44 @@ TEST(ArrayTests, Constructor)
 // Test the segment function.
 TEST(ArrayTests, Segment)
 {
-    // Expect two strings not to be equal.
-    EXPECT_STRNE("hello", "world");
+    // create a 2-dimensional array
+    Array array = Array({2, 2});
 
-    // Expect equality.
-    EXPECT_EQ(7 * 6, 42);
+    // assign some data
+    std::vector<double> data = {1.0, 2.0, 3.0, 4.0};
+    array.Segment(0, 3, data);
+
+    // now replace only the middle values
+    std::vector<double> data_seg = {1.0, 2.0};
+    array.Segment(1, 2, data_seg);
+
+    // check the element (0,0)
+    EXPECT_EQ(array(0), 1.0);
+
+    // check the element (0,1)
+    EXPECT_EQ(array(1), 1.0);
+
+    // check the element (1,0)
+    EXPECT_EQ(array(2), 2.0);
+
+    // check the element (1,1)
+    EXPECT_EQ(array(3), 4.0);
+
+    // now replace only the last value (to see if single values can be set)
+    data_seg = {1.0};
+    array.Segment(3, 3, data_seg);
+
+    // check the element (0,0)
+    EXPECT_EQ(array(0), 1.0);
+
+    // check the element (0,1)
+    EXPECT_EQ(array(1), 1.0);
+
+    // check the element (1,0)
+    EXPECT_EQ(array(2), 2.0);
+
+    // check the element (1,1)
+    EXPECT_EQ(array(3), 1.0);
 }
 
 // Test the size function.
@@ -64,7 +97,7 @@ TEST(ArrayTests, ElementRetrieval)
 
     // assign some data
     std::vector<double> data = {1.0, 2.0, 3.0, 4.0};
-    array.Segment(0, 4, data);
+    array.Segment(0, 3, data);
 
     // check the element (0,0)
     EXPECT_EQ(array(0), 1.0);
