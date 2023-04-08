@@ -32,9 +32,9 @@ namespace philote
         /**
          * @brief Calls the remote analysis server function evaluation via gRPC.
          *
-         * Unlike the analysis server, this function does not need to be overridden,
-         * as it contains all logic necessary to retrieve the remote function
-         * evaluation.
+         * Unlike the analysis server, this function does not need to be
+         * overridden, as it contains all logic necessary to retrieve the remote
+         * function evaluation.
          *
          * @param inputs
          * @param discrete_inputs
@@ -49,9 +49,9 @@ namespace philote
         /**
          * @brief Calls the remote analysis server function evaluation via gRPC.
          *
-         * Unlike the analysis server, this function does not need to be overridden,
-         * as it contains all logic necessary to retrieve the remote function
-         * evaluation.
+         * Unlike the analysis server, this function does not need to be
+         * overridden, as it contains all logic necessary to retrieve the remote
+         * gradient evaluation.
          *
          * @param inputs
          * @param discrete_inputs
