@@ -5,6 +5,8 @@
 #include <utility>
 #include <Philote/array.h>
 #include <Philote/discrete_array.h>
+#include <Philote/options.h>
+#include <Philote/variables.h>
 
 #include <explicit.grpc.pb.h>
 
@@ -24,6 +26,18 @@ namespace philote
 
         //! Destructor
         ~ExplicitServer();
+
+        /**
+         * @brief Set the stream options provided by the client
+         *
+         * @param context
+         * @param request
+         * @param response
+         * @return ::grpc::Status
+         */
+        virtual ::grpc::Status SetStreamOptions(::grpc::ServerContext *context,
+                                                const ::Options *request,
+                                                ::google::protobuf::Empty *response) override;
 
         /**
          * @brief Sets up the analysis server before any function or gradient
@@ -60,43 +74,10 @@ namespace philote
         virtual void ComputePartials();
 
     private:
-        //! names of all functions defined for this discipline
-        std::vector<std::string> funcs_;
+        //! Options that control how data is streamed
+        StreamOptions stream_opts_;
 
-        //! shape of all functions defined for this discipline
-        std::map<std::string, std::vector<size_t>> funcs_shape_;
-
-        //! units of all functions defined for this discipline
-        std::map<std::string, std::string> funcs_units_;
-
-        //! names of all discrete functions defined for this discipline
-        std::vector<std::string> discrete_funcs_;
-
-        //! shape of all discrete functions defined for this discipline
-        std::map<std::string, std::vector<size_t>> discrete_funcs_shape_;
-
-        //! shape of all discrete functions defined for this discipline
-        std::map<std::string, std::string> discrete_funcs_units_;
-
-        //! names of all variables defined for this discipline
-        std::vector<std::string> vars_;
-
-        //! shape of all variables defined for this discipline
-        std::map<std::string, std::vector<size_t>> vars_shape_;
-
-        //! units of all variables defined for this discipline
-        std::map<std::string, std::string> vars_units_;
-
-        //! names of all discrete variables defined for this discipline
-        std::vector<std::string> discrete_vars_;
-
-        //! shape of all discrete variables defined for this discipline
-        std::map<std::string, std::vector<size_t>> discrete_vars_shape_;
-
-        //! units of all discrete variables defined for this discipline
-        std::map<std::string, std::string> discrete_vars_units_;
-
-        //! vector of all defined partials
-        std::vector<std::pair<std::string, std::string>> partials_;
+        //! Variable meta data
+        VariableMeta vars_;
     };
 } // namespace philote

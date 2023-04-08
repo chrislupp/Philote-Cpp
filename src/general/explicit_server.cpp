@@ -18,6 +18,7 @@ Status SetStreamOptions(ServerContext *context,
                         const ::Options *request,
                         Empty *response)
 {
+    // request->name();
     return Status::OK;
 }
 

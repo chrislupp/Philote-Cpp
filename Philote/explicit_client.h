@@ -30,6 +30,13 @@ namespace philote
         void RemoteSetup();
 
         /**
+         * @brief Calls the setup partials function on the remote analysis
+         * server.
+         *
+         */
+        void RemoteSetupPartials();
+
+        /**
          * @brief Calls the remote analysis server function evaluation via gRPC.
          *
          * Unlike the analysis server, this function does not need to be
@@ -41,10 +48,11 @@ namespace philote
          * @param outputs
          * @param discrete_outputs
          */
-        void RemoteCompute(std::map<std::string, Array> &inputs,
-                           std::map<std::string, DiscreteArray> &discrete_inputs,
-                           std::map<std::string, Array> &outputs,
-                           std::map<std::string, DiscreteArray> &discrete_outputs);
+        void
+        RemoteCompute(std::map<std::string, Array> &inputs,
+                      std::map<std::string, DiscreteArray> &discrete_inputs,
+                      std::map<std::string, Array> &outputs,
+                      std::map<std::string, DiscreteArray> &discrete_outputs);
 
         /**
          * @brief Calls the remote analysis server function evaluation via gRPC.
