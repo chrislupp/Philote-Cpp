@@ -32,7 +32,7 @@ add_custom_command(
         --cpp_out=${GENERATED_DIR}
         ${PROTO_FILES}
     # WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/proto
-    # DEPENDS ${PROTO_FILES_DEPEND}
+    DEPENDS ${PROTO_FILES_DEPEND}
     COMMENT "Generating C++ stubs from protobuf files" 
     VERBATIM
 )
