@@ -1,6 +1,8 @@
 
 #include <Philote/explicit_server.h>
 
+using std::string;
+
 using google::protobuf::Empty;
 using grpc::Server;
 using grpc::ServerBuilder;
@@ -29,9 +31,45 @@ Status ExplicitServer::DefineVariables(ServerContext *context,
                                        const Empty *request,
                                        ServerWriter<::VariableMetaData> *writer)
 {
-    for (size_t i = 0; i < vars_.NumVariables(); i++)
+    // local variable before sending
+    VariableMetaData var;
+
+    // iterate through all variables of the discipline
+    for (const string &name : vars_.ListVariables())
     {
-        /* code */
+        // get the variable type
+        VariableType type = vars_.Type(name);
+
+        if (type == VariableType::kInput)
+        {
+            // set the flags to mark this as a continuous input
+            var.set_input(true);
+            var.set_discrete(false);
+        }
+        else if (type == VariableType::kDiscreteInput)
+        {
+            // set the flags to mark this as a discrete input
+            var.set_input(true);
+            var.set_discrete(true);
+        }
+        else if (type == VariableType::kOutput)
+        {
+            // set the flags to mark this as a continuous output
+            var.set_input(false);
+            var.set_discrete(false);
+        }
+        else if (type == VariableType::kDiscreteOutput)
+        {
+            // set the flags to mark this as a discrete output
+            var.set_input(false);
+            var.set_discrete(true);
+        }
+
+        // set the variable shape
+        auto shape_field = var.mutable_shape();
+        // shape_field->CopyFrom(vars_.Shape(name));
+
+        // send the message
     }
 
     return Status::OK;
