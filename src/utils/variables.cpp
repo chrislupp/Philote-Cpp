@@ -9,7 +9,7 @@ VariableMeta::VariableMeta() {}
 VariableMeta::~VariableMeta() {}
 
 void VariableMeta::AddInput(const std::string &name,
-                            const std::vector<size_t> &shape,
+                            const std::vector<int64_t> &shape,
                             const std::string &units)
 {
     // add to the type map
@@ -23,7 +23,7 @@ void VariableMeta::AddInput(const std::string &name,
 }
 
 void VariableMeta::AddDiscreteInput(const std::string &name,
-                                    const std::vector<size_t> &shape,
+                                    const std::vector<int64_t> &shape,
                                     const std::string &units)
 {
     // add to the type map
@@ -37,7 +37,7 @@ void VariableMeta::AddDiscreteInput(const std::string &name,
 }
 
 void VariableMeta::AddOutput(const std::string &name,
-                             const std::vector<size_t> &shape,
+                             const std::vector<int64_t> &shape,
                              const std::string &units)
 {
     // add to the type map
@@ -51,7 +51,7 @@ void VariableMeta::AddOutput(const std::string &name,
 }
 
 void VariableMeta::AddDiscreteOutput(const std::string &name,
-                                     const std::vector<size_t> &shape,
+                                     const std::vector<int64_t> &shape,
                                      const std::string &units)
 {
     // add to the type map
@@ -82,17 +82,17 @@ vector<string> VariableMeta::ListVariables() const
     return keys;
 }
 
-VariableType VariableMeta::Type(const string &name)
+const VariableType &VariableMeta::Type(const string &name)
 {
     return type_[name];
 }
 
-std::vector<size_t> VariableMeta::Shape(const string &name)
+const std::vector<int64_t> &VariableMeta::Shape(const string &name)
 {
     return shape_[name];
 }
 
-string VariableMeta::Units(const string &name)
+const string &VariableMeta::Units(const string &name)
 {
     return units_[name];
 }

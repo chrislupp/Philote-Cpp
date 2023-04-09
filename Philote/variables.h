@@ -42,7 +42,8 @@ namespace philote
          * @param shape
          * @param units
          */
-        void AddInput(const std::string &name, const std::vector<size_t> &shape,
+        void AddInput(const std::string &name,
+                      const std::vector<int64_t> &shape,
                       const std::string &units);
 
         /**
@@ -53,7 +54,7 @@ namespace philote
          * @param units
          */
         void AddDiscreteInput(const std::string &name,
-                              const std::vector<size_t> &shape,
+                              const std::vector<int64_t> &shape,
                               const std::string &units);
 
         /**
@@ -64,7 +65,7 @@ namespace philote
          * @param units
          */
         void AddOutput(const std::string &name,
-                       const std::vector<size_t> &shape,
+                       const std::vector<int64_t> &shape,
                        const std::string &units);
 
         /**
@@ -75,7 +76,7 @@ namespace philote
          * @param units
          */
         void AddDiscreteOutput(const std::string &name,
-                               const std::vector<size_t> &shape,
+                               const std::vector<int64_t> &shape,
                                const std::string &units);
 
         /**
@@ -98,15 +99,15 @@ namespace philote
          * @param name
          * @return VariableType
          */
-        VariableType Type(const std::string &name);
+        const VariableType &Type(const std::string &name);
 
         /**
          * @brief Returns the shape of variable for a given name.
          *
          * @param name
-         * @return std::vector<size_t>
+         * @return std::vector<int64_t>
          */
-        std::vector<size_t> Shape(const std::string &name);
+        const std::vector<int64_t> &Shape(const std::string &name);
 
         /**
          * @brief Returns the units of variable for a given name.
@@ -114,7 +115,7 @@ namespace philote
          * @param name
          * @return std::string
          */
-        std::string Units(const std::string &name);
+        const std::string &Units(const std::string &name);
 
     private:
         /**
@@ -127,7 +128,7 @@ namespace philote
          * @brief Maps the name of the variable to its shape.
          *
          */
-        std::map<std::string, std::vector<size_t>> shape_;
+        std::map<std::string, std::vector<int64_t>> shape_;
 
         /**
          * @brief Maps the name of the variable to its units.
