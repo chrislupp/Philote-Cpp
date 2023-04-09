@@ -42,8 +42,8 @@ namespace philote
          * @param shape
          * @param units
          */
-        void AddInput(const std::string name, const std::vector<size_t> shape,
-                      const std::string units);
+        void AddInput(const std::string &name, const std::vector<size_t> &shape,
+                      const std::string &units);
 
         /**
          * @brief Adds a discrete input to the list of variables
@@ -52,9 +52,9 @@ namespace philote
          * @param shape
          * @param units
          */
-        void AddDiscreteInput(const std::string name,
-                              const std::vector<size_t> shape,
-                              const std::string units);
+        void AddDiscreteInput(const std::string &name,
+                              const std::vector<size_t> &shape,
+                              const std::string &units);
 
         /**
          * @brief Adds an output to the list of variables
@@ -63,8 +63,9 @@ namespace philote
          * @param shape
          * @param units
          */
-        void AddOutput(const std::string name, const std::vector<size_t> shape,
-                       const std::string units);
+        void AddOutput(const std::string &name,
+                       const std::vector<size_t> &shape,
+                       const std::string &units);
 
         /**
          * @brief Adds a discrete output to the list of variables
@@ -73,9 +74,9 @@ namespace philote
          * @param shape
          * @param units
          */
-        void AddDiscreteOutput(const std::string name,
-                               const std::vector<size_t> shape,
-                               const std::string units);
+        void AddDiscreteOutput(const std::string &name,
+                               const std::vector<size_t> &shape,
+                               const std::string &units);
 
         /**
          * @brief Returns the number of variables saved (including all types)
@@ -91,6 +92,30 @@ namespace philote
          */
         std::vector<std::string> ListVariables() const;
 
+        /**
+         * @brief Returns the type of variable for a given name.
+         *
+         * @param name
+         * @return VariableType
+         */
+        VariableType Type(const std::string &name);
+
+        /**
+         * @brief Returns the shape of variable for a given name.
+         *
+         * @param name
+         * @return std::vector<size_t>
+         */
+        std::vector<size_t> Shape(const std::string &name);
+
+        /**
+         * @brief Returns the units of variable for a given name.
+         *
+         * @param name
+         * @return std::string
+         */
+        std::string Units(const std::string &name);
+
     private:
         /**
          * @brief Maps the name of the variable to its type.
@@ -105,7 +130,7 @@ namespace philote
         std::map<std::string, std::vector<size_t>> shape_;
 
         /**
-         * @brief Maps the name of the variable to its units
+         * @brief Maps the name of the variable to its units.
          *
          */
         std::map<std::string, std::string> units_;
