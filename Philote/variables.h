@@ -84,6 +84,13 @@ namespace philote
          */
         size_t NumVariables() const;
 
+        /**
+         * @brief Returns a list of all variables saved (including all types)
+         *
+         * @return std::vector<std::string>
+         */
+        std::vector<std::string> ListVariables() const;
+
     private:
         /**
          * @brief Maps the name of the variable to its type.

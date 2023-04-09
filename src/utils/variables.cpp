@@ -68,3 +68,16 @@ size_t VariableMeta::NumVariables() const
 {
     return type_.size();
 }
+
+vector<string> VariableMeta::ListVariables() const
+{
+    // list of all keys (variables)
+    std::vector<std::string> keys;
+
+    for (const auto &pair : type_)
+    {
+        keys.push_back(pair.first);
+    }
+
+    return keys;
+}
