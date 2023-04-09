@@ -8,8 +8,9 @@ VariableMeta::VariableMeta() {}
 
 VariableMeta::~VariableMeta() {}
 
-void VariableMeta::AddInput(std::string name, std::vector<size_t> shape,
-                            std::string units)
+void VariableMeta::AddInput(const std::string name,
+                            const std::vector<size_t> shape,
+                            const std::string units)
 {
     // add to the type map
     type_[name] = VariableType::kInput;
@@ -21,8 +22,9 @@ void VariableMeta::AddInput(std::string name, std::vector<size_t> shape,
     units_[name] = units;
 }
 
-void VariableMeta::AddDiscreteInput(std::string name, std::vector<size_t> shape,
-                                    std::string units)
+void VariableMeta::AddDiscreteInput(const std::string name,
+                                    const std::vector<size_t> shape,
+                                    const std::string units)
 {
     // add to the type map
     type_[name] = VariableType::kDiscreteInput;
@@ -34,8 +36,9 @@ void VariableMeta::AddDiscreteInput(std::string name, std::vector<size_t> shape,
     units_[name] = units;
 }
 
-void VariableMeta::AddOutput(std::string name, std::vector<size_t> shape,
-                             std::string units)
+void VariableMeta::AddOutput(const std::string name,
+                             const std::vector<size_t> shape,
+                             const std::string units)
 {
     // add to the type map
     type_[name] = VariableType::kOutput;
@@ -47,8 +50,9 @@ void VariableMeta::AddOutput(std::string name, std::vector<size_t> shape,
     units_[name] = units;
 }
 
-void VariableMeta::AddDiscreteOutput(std::string name, std::vector<size_t> shape,
-                                     std::string units)
+void VariableMeta::AddDiscreteOutput(const std::string name,
+                                     const std::vector<size_t> shape,
+                                     const std::string units)
 {
     // add to the type map
     type_[name] = VariableType::kDiscreteOutput;
@@ -58,4 +62,9 @@ void VariableMeta::AddDiscreteOutput(std::string name, std::vector<size_t> shape
 
     // add to the units map
     units_[name] = units;
+}
+
+size_t VariableMeta::NumVariables() const
+{
+    return type_.size();
 }

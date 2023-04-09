@@ -8,51 +8,57 @@ using grpc::ServerContext;
 using grpc::ServerReaderWriter;
 using grpc::ServerWriter;
 using grpc::Status;
-using namespace philote;
+using philote::ExplicitServer;
 
 ExplicitServer::ExplicitServer() {}
 
 ExplicitServer::~ExplicitServer() {}
 
-Status SetStreamOptions(ServerContext *context,
-                        const ::Options *request,
-                        Empty *response)
+Status ExplicitServer::SetStreamOptions(ServerContext *context,
+                                        const ::Options *request,
+                                        Empty *response)
 {
-    // request->name();
+    // assign the options from the message
+    stream_opts_.num_double = request->num_double();
+    stream_opts_.num_int = request->num_int();
+
     return Status::OK;
 }
 
-Status DefineVariables(ServerContext *context,
-                       const Empty *request,
-                       ServerWriter<::VariableMetaData> *writer)
+Status ExplicitServer::DefineVariables(ServerContext *context,
+                                       const Empty *request,
+                                       ServerWriter<::VariableMetaData> *writer)
+{
+    for (size_t i = 0; i < vars_.NumVariables(); i++)
+    {
+        /* code */
+    }
+
+    return Status::OK;
+}
+
+Status ExplicitServer::DefinePartials(ServerContext *context,
+                                      const Empty *request,
+                                      ServerWriter<::PartialsMetaData> *writer)
 {
     return Status::OK;
 }
 
-Status DefinePartials(ServerContext *context,
-                      const Empty *request,
-                      ServerWriter<::PartialsMetaData> *writer)
+Status ExplicitServer::Functions(ServerContext *context,
+                                 ServerReaderWriter<::Array, ::Array> *stream)
 {
     return Status::OK;
 }
 
-Status Functions(ServerContext *context,
-                 ServerReaderWriter<::Array, ::Array> *stream)
-{
-    return Status::OK;
-}
-
-Status Gradient(ServerContext *context,
-                ServerReaderWriter<::Array, ::Array> *stream)
+Status ExplicitServer::Gradient(ServerContext *context,
+                                ServerReaderWriter<::Array, ::Array> *stream)
 {
     return Status::OK;
 }
 
 // these functions need to be overridden by discipline developers
 //------------------------------------------------------------------------------
-void ExplicitServer::Setup()
-{
-}
+void ExplicitServer::Setup() {}
 
 void ExplicitServer::SetupPartials() {}
 

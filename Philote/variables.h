@@ -36,14 +36,14 @@ namespace philote
         ~VariableMeta();
 
         /**
-         * @brief Adds an input to the list of variables
+         * @brief Adds an input to the list of variables.
          *
          * @param name
          * @param shape
          * @param units
          */
-        void AddInput(std::string name, std::vector<size_t> shape,
-                      std::string units);
+        void AddInput(const std::string name, const std::vector<size_t> shape,
+                      const std::string units);
 
         /**
          * @brief Adds a discrete input to the list of variables
@@ -52,8 +52,9 @@ namespace philote
          * @param shape
          * @param units
          */
-        void AddDiscreteInput(std::string name, std::vector<size_t> shape,
-                              std::string units);
+        void AddDiscreteInput(const std::string name,
+                              const std::vector<size_t> shape,
+                              const std::string units);
 
         /**
          * @brief Adds an output to the list of variables
@@ -62,8 +63,8 @@ namespace philote
          * @param shape
          * @param units
          */
-        void AddOutput(std::string name, std::vector<size_t> shape,
-                       std::string units);
+        void AddOutput(const std::string name, const std::vector<size_t> shape,
+                       const std::string units);
 
         /**
          * @brief Adds a discrete output to the list of variables
@@ -72,8 +73,16 @@ namespace philote
          * @param shape
          * @param units
          */
-        void AddDiscreteOutput(std::string name, std::vector<size_t> shape,
-                               std::string units);
+        void AddDiscreteOutput(const std::string name,
+                               const std::vector<size_t> shape,
+                               const std::string units);
+
+        /**
+         * @brief Returns the number of variables saved (including all types)
+         *
+         * @return size_t Number of variables in the discipline (all types).
+         */
+        size_t NumVariables() const;
 
     private:
         /**

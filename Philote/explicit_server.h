@@ -35,9 +35,23 @@ namespace philote
          * @param response
          * @return ::grpc::Status
          */
-        virtual ::grpc::Status SetStreamOptions(::grpc::ServerContext *context,
-                                                const ::Options *request,
-                                                ::google::protobuf::Empty *response) override;
+        virtual grpc::Status SetStreamOptions(grpc::ServerContext *context,
+                                              const ::Options *request,
+                                              google::protobuf::Empty *response) override;
+
+        virtual grpc::Status DefineVariables(grpc::ServerContext *context,
+                                             const google::protobuf::Empty *request,
+                                             grpc::ServerWriter<::VariableMetaData> *writer) override;
+
+        virtual grpc::Status DefinePartials(grpc::ServerContext *context,
+                                            const google::protobuf::Empty *request,
+                                            grpc::ServerWriter<::PartialsMetaData> *writer) override;
+
+        virtual grpc::Status Functions(grpc::ServerContext *context,
+                                       grpc::ServerReaderWriter<::Array, ::Array> *stream) override;
+
+        virtual grpc::Status Gradient(grpc::ServerContext *context,
+                                      grpc::ServerReaderWriter<::Array, ::Array> *stream) override;
 
         /**
          * @brief Sets up the analysis server before any function or gradient
