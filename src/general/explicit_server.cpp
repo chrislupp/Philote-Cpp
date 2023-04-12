@@ -83,6 +83,32 @@ Status ExplicitServer::DefinePartials(ServerContext *context,
                                       const Empty *request,
                                       ServerWriter<::PartialsMetaData> *writer)
 {
+    for (const string &out : vars_.ListVariables())
+    {
+        // local variable before sending
+        PartialsMetaData meta;
+
+        // skip the loop iteration if the variable isn't an output
+        if (vars_.Type(out) != VariableType::kOutput)
+            continue;
+
+        // set the name field
+        meta.set_name(vars_.Units(out));
+
+        for (const string &in : vars_.ListVariables())
+        {
+            // skip the loop iteration if the variable isn't an input
+            if (vars_.Type(out) != VariableType::kInput)
+                continue;
+
+            // set the subname field
+            meta.set_name(vars_.Units(in));
+
+            // send the message
+            writer->Write(meta);
+        }
+    }
+
     return Status::OK;
 }
 
