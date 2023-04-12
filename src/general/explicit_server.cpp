@@ -32,7 +32,7 @@ Status ExplicitServer::DefineVariables(ServerContext *context,
                                        ServerWriter<::VariableMetaData> *writer)
 {
     // local variable before sending
-    VariableMetaData var;
+    VariableMetaData meta;
 
     // iterate through all variables of the discipline
     for (const string &name : vars_.ListVariables())
@@ -43,33 +43,37 @@ Status ExplicitServer::DefineVariables(ServerContext *context,
         if (type == VariableType::kInput)
         {
             // set the flags to mark this as a continuous input
-            var.set_input(true);
-            var.set_discrete(false);
+            meta.set_input(true);
+            meta.set_discrete(false);
         }
         else if (type == VariableType::kDiscreteInput)
         {
             // set the flags to mark this as a discrete input
-            var.set_input(true);
-            var.set_discrete(true);
+            meta.set_input(true);
+            meta.set_discrete(true);
         }
         else if (type == VariableType::kOutput)
         {
             // set the flags to mark this as a continuous output
-            var.set_input(false);
-            var.set_discrete(false);
+            meta.set_input(false);
+            meta.set_discrete(false);
         }
         else if (type == VariableType::kDiscreteOutput)
         {
             // set the flags to mark this as a discrete output
-            var.set_input(false);
-            var.set_discrete(true);
+            meta.set_input(false);
+            meta.set_discrete(true);
         }
 
         // set the variable shape
-        auto shape_field = var.mutable_shape();
-        // shape_field->CopyFrom(vars_.Shape(name));
+        auto values = vars_.Shape(name);
+        meta.mutable_shape()->Add(values.begin(), values.end());
+
+        // set the units field
+        meta.set_units(vars_.Units(name));
 
         // send the message
+        writer->Write(meta);
     }
 
     return Status::OK;
