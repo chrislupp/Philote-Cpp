@@ -4,7 +4,6 @@
 #include <map>
 #include <utility>
 #include <Philote/array.h>
-#include <Philote/discrete_array.h>
 
 namespace philote
 {
@@ -49,10 +48,10 @@ namespace philote
          * @param discrete_outputs
          */
         void
-        RemoteCompute(std::map<std::string, Array> &inputs,
-                      std::map<std::string, DiscreteArray> &discrete_inputs,
-                      std::map<std::string, Array> &outputs,
-                      std::map<std::string, DiscreteArray> &discrete_outputs);
+        RemoteCompute(std::map<std::string, ContArray> &inputs,
+                      std::map<std::string, DiscArray> &discrete_inputs,
+                      std::map<std::string, ContArray> &outputs,
+                      std::map<std::string, DiscArray> &discrete_outputs);
 
         /**
          * @brief Calls the remote analysis server function evaluation via gRPC.
@@ -65,9 +64,9 @@ namespace philote
          * @param discrete_inputs
          * @param partials
          */
-        void RemotePartials(std::map<std::string, Array> &inputs,
-                            std::map<std::string, DiscreteArray> &discrete_inputs,
-                            std::map<std::pair<std::string, std::string>, Array> &partials);
+        void RemotePartials(std::map<std::string, ContArray> &inputs,
+                            std::map<std::string, DiscArray> &discrete_inputs,
+                            std::map<std::pair<std::string, std::string>, ContArray> &partials);
 
     private:
         //! names of all functions defined for this discipline

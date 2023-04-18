@@ -6,9 +6,10 @@
 namespace philote
 {
     /**
-     * @brief Class defining an n-dimensional array of continuous data (double).
+     * @brief Class defining an n-dimensional array.
      *
      */
+    template <typename Type>
     class Array
     {
     public:
@@ -29,7 +30,7 @@ namespace philote
          * @param data data to be assigned to the segment
          */
         void Segment(const size_t &start, const size_t &end,
-                     const std::vector<double> &data);
+                     const std::vector<Type> &data);
 
         /**
          * @brief Returns the shape of the array
@@ -59,6 +60,19 @@ namespace philote
         std::vector<size_t> shape_;
 
         //! raw data (serialized, row major)
-        std::vector<double> data_;
+        std::vector<Type> data_;
     };
+
+    /**
+     * @brief Type definition for a continuous array.
+     *
+     */
+    typedef Array<double> ContArray;
+
+    /**
+     * @brief Type definition for a discrete array.
+     *
+     */
+    typedef Array<long> DiscArray;
+
 } // namespace philote

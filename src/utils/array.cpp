@@ -7,9 +7,14 @@
 
 using namespace philote;
 
-Array::Array() {}
+// explicit instantiation
+template class Array<TYPE>;
 
-Array::Array(const std::vector<size_t> &shape)
+template <>
+Array<TYPE>::Array() {}
+
+template <>
+Array<TYPE>::Array(const std::vector<size_t> &shape)
 {
     // assign the array shape
     shape_ = shape;
@@ -23,10 +28,12 @@ Array::Array(const std::vector<size_t> &shape)
     data_.resize(size);
 }
 
-Array::~Array() {}
+template <>
+Array<TYPE>::~Array() {}
 
-void Array::Segment(const size_t &start, const size_t &end,
-                    const std::vector<double> &data)
+template <>
+void Array<TYPE>::Segment(const size_t &start, const size_t &end,
+                          const std::vector<TYPE> &data)
 {
     // check that the segment matches length of (end - start)
     if ((end - start) + 1 != data.size())
@@ -42,17 +49,20 @@ void Array::Segment(const size_t &start, const size_t &end,
         data_[start + i] = data[i];
 }
 
-std::vector<size_t> Array::Shape() const
+template <>
+std::vector<size_t> Array<TYPE>::Shape() const
 {
     return shape_;
 }
 
-size_t Array::Size() const
+template <>
+size_t Array<TYPE>::Size() const
 {
     return data_.size();
 }
 
-double Array::operator()(const size_t &i) const
+template <>
+double Array<TYPE>::operator()(const size_t &i) const
 {
     return data_[i];
 }

@@ -1,5 +1,5 @@
 
-#include <Philote/discrete_array.h>
+#include <Philote/array.h>
 #include <gtest/gtest.h>
 
 #include <iostream>
@@ -10,7 +10,7 @@ using namespace philote;
 TEST(DiscreteArrayTests, Constructor)
 {
     // create a 3-dimensional array
-    DiscreteArray array = DiscreteArray({3, 4, 2});
+    DiscArray array = DiscArray({3, 4, 2});
 
     // check the shape of the array
     auto shape = array.Shape();
@@ -25,7 +25,7 @@ TEST(DiscreteArrayTests, Constructor)
 TEST(DiscreteArrayTests, Segment)
 {
     // create a 2-dimensional array
-    DiscreteArray array = DiscreteArray({2, 2});
+    DiscArray array = DiscArray({2, 2});
 
     // assign some data
     std::vector<long> data = {1, 2, 3, 4};
@@ -68,7 +68,7 @@ TEST(DiscreteArrayTests, Segment)
 TEST(DiscreteArrayTests, Size)
 {
     // create a 3-dimensional array
-    DiscreteArray array = DiscreteArray({3, 4, 2});
+    DiscArray array = DiscArray({3, 4, 2});
 
     // check the shape of the array
     auto size = array.Size();
@@ -80,7 +80,7 @@ TEST(DiscreteArrayTests, Size)
 TEST(DiscreteArrayTests, Shape)
 {
     // create a 3-dimensional array
-    DiscreteArray array = DiscreteArray({3, 4, 2});
+    DiscArray array = DiscArray({3, 4, 2});
 
     // check the shape of the array
     auto shape = array.Shape();
@@ -95,7 +95,7 @@ TEST(DiscreteArrayTests, Shape)
 TEST(DiscreteArrayTests, ElementRetrieval)
 {
     // create a 2-dimensional array
-    DiscreteArray array = DiscreteArray({2, 2});
+    DiscArray array = DiscArray({2, 2});
 
     // assign some data
     std::vector<long> data = {1, 2, 3, 4};

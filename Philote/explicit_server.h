@@ -4,7 +4,6 @@
 #include <map>
 #include <utility>
 #include <Philote/array.h>
-#include <Philote/discrete_array.h>
 #include <Philote/options.h>
 #include <Philote/variables.h>
 

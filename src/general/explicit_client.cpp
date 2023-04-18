@@ -1,4 +1,5 @@
 
+#include <Philote/array.h>
 #include <Philote/explicit_client.h>
 
 // protobuf/gRPC generated header
@@ -72,10 +73,10 @@ void ExplicitClient::RemoteSetup()
     }
 }
 
-void ExplicitClient::RemoteCompute(map<string, Array> &inputs,
-                                   map<string, DiscreteArray> &discrete_inputs,
-                                   map<string, Array> &outputs,
-                                   map<string, DiscreteArray> &discrete_outputs)
+void ExplicitClient::RemoteCompute(map<string, ContArray> &inputs,
+                                   map<string, DiscArray> &discrete_inputs,
+                                   map<string, ContArray> &outputs,
+                                   map<string, DiscArray> &discrete_outputs)
 {
     // assign inputs
     for (auto &key : vars_)
@@ -93,7 +94,7 @@ void ExplicitClient::RemoteCompute(map<string, Array> &inputs,
     for (auto &key : funcs_)
     {
         // data array for the function data
-        Array temp;
+        ContArray temp;
 
         // assign functions to map
         outputs[key] = temp;
@@ -103,16 +104,16 @@ void ExplicitClient::RemoteCompute(map<string, Array> &inputs,
     for (auto &key : discrete_funcs_)
     {
         // data array for the function data
-        DiscreteArray temp;
+        DiscArray temp;
 
         // assign functions to map
         discrete_outputs[key] = temp;
     }
 }
 
-void ExplicitClient::RemotePartials(map<string, Array> &inputs,
-                                    map<string, DiscreteArray> &discrete_inputs,
-                                    map<pair<string, string>, Array> &partials)
+void ExplicitClient::RemotePartials(map<string, ContArray> &inputs,
+                                    map<string, DiscArray> &discrete_inputs,
+                                    map<pair<string, string>, ContArray> &partials)
 {
     // assign inputs
     for (auto &key : vars_)
@@ -130,7 +131,7 @@ void ExplicitClient::RemotePartials(map<string, Array> &inputs,
     for (auto &key : partials_)
     {
         // data array for the partials
-        Array temp;
+        ContArray temp;
 
         // assign partials to map
         partials[key] = temp;
