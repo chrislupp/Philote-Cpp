@@ -3,7 +3,9 @@
 #include <string>
 #include <map>
 #include <utility>
+#include <grpcpp/grpcpp.h>
 #include <Philote/array.h>
+#include <explicit.grpc.pb.h>
 
 namespace philote
 {
@@ -19,8 +21,21 @@ namespace philote
         //! Constructor
         ExplicitClient();
 
+        /**
+         * @brief Construct a new Explicit Client object
+         *
+         * @param host server host name
+         */
+        ExplicitClient(const std::string &host);
+
         //! Destructor
         ~ExplicitClient();
+
+        /**
+         * @brief Connects to an analysis server.
+         *
+         */
+        void Connect();
 
         /**
          * @brief Calls the setup function on the remote analysis server.
@@ -69,6 +84,12 @@ namespace philote
                             std::map<std::pair<std::string, std::string>, ContArray> &partials);
 
     private:
+        //! host name of the analysis server
+        std::string host_;
+
+        std::shared_ptr<grpc::Channel> channel_;
+        std::unique_ptr<ExplicitDiscipline::Stub> stub_;
+
         //! names of all functions defined for this discipline
         std::vector<std::string> funcs_;
 

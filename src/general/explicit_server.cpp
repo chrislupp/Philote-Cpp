@@ -1,4 +1,4 @@
-
+#include <Philote/array.h>
 #include <Philote/explicit_server.h>
 
 using std::string;
@@ -10,6 +10,8 @@ using grpc::ServerContext;
 using grpc::ServerReaderWriter;
 using grpc::ServerWriter;
 using grpc::Status;
+using philote::ContArray;
+using philote::DiscArray;
 using philote::ExplicitServer;
 
 ExplicitServer::ExplicitServer() {}
@@ -115,6 +117,7 @@ Status ExplicitServer::DefinePartials(ServerContext *context,
 Status ExplicitServer::Functions(ServerContext *context,
                                  ServerReaderWriter<::Array, ::Array> *stream)
 {
+
     return Status::OK;
 }
 

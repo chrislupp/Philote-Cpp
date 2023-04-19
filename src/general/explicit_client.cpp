@@ -10,15 +10,32 @@
 #include <explicit.grpc.pb.h>
 
 // namespace statements for readibility
+using philote::ExplicitClient;
 using std::map;
 using std::pair;
 using std::string;
 using std::vector;
-using namespace philote;
 
-ExplicitClient::ExplicitClient() {}
+ExplicitClient::ExplicitClient()
+{
+    // default host name
+    host_ = "localhost:50051";
+}
+
+ExplicitClient::ExplicitClient(const std::string &host)
+{
+    host_ = host;
+}
 
 ExplicitClient::~ExplicitClient() {}
+
+void ExplicitClient::Connect()
+{
+    // Create a gRPC channel and stub
+    auto channel = grpc::CreateChannel(host_,
+                                       grpc::InsecureChannelCredentials());
+    auto stub = ExplicitDiscipline::NewStub(channel);
+}
 
 void ExplicitClient::RemoteSetup()
 {
@@ -78,17 +95,42 @@ void ExplicitClient::RemoteCompute(map<string, ContArray> &inputs,
                                    map<string, ContArray> &outputs,
                                    map<string, DiscArray> &discrete_outputs)
 {
+    grpc::ClientContext context;
+    std::shared_ptr<grpc::ClientReaderWriter<::Array, ::Array>> stream(
+        stub_->Functions(&context));
+
     // assign inputs
     for (auto &key : vars_)
     {
+        ::Array inputs;
+
+        inputs.set_name("hello");
+
+        inputs.set_start(0);
+        inputs.set_end(1);
+
+        // inputs.set_continuous({0});
     }
 
     // assign discrete inputs
     for (auto &key : discrete_vars_)
     {
+        ::Array dinputs;
+
+        dinputs.set_name("hello");
+
+        dinputs.set_start(0);
+        dinputs.set_end(1);
     }
 
-    // call remote function evaluation
+    // finish streaming data to the server
+    stream->WritesDone();
+
+    ::Array result;
+    while (stream->Read(&result))
+    {
+        continue;
+    }
 
     // iterate through defined functions for assignment
     for (auto &key : funcs_)
@@ -109,12 +151,18 @@ void ExplicitClient::RemoteCompute(map<string, ContArray> &inputs,
         // assign functions to map
         discrete_outputs[key] = temp;
     }
+
+    grpc::Status status = stream->Finish();
 }
 
 void ExplicitClient::RemotePartials(map<string, ContArray> &inputs,
                                     map<string, DiscArray> &discrete_inputs,
                                     map<pair<string, string>, ContArray> &partials)
 {
+    grpc::ClientContext context;
+    std::shared_ptr<grpc::ClientReaderWriter<::Array, ::Array>> stream(
+        stub_->Gradient(&context));
+
     // assign inputs
     for (auto &key : vars_)
     {
@@ -125,7 +173,14 @@ void ExplicitClient::RemotePartials(map<string, ContArray> &inputs,
     {
     }
 
-    // call remote gradient evaluation
+    // finish streaming data to the server
+    stream->WritesDone();
+
+    ::Array result;
+    while (stream->Read(&result))
+    {
+        continue;
+    }
 
     // iterate through defined partials for assignment
     for (auto &key : partials_)
@@ -136,4 +191,6 @@ void ExplicitClient::RemotePartials(map<string, ContArray> &inputs,
         // assign partials to map
         partials[key] = temp;
     }
+
+    grpc::Status status = stream->Finish();
 }
