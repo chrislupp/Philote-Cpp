@@ -1,4 +1,4 @@
-#include <Philote/array.h>
+
 #include <Philote/explicit_server.h>
 
 using std::string;
@@ -13,6 +13,7 @@ using grpc::Status;
 using philote::ContArray;
 using philote::DiscArray;
 using philote::ExplicitServer;
+using philote::Partials;
 using philote::Variables;
 
 ExplicitServer::ExplicitServer() {}
@@ -161,4 +162,7 @@ Variables ExplicitServer::Compute(const Variables &inputs)
     return Variables();
 }
 
-void ExplicitServer::ComputePartials(const Variables &inputs) {}
+Partials ExplicitServer::ComputePartials(const Variables &inputs)
+{
+    return Partials();
+}

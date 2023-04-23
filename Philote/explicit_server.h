@@ -7,6 +7,7 @@
 #include <Philote/options.h>
 #include <Philote/variable_meta.h>
 #include <Philote/variables.h>
+#include <Philote/partials.h>
 
 #include <explicit.grpc.pb.h>
 
@@ -92,7 +93,7 @@ namespace philote
          * @param inputs input variables for the discipline (continuous and
          * discrete)
          */
-        virtual void ComputePartials(const philote::Variables &inputs);
+        virtual philote::Partials ComputePartials(const philote::Variables &inputs);
 
     private:
         //! Options that control how data is streamed
