@@ -75,17 +75,24 @@ namespace philote
          *
          * This function should be overridden by the developer of the
          * discipline.
+         *
+         * @param inputs input variables for the discipline (continuous and
+         * discrete)
+         * @return philote::Variables
          */
-        virtual void Compute();
+        virtual philote::Variables Compute(const philote::Variables &inputs);
 
         /**
-         * @brief Function evaluation for the discipline.
+         * @brief Gradient evaluation for the discipline.
          *
          * This function should be overridden by the developer of the
          * discipline, if applicable (not every discipline can provide
          * partials).
+         *
+         * @param inputs input variables for the discipline (continuous and
+         * discrete)
          */
-        virtual void ComputePartials();
+        virtual void ComputePartials(const philote::Variables &inputs);
 
     private:
         //! Options that control how data is streamed

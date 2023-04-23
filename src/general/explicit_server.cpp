@@ -13,6 +13,7 @@ using grpc::Status;
 using philote::ContArray;
 using philote::DiscArray;
 using philote::ExplicitServer;
+using philote::Variables;
 
 ExplicitServer::ExplicitServer() {}
 
@@ -134,7 +135,8 @@ Status ExplicitServer::Functions(ServerContext *context,
     }
 
     // call the discipline developer-defined Compute function
-    Compute();
+    Variables inputs;
+    Variables outputs = Compute(inputs);
 
     // send the outputs back via stream
     stream->Write(array);
@@ -154,6 +156,9 @@ void ExplicitServer::Setup() {}
 
 void ExplicitServer::SetupPartials() {}
 
-void ExplicitServer::Compute() {}
+Variables ExplicitServer::Compute(const Variables &inputs)
+{
+    return Variables();
+}
 
-void ExplicitServer::ComputePartials() {}
+void ExplicitServer::ComputePartials(const Variables &inputs) {}
