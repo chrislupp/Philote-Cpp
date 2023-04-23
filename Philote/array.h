@@ -33,6 +33,16 @@ namespace philote
                      const std::vector<Type> &data);
 
         /**
+         * @brief Retrieves a reference to a segment of the array given a
+         * subvector
+         *
+         * @param start
+         * @param end
+         * @return std::vector<Type>&
+         */
+        std::vector<Type> &Segment(const size_t &start, const size_t &end);
+
+        /**
          * @brief Returns the shape of the array
          *
          * @return std::vector<size_t> vector containing the length of the

@@ -8,42 +8,60 @@ using philote::ContArray;
 using philote::DiscArray;
 using philote::Variables;
 
-ContArray Variables::Continuous(const string &name) const
+ContArray &Variables::Continuous(const string &name)
 {
     return continuous_.at(name);
 }
 
-DiscArray Variables::Discrete(const string &name) const
+vector<double> &Variables::ContinuousSlice(const string &name,
+                                           const size_t &start,
+                                           const size_t &end)
+{
+    ContArray array = continuous_.at(name);
+    vector<double> &slice = array.Segment(start, end);
+    return slice;
+}
+
+DiscArray &Variables::Discrete(const string &name)
 {
     return discrete_.at(name);
 }
 
-void Variables::SetContinuous(const string &name, const ContArray &value)
+vector<long> &Variables::DiscreteSlice(const string &name,
+                                       const size_t &start,
+                                       const size_t &end)
 {
-    continuous_[name] = value;
+    DiscArray array = discrete_.at(name);
+    vector<long> &slice = array.Segment(start, end);
+    return slice;
 }
 
-void Variables::SetContinuous(const std::string &name,
+void Variables::SetContinuous(const string &name, const ContArray &value)
+{
+    continuous_.at(name) = value;
+}
+
+void Variables::SetContinuous(const string &name,
                               const size_t &start,
                               const size_t &end,
                               const vector<double> &value)
 {
-    ContArray &array = continuous_[name];
+    ContArray &array = continuous_.at(name);
 
     array.Segment(start, end, value);
 }
 
 void Variables::SetDiscrete(const string &name, const DiscArray &value)
 {
-    discrete_[name] = value;
+    discrete_.at(name) = value;
 }
 
-void Variables::SetDiscrete(const std::string &name,
+void Variables::SetDiscrete(const string &name,
                             const size_t &start,
                             const size_t &end,
                             const vector<long> &value)
 {
-    DiscArray &array = discrete_[name];
+    DiscArray &array = discrete_.at(name);
 
     array.Segment(start, end, value);
 }

@@ -33,15 +33,39 @@ namespace philote
          * @param name
          * @return philote::ContArray
          */
-        philote::ContArray Continuous(const std::string &name) const;
+        philote::ContArray &Continuous(const std::string &name);
 
         /**
-         * @brief Get the continous data
+         * @brief Get a continous data slice
          *
          * @param name
-         * @return philote::ContArray
+         * @param start
+         * @param end
+         * @return std::vector<double>
          */
-        philote::DiscArray Discrete(const std::string &name) const;
+        std::vector<double> &ContinuousSlice(const std::string &name,
+                                             const size_t &start,
+                                             const size_t &end);
+
+        /**
+         * @brief Get the discrete data
+         *
+         * @param name
+         * @return philote::DiscArray
+         */
+        philote::DiscArray &Discrete(const std::string &name);
+
+        /**
+         * @brief Get a discrete data slice
+         *
+         * @param name
+         * @param start
+         * @param end
+         * @return std::vector<double>
+         */
+        std::vector<long> &DiscreteSlice(const std::string &name,
+                                         const size_t &start,
+                                         const size_t &end);
 
         /**
          * @brief Set the continous data

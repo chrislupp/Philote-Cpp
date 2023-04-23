@@ -50,6 +50,27 @@ void Array<TYPE>::Segment(const size_t &start, const size_t &end,
 }
 
 template <>
+std::vector<TYPE> &Array<TYPE>::Segment(const size_t &start, const size_t &end)
+{
+    std::vector<TYPE> data(end - start + 1);
+
+    // check that the segment matches length of (end - start)
+    if ((end - start) + 1 != data_.size())
+    {
+        std::string expected = std::to_string((end - start) + 1);
+        std::string actual = std::to_string(data.size());
+        throw std::length_error("Vector data has incompatable length. Should be " +
+                                expected + ", but received " + actual + ".");
+    }
+
+    // assign the segment
+    for (size_t i = 0; i < (end - start) + 1; i++)
+        data[i] = data_[start + i];
+
+    return data;
+}
+
+template <>
 std::vector<size_t> Array<TYPE>::Shape() const
 {
     return shape_;
