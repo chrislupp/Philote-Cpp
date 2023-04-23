@@ -9,3 +9,4 @@ add_library(VariableMeta OBJECT variable_meta.cpp)
 
 add_library(Variables OBJECT variables.cpp)
 
+add_library(Partials OBJECT partials.cpp)
