@@ -43,9 +43,9 @@ namespace philote
          * @param end
          * @return std::vector<double>
          */
-        std::vector<double> &ContinuousSlice(const std::string &name,
-                                             const size_t &start,
-                                             const size_t &end);
+        std::vector<double> ContinuousSlice(const std::string &name,
+                                            const size_t &start,
+                                            const size_t &end);
 
         /**
          * @brief Get the discrete data
@@ -63,9 +63,9 @@ namespace philote
          * @param end
          * @return std::vector<double>
          */
-        std::vector<long> &DiscreteSlice(const std::string &name,
-                                         const size_t &start,
-                                         const size_t &end);
+        std::vector<int64_t> DiscreteSlice(const std::string &name,
+                                           const size_t &start,
+                                           const size_t &end);
 
         /**
          * @brief Set the continous data
@@ -107,7 +107,14 @@ namespace philote
         void SetDiscrete(const std::string &name,
                          const size_t &start,
                          const size_t &end,
-                         const std::vector<long> &value);
+                         const std::vector<int64_t> &value);
+
+        /**
+         * @brief Returns the number of all variables stored
+         *
+         * @return size_t
+         */
+        size_t Size();
 
     private:
         /**

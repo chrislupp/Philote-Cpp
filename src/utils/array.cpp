@@ -50,7 +50,7 @@ void Array<TYPE>::Segment(const size_t &start, const size_t &end,
 }
 
 template <>
-std::vector<TYPE> &Array<TYPE>::Segment(const size_t &start, const size_t &end)
+std::vector<TYPE> Array<TYPE>::Segment(const size_t &start, const size_t &end)
 {
     std::vector<TYPE> data(end - start + 1);
 

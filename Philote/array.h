@@ -1,5 +1,6 @@
 #pragma once
 
+#include <cstdint>
 #include <stddef.h>
 #include <vector>
 
@@ -40,7 +41,7 @@ namespace philote
          * @param end
          * @return std::vector<Type>&
          */
-        std::vector<Type> &Segment(const size_t &start, const size_t &end);
+        std::vector<Type> Segment(const size_t &start, const size_t &end);
 
         /**
          * @brief Returns the shape of the array
@@ -83,6 +84,6 @@ namespace philote
      * @brief Type definition for a discrete array.
      *
      */
-    typedef Array<long> DiscArray;
+    typedef Array<int64_t> DiscArray;
 
 } // namespace philote

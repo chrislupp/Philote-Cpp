@@ -13,12 +13,12 @@ ContArray &Variables::Continuous(const string &name)
     return continuous_.at(name);
 }
 
-vector<double> &Variables::ContinuousSlice(const string &name,
-                                           const size_t &start,
-                                           const size_t &end)
+vector<double> Variables::ContinuousSlice(const string &name,
+                                          const size_t &start,
+                                          const size_t &end)
 {
     ContArray array = continuous_.at(name);
-    vector<double> &slice = array.Segment(start, end);
+    vector<double> slice = array.Segment(start, end);
     return slice;
 }
 
@@ -27,12 +27,12 @@ DiscArray &Variables::Discrete(const string &name)
     return discrete_.at(name);
 }
 
-vector<long> &Variables::DiscreteSlice(const string &name,
-                                       const size_t &start,
-                                       const size_t &end)
+vector<int64_t> Variables::DiscreteSlice(const string &name,
+                                         const size_t &start,
+                                         const size_t &end)
 {
     DiscArray array = discrete_.at(name);
-    vector<long> &slice = array.Segment(start, end);
+    vector<int64_t> slice = array.Segment(start, end);
     return slice;
 }
 
@@ -59,9 +59,14 @@ void Variables::SetDiscrete(const string &name, const DiscArray &value)
 void Variables::SetDiscrete(const string &name,
                             const size_t &start,
                             const size_t &end,
-                            const vector<long> &value)
+                            const vector<int64_t> &value)
 {
     DiscArray &array = discrete_.at(name);
 
     array.Segment(start, end, value);
+}
+
+size_t Variables::Size()
+{
+    return continuous_.size() + discrete_.size();
 }

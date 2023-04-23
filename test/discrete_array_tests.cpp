@@ -28,11 +28,11 @@ TEST(DiscreteArrayTests, Segment)
     DiscArray array = DiscArray({2, 2});
 
     // assign some data
-    std::vector<long> data = {1, 2, 3, 4};
+    std::vector<int64_t> data = {1, 2, 3, 4};
     array.Segment(0, 3, data);
 
     // now replace only the middle values
-    std::vector<long> data_seg = {1, 2};
+    std::vector<int64_t> data_seg = {1, 2};
     array.Segment(1, 2, data_seg);
 
     // check the element (0,0)
@@ -98,7 +98,7 @@ TEST(DiscreteArrayTests, ElementRetrieval)
     DiscArray array = DiscArray({2, 2});
 
     // assign some data
-    std::vector<long> data = {1, 2, 3, 4};
+    std::vector<int64_t> data = {1, 2, 3, 4};
     array.Segment(0, 3, data);
 
     // check the element (0,0)
