@@ -2,7 +2,7 @@
 
 #include <string>
 #include <map>
-
+#include <vector>
 #include <Philote/array.h>
 #include <Philote/variables.h>
 
@@ -52,12 +52,38 @@ namespace philote
         void SetContinuous(const std::string &name, const philote::ContArray &value);
 
         /**
+         * @brief Set the continuous data from an array slice
+         *
+         * @param name
+         * @param start
+         * @param end
+         * @param value
+         */
+        void SetContinuous(const std::string &name,
+                           const size_t &start,
+                           const size_t &end,
+                           const std::vector<double> &value);
+
+        /**
          * @brief Set the discrete data
          *
          * @param name
          * @param value
          */
         void SetDiscrete(const std::string &name, const philote::DiscArray &value);
+
+        /**
+         * @brief Set the discrete data from an array slice
+         *
+         * @param name
+         * @param start
+         * @param end
+         * @param value
+         */
+        void SetDiscrete(const std::string &name,
+                         const size_t &start,
+                         const size_t &end,
+                         const std::vector<long> &value);
 
     private:
         /**

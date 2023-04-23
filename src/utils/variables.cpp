@@ -1,8 +1,8 @@
-
 #include <Philote/variables.h>
 
 using std::map;
 using std::string;
+using std::vector;
 
 using philote::ContArray;
 using philote::DiscArray;
@@ -23,7 +23,27 @@ void Variables::SetContinuous(const string &name, const ContArray &value)
     continuous_[name] = value;
 }
 
+void Variables::SetContinuous(const std::string &name,
+                              const size_t &start,
+                              const size_t &end,
+                              const vector<double> &value)
+{
+    ContArray &array = continuous_[name];
+
+    array.Segment(start, end, value);
+}
+
 void Variables::SetDiscrete(const string &name, const DiscArray &value)
 {
     discrete_[name] = value;
+}
+
+void Variables::SetDiscrete(const std::string &name,
+                            const size_t &start,
+                            const size_t &end,
+                            const vector<long> &value)
+{
+    DiscArray &array = discrete_[name];
+
+    array.Segment(start, end, value);
 }

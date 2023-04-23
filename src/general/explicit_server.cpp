@@ -120,8 +120,11 @@ Status ExplicitServer::Functions(ServerContext *context,
                                  ServerReaderWriter<::Array, ::Array> *stream)
 {
     ::Array array;
+    Variables inputs;
+
     while (stream->Read(&array))
     {
+
         // obtain the inputs and discrete inputs from the stream
         if (vars_.Type(array.name()) == VariableType::kInput)
         {
@@ -136,7 +139,6 @@ Status ExplicitServer::Functions(ServerContext *context,
     }
 
     // call the discipline developer-defined Compute function
-    Variables inputs;
     Variables outputs = Compute(inputs);
 
     // send the outputs back via stream
