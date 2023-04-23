@@ -5,6 +5,7 @@
 #include <utility>
 #include <Philote/array.h>
 #include <Philote/options.h>
+#include <Philote/variable_meta.h>
 #include <Philote/variables.h>
 
 #include <explicit.grpc.pb.h>

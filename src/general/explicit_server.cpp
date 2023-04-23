@@ -117,6 +117,27 @@ Status ExplicitServer::DefinePartials(ServerContext *context,
 Status ExplicitServer::Functions(ServerContext *context,
                                  ServerReaderWriter<::Array, ::Array> *stream)
 {
+    ::Array array;
+    while (stream->Read(&array))
+    {
+        // obtain the inputs and discrete inputs from the stream
+        if (vars_.Type(array.name()) == VariableType::kInput)
+        {
+        }
+        else if (vars_.Type(array.name()) == VariableType::kDiscreteInput)
+        {
+        }
+        else
+        {
+            // error message
+        }
+    }
+
+    // call the discipline developer-defined Compute function
+    Compute();
+
+    // send the outputs back via stream
+    stream->Write(array);
 
     return Status::OK;
 }

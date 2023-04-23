@@ -1,140 +1,75 @@
-#include <map>
-#include <vector>
+#pragma once
+
 #include <string>
+#include <map>
+
+#include <Philote/array.h>
+#include <Philote/variables.h>
 
 namespace philote
 {
     /**
-     * @brief Enum defining the type of variable being used.
+     * @brief A class for storing continuous and discrete variables
      *
      */
-    enum VariableType
-    {
-        kInput,
-        kDiscreteInput,
-        kOutput,
-        kDiscreteOutput
-    };
-
-    /**
-     * @brief Class for saving variable metadata.
-     *
-     */
-    class VariableMeta
+    class Variables
     {
     public:
         /**
-         * @brief Construct a new Variable Meta object
+         * @brief Construct a new Variables object
          *
          */
-        VariableMeta();
+        Variables() = default;
 
         /**
-         * @brief Destroy the Variable Meta object
+         * @brief Destroy the Variables object
          *
          */
-        ~VariableMeta();
+        ~Variables() = default;
 
         /**
-         * @brief Adds an input to the list of variables.
+         * @brief Get the continous data
          *
          * @param name
-         * @param shape
-         * @param units
+         * @return philote::ContArray
          */
-        void AddInput(const std::string &name,
-                      const std::vector<int64_t> &shape,
-                      const std::string &units);
+        philote::ContArray Continuous(const std::string &name) const;
 
         /**
-         * @brief Adds a discrete input to the list of variables
+         * @brief Get the continous data
          *
          * @param name
-         * @param shape
-         * @param units
+         * @return philote::ContArray
          */
-        void AddDiscreteInput(const std::string &name,
-                              const std::vector<int64_t> &shape,
-                              const std::string &units);
+        philote::DiscArray Discrete(const std::string &name) const;
 
         /**
-         * @brief Adds an output to the list of variables
+         * @brief Set the continous data
          *
          * @param name
-         * @param shape
-         * @param units
+         * @param value
          */
-        void AddOutput(const std::string &name,
-                       const std::vector<int64_t> &shape,
-                       const std::string &units);
+        void SetContinuous(const std::string &name, const philote::ContArray &value);
 
         /**
-         * @brief Adds a discrete output to the list of variables
+         * @brief Set the discrete data
          *
          * @param name
-         * @param shape
-         * @param units
+         * @param value
          */
-        void AddDiscreteOutput(const std::string &name,
-                               const std::vector<int64_t> &shape,
-                               const std::string &units);
-
-        /**
-         * @brief Returns the number of variables saved (including all types)
-         *
-         * @return size_t Number of variables in the discipline (all types).
-         */
-        size_t NumVariables() const;
-
-        /**
-         * @brief Returns a list of all variables saved (including all types)
-         *
-         * @return std::vector<std::string>
-         */
-        std::vector<std::string> ListVariables() const;
-
-        /**
-         * @brief Returns the type of variable for a given name.
-         *
-         * @param name
-         * @return VariableType
-         */
-        const VariableType &Type(const std::string &name);
-
-        /**
-         * @brief Returns the shape of variable for a given name.
-         *
-         * @param name
-         * @return std::vector<int64_t>
-         */
-        const std::vector<int64_t> &Shape(const std::string &name);
-
-        /**
-         * @brief Returns the units of variable for a given name.
-         *
-         * @param name
-         * @return std::string
-         */
-        const std::string &Units(const std::string &name);
+        void SetDiscrete(const std::string &name, const philote::DiscArray &value);
 
     private:
         /**
-         * @brief Maps the name of the variable to its type.
+         * @brief Map of the continuous variables
          *
          */
-        std::map<std::string, VariableType> type_;
+        std::map<std::string, philote::ContArray> continuous_;
 
         /**
-         * @brief Maps the name of the variable to its shape.
+         * @brief Map of the discrete variables
          *
          */
-        std::map<std::string, std::vector<int64_t>> shape_;
-
-        /**
-         * @brief Maps the name of the variable to its units.
-         *
-         */
-        std::map<std::string, std::string> units_;
-
-    }; // VariableMeta
-} // namespace philote
+        std::map<std::string, philote::DiscArray> discrete_;
+    };
+}
