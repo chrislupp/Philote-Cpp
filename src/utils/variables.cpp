@@ -70,3 +70,32 @@ size_t Variables::Size()
 {
     return continuous_.size() + discrete_.size();
 }
+
+size_t Variables::ContinuousSize()
+{
+    return continuous_.size();
+}
+
+size_t Variables::DiscreteSize()
+{
+    return discrete_.size();
+}
+
+std::vector<std::string> Variables::ListVariables()
+{
+    std::vector<std::string> names;
+
+    // iterate through all continuous variables
+    for (auto &var : continuous_)
+    {
+        names.push_back(var.first);
+    }
+
+    // iterate through all discrete variables
+    for (auto &var : discrete_)
+    {
+        names.push_back(var.first);
+    }
+
+    return names;
+}

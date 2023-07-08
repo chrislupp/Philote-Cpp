@@ -14,6 +14,7 @@ namespace philote
     {
         kInput,
         kDiscreteInput,
+        kResidual,
         kOutput,
         kDiscreteOutput
     };
@@ -29,13 +30,13 @@ namespace philote
          * @brief Construct a new Variable Meta object
          *
          */
-        VariableMeta();
+        VariableMeta() = default;
 
         /**
          * @brief Destroy the Variable Meta object
          *
          */
-        ~VariableMeta();
+        ~VariableMeta() = default;
 
         /**
          * @brief Adds an input to the list of variables.

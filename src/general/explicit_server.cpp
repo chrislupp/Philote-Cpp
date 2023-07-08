@@ -1,7 +1,8 @@
-
+#include <vector>
 #include <Philote/explicit_server.h>
 
 using std::string;
+using std::vector;
 
 using google::protobuf::Empty;
 using grpc::Server;
@@ -47,26 +48,26 @@ Status ExplicitServer::DefineVariables(ServerContext *context,
         if (type == VariableType::kInput)
         {
             // set the flags to mark this as a continuous input
-            meta.set_input(true);
-            meta.set_discrete(false);
+            // meta.set_input(true);
+            // meta.set_discrete(false);
         }
         else if (type == VariableType::kDiscreteInput)
         {
             // set the flags to mark this as a discrete input
-            meta.set_input(true);
-            meta.set_discrete(true);
+            // meta.set_input(true);
+            // meta.set_discrete(true);
         }
         else if (type == VariableType::kOutput)
         {
             // set the flags to mark this as a continuous output
-            meta.set_input(false);
-            meta.set_discrete(false);
+            // meta.set_input(false);
+            // meta.set_discrete(false);
         }
         else if (type == VariableType::kDiscreteOutput)
         {
             // set the flags to mark this as a discrete output
-            meta.set_input(false);
-            meta.set_discrete(true);
+            // meta.set_input(false);
+            // meta.set_discrete(true);
         }
 
         // set the variable shape
@@ -122,15 +123,34 @@ Status ExplicitServer::Functions(ServerContext *context,
     ::Array array;
     Variables inputs;
 
+    // preallocate the inputs based on meta data
+
     while (stream->Read(&array))
     {
 
+        // get variables from the stream message
+        string name = array.name();
+        auto start = array.start();
+        auto end = array.end();
+
         // obtain the inputs and discrete inputs from the stream
-        if (vars_.Type(array.name()) == VariableType::kInput)
+        if (vars_.Type(name) == VariableType::kInput)
         {
+            // get array data
+            vector<double> value;
+            value.assign(array.continuous().begin(), array.continuous().end());
+
+            // set the variable slice
+            inputs.SetContinuous(name, start, end, value);
         }
-        else if (vars_.Type(array.name()) == VariableType::kDiscreteInput)
+        else if (vars_.Type(name) == VariableType::kDiscreteInput)
         {
+            // get array data
+            vector<int64_t> value;
+            value.assign(array.discrete().begin(), array.discrete().end());
+
+            // set the variable slice
+            inputs.SetDiscrete(name, start, end, value);
         }
         else
         {
@@ -141,8 +161,44 @@ Status ExplicitServer::Functions(ServerContext *context,
     // call the discipline developer-defined Compute function
     Variables outputs = Compute(inputs);
 
-    // send the outputs back via stream
-    stream->Write(array);
+    // iterate through continuous outputs
+    vector<string> var_list;
+    for (auto &name : var_list)
+    {
+
+        // chunk the array
+        for (size_t i = 0; i < 1; i++)
+        {
+            ::Array out_array;
+
+            // set array name and meta data
+            out_array.set_name(name);
+
+            int64_t start, end;
+
+            // set start and end of the chunk
+            out_array.set_start(start);
+            out_array.set_end(end);
+
+            if (vars_.Type(name) == VariableType::kOutput)
+            {
+                vector<double> slice = outputs.ContinuousSlice(name, start, end);
+                out_array.mutable_continuous()->Add(slice.begin(), slice.end());
+            }
+            else if (vars_.Type(name) == VariableType::kDiscreteOutput)
+            {
+                vector<int64_t> slice = outputs.DiscreteSlice(name, start, end);
+                out_array.mutable_discrete()->Add(slice.begin(), slice.end());
+            }
+            else
+            {
+                // error message
+            }
+
+            // send the outputs back via stream
+            stream->Write(out_array);
+        }
+    }
 
     return Status::OK;
 }

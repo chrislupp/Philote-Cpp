@@ -99,7 +99,7 @@ namespace philote
         //! Options that control how data is streamed
         StreamOptions stream_opts_;
 
-        //! Variable meta data
+        //! Variable meta data (this includes, inputs, outputs, and residuals)
         VariableMeta vars_;
     };
 } // namespace philote

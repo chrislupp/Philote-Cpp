@@ -116,6 +116,27 @@ namespace philote
          */
         size_t Size();
 
+        /**
+         * @brief Returns the number of continuous variables stored
+         *
+         * @return size_t
+         */
+        size_t ContinuousSize();
+
+        /**
+         * @brief Returns the number of discrete variables stored
+         *
+         * @return size_t
+         */
+        size_t DiscreteSize();
+
+        /**
+         * @brief Lists names of all variables stored
+         *
+         * @return std::vector<std::string>
+         */
+        std::vector<std::string> ListVariables();
+
     private:
         /**
          * @brief Map of the continuous variables

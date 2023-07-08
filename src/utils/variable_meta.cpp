@@ -4,10 +4,6 @@ using std::string;
 using std::vector;
 using namespace philote;
 
-VariableMeta::VariableMeta() {}
-
-VariableMeta::~VariableMeta() {}
-
 void VariableMeta::AddInput(const std::string &name,
                             const std::vector<int64_t> &shape,
                             const std::string &units)
