@@ -1,6 +1,7 @@
 .vscode/
 build/
 
+*.DS_Store
 
 # grpc generated files
 *.pb.h
