@@ -10,7 +10,7 @@
 #include <Philote/partials.h>
 #include <Philote/discipline_server.h>
 
-#include <explicit.grpc.pb.h>
+#include <disciplines.grpc.pb.h>
 
 namespace philote
 {

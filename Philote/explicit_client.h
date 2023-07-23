@@ -5,7 +5,7 @@
 #include <utility>
 #include <grpcpp/grpcpp.h>
 #include <Philote/array.h>
-#include <explicit.grpc.pb.h>
+#include <disciplines.grpc.pb.h>
 
 namespace philote
 {

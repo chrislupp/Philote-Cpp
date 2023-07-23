@@ -21,7 +21,7 @@
 #include <vector>
 
 // #include <data.pb.h>
-#include <discipline.grpc.pb.h>
+#include <disciplines.grpc.pb.h>
 
 namespace philote
 {

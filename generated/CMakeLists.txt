@@ -11,8 +11,7 @@ set(PROTO_DIR ${CMAKE_SOURCE_DIR}/proto)
 
 # Set the paths to your .proto files
 set(PROTO_FILES data.proto
-                discipline.proto
-                explicit.proto)
+                disciplines.proto)
 
 
 # Combine the two lists element-wise

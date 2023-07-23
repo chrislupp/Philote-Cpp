@@ -20,8 +20,8 @@
 
 // protobuf/gRPC generated header
 #include <data.pb.h>
-#include <explicit.pb.h>
-#include <explicit.grpc.pb.h>
+#include <disciplines.pb.h>
+#include <disciplines.grpc.pb.h>
 
 // namespace statements for readibility
 using philote::ExplicitClient;
