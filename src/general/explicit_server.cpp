@@ -1,3 +1,20 @@
+/*
+    Philote C++ Bindings
+
+    Copyright 2022-2023 Christopher A. Lupp
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+*/
 #include <vector>
 #include <Philote/explicit_server.h>
 
@@ -17,114 +34,13 @@ using philote::ExplicitServer;
 using philote::Partials;
 using philote::Variables;
 
-ExplicitServer::ExplicitServer() {}
-
-ExplicitServer::~ExplicitServer() {}
-
-Status ExplicitServer::SetStreamOptions(ServerContext *context,
-                                        const ::Options *request,
-                                        Empty *response)
-{
-    // assign the options from the message
-    stream_opts_.num_double = request->num_double();
-    stream_opts_.num_int = request->num_int();
-
-    return Status::OK;
-}
-
-Status ExplicitServer::DefineVariables(ServerContext *context,
-                                       const Empty *request,
-                                       ServerWriter<::VariableMetaData> *writer)
-{
-    // local variable before sending
-    VariableMetaData meta;
-
-    // iterate through all variables of the discipline
-    for (const string &name : vars_.ListVariables())
-    {
-        // get the variable type
-        VariableType type = vars_.Type(name);
-
-        if (type == VariableType::kInput)
-        {
-            // set the flags to mark this as a continuous input
-            // meta.set_input(true);
-            // meta.set_discrete(false);
-        }
-        else if (type == VariableType::kDiscreteInput)
-        {
-            // set the flags to mark this as a discrete input
-            // meta.set_input(true);
-            // meta.set_discrete(true);
-        }
-        else if (type == VariableType::kOutput)
-        {
-            // set the flags to mark this as a continuous output
-            // meta.set_input(false);
-            // meta.set_discrete(false);
-        }
-        else if (type == VariableType::kDiscreteOutput)
-        {
-            // set the flags to mark this as a discrete output
-            // meta.set_input(false);
-            // meta.set_discrete(true);
-        }
-
-        // set the variable shape
-        auto values = vars_.Shape(name);
-        meta.mutable_shape()->Add(values.begin(), values.end());
-
-        // set the units field
-        meta.set_units(vars_.Units(name));
-
-        // send the message
-        writer->Write(meta);
-    }
-
-    return Status::OK;
-}
-
-Status ExplicitServer::DefinePartials(ServerContext *context,
-                                      const Empty *request,
-                                      ServerWriter<::PartialsMetaData> *writer)
-{
-    for (const string &out : vars_.ListVariables())
-    {
-        // local variable before sending
-        PartialsMetaData meta;
-
-        // skip the loop iteration if the variable isn't an output
-        if (vars_.Type(out) != VariableType::kOutput)
-            continue;
-
-        // set the name field
-        meta.set_name(vars_.Units(out));
-
-        for (const string &in : vars_.ListVariables())
-        {
-            // skip the loop iteration if the variable isn't an input
-            if (vars_.Type(out) != VariableType::kInput)
-                continue;
-
-            // set the subname field
-            meta.set_name(vars_.Units(in));
-
-            // send the message
-            writer->Write(meta);
-        }
-    }
-
-    return Status::OK;
-}
-
 Status ExplicitServer::Functions(ServerContext *context,
-                                 ServerReaderWriter<::Array, ::Array> *stream)
+                                 ServerReaderWriter<::philote::Array, ::philote::Array> *stream)
 {
-    ::Array array;
+    ::philote::Array array;
     Variables inputs;
 
     // preallocate the inputs based on meta data
-
     while (stream->Read(&array))
     {
 
@@ -133,8 +49,13 @@ Status ExplicitServer::Functions(ServerContext *context,
         auto start = array.start();
         auto end = array.end();
 
+        // get the variable corresponding to the current message
+        auto var = std::find_if(var_meta_.begin(), var_meta_.end(),
+                                [&name](const VariableMetaData &var)
+                                { return var.name() == name; });
+
         // obtain the inputs and discrete inputs from the stream
-        if (vars_.Type(name) == VariableType::kInput)
+        if (var->type() == VariableType::kInput)
         {
             // get array data
             vector<double> value;
@@ -143,7 +64,7 @@ Status ExplicitServer::Functions(ServerContext *context,
             // set the variable slice
             inputs.SetContinuous(name, start, end, value);
         }
-        else if (vars_.Type(name) == VariableType::kDiscreteInput)
+        else if (var->type() == VariableType::kDiscreteInput)
         {
             // get array data
             vector<int64_t> value;
@@ -165,11 +86,10 @@ Status ExplicitServer::Functions(ServerContext *context,
     vector<string> var_list;
     for (auto &name : var_list)
     {
-
         // chunk the array
         for (size_t i = 0; i < 1; i++)
         {
-            ::Array out_array;
+            ::philote::Array out_array;
 
             // set array name and meta data
             out_array.set_name(name);
@@ -180,12 +100,17 @@ Status ExplicitServer::Functions(ServerContext *context,
             out_array.set_start(start);
             out_array.set_end(end);
 
-            if (vars_.Type(name) == VariableType::kOutput)
+            // get the variable corresponding to the current message
+            auto var = std::find_if(var_meta_.begin(), var_meta_.end(),
+                                    [&name](const VariableMetaData &var)
+                                    { return var.name() == name; });
+
+            if (var->type() == VariableType::kOutput)
             {
                 vector<double> slice = outputs.ContinuousSlice(name, start, end);
                 out_array.mutable_continuous()->Add(slice.begin(), slice.end());
             }
-            else if (vars_.Type(name) == VariableType::kDiscreteOutput)
+            else if (var->type() == VariableType::kDiscreteOutput)
             {
                 vector<int64_t> slice = outputs.DiscreteSlice(name, start, end);
                 out_array.mutable_discrete()->Add(slice.begin(), slice.end());
@@ -204,7 +129,8 @@ Status ExplicitServer::Functions(ServerContext *context,
 }
 
 Status ExplicitServer::Gradient(ServerContext *context,
-                                ServerReaderWriter<::Array, ::Array> *stream)
+                                ServerReaderWriter<::philote::Array,
+                                                   ::philote::Array> *stream)
 {
     return Status::OK;
 }
@@ -215,12 +141,12 @@ void ExplicitServer::Setup() {}
 
 void ExplicitServer::SetupPartials() {}
 
-Variables ExplicitServer::Compute(const Variables &inputs)
+Variables ExplicitServer::Compute(const ::philote::Variables &inputs)
 {
     return Variables();
 }
 
-Partials ExplicitServer::ComputePartials(const Variables &inputs)
+Partials ExplicitServer::ComputePartials(const ::philote::Variables &inputs)
 {
     return Partials();
 }

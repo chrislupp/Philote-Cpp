@@ -10,7 +10,11 @@ set(GENERATED_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 set(PROTO_DIR ${CMAKE_SOURCE_DIR}/proto)
 
 # Set the paths to your .proto files
-set(PROTO_FILES array.proto explicit.proto metadata.proto options.proto)
+set(PROTO_FILES array.proto
+                discipline.proto
+                explicit.proto
+                metadata.proto
+                options.proto)
 
 
 # Combine the two lists element-wise

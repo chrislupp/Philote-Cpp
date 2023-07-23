@@ -1,4 +1,20 @@
+/*
+    Philote C++ Bindings
 
+    Copyright 2022-2023 Christopher A. Lupp
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+*/
 #include <Philote/array.h>
 #include <Philote/explicit_client.h>
 
@@ -96,13 +112,13 @@ void ExplicitClient::RemoteCompute(map<string, ContArray> &inputs,
                                    map<string, DiscArray> &discrete_outputs)
 {
     grpc::ClientContext context;
-    std::shared_ptr<grpc::ClientReaderWriter<::Array, ::Array>> stream(
+    std::shared_ptr<grpc::ClientReaderWriter<::philote::Array, ::philote::Array>> stream(
         stub_->Functions(&context));
 
     // assign inputs
     for (auto &key : vars_)
     {
-        ::Array inputs;
+        ::philote::Array inputs;
 
         inputs.set_name("hello");
 
@@ -115,7 +131,7 @@ void ExplicitClient::RemoteCompute(map<string, ContArray> &inputs,
     // assign discrete inputs
     for (auto &key : discrete_vars_)
     {
-        ::Array dinputs;
+        ::philote::Array dinputs;
 
         dinputs.set_name("hello");
 
@@ -126,7 +142,7 @@ void ExplicitClient::RemoteCompute(map<string, ContArray> &inputs,
     // finish streaming data to the server
     stream->WritesDone();
 
-    ::Array result;
+    ::philote::Array result;
     while (stream->Read(&result))
     {
         continue;
@@ -160,7 +176,7 @@ void ExplicitClient::RemotePartials(map<string, ContArray> &inputs,
                                     map<pair<string, string>, ContArray> &partials)
 {
     grpc::ClientContext context;
-    std::shared_ptr<grpc::ClientReaderWriter<::Array, ::Array>> stream(
+    std::shared_ptr<grpc::ClientReaderWriter<::philote::Array, ::philote::Array>> stream(
         stub_->Gradient(&context));
 
     // assign inputs
@@ -176,7 +192,7 @@ void ExplicitClient::RemotePartials(map<string, ContArray> &inputs,
     // finish streaming data to the server
     stream->WritesDone();
 
-    ::Array result;
+    ::philote::Array result;
     while (stream->Read(&result))
     {
         continue;

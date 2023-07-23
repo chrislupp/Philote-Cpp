@@ -17,26 +17,79 @@
 */
 #pragma once
 
+#include <string>
 #include <vector>
 
+#include <discipline.grpc.pb.h>
 #include <options.pb.h>
 #include <metadata.pb.h>
 
-/**
- * @brief Base class for all analysis discipline servers
- *
- */
-class DisciplineServer
+namespace philote
 {
-public:
-    DisciplineServer() = default;
+    /**
+     * @brief Base class for all analysis discipline servers
+     *
+     */
+    class DisciplineServer : public Discipline::Service
+    {
+    public:
+        DisciplineServer() = default;
 
-    ~DisciplineServer() = default;
+        ~DisciplineServer() = default;
 
-protected:
-    //! Options that determine how data is streamed
-    Options stream_opts_;
+        /**
+         * @brief Declares a variable
+         *
+         * @param var
+         */
+        void AddVariable(const ::philote::VariableMetaData &var);
 
-    //! vector containing all variable meta data for the discipline
-    std::vector<VariableMetaData> var_meta_;
-};
+        void DeclarePartials(const std::string &f, const std::string &x);
+
+        /**
+         * @brief RPC to define the discipline stream options to the client.
+         *
+         * @param context
+         * @param request
+         * @param response
+         * @return grpc::Status
+         */
+        grpc::Status SetStreamOptions(grpc::ServerContext *context,
+                                      const ::philote::Options *request,
+                                      google::protobuf::Empty *response) override;
+
+        /**
+         * @brief RPC to define the discipline variables on the client side.
+         *
+         * @param context
+         * @param request
+         * @param writer
+         * @return grpc::Status
+         */
+        grpc::Status DefineVariables(grpc::ServerContext *context,
+                                     const google::protobuf::Empty *request,
+                                     grpc::ServerWriter<::philote::VariableMetaData> *writer) override;
+
+        /**
+         * @brief RPC to define the discipline partials on the client side.
+         *
+         * @param context
+         * @param request
+         * @param writer
+         * @return grpc::Status
+         */
+        grpc::Status DefinePartials(grpc::ServerContext *context,
+                                    const google::protobuf::Empty *request,
+                                    grpc::ServerWriter<::philote::PartialsMetaData> *writer) override;
+
+    protected:
+        //! Options that determine how data is streamed
+        Options stream_opts_;
+
+        //! vector containing all variable metadata for the discipline
+        std::vector<VariableMetaData> var_meta_;
+
+        //! vector containing all partials metadata for the discipline
+        std::vector<PartialsMetaData> partials_meta_;
+    };
+} // namespace philote

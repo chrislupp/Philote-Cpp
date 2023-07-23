@@ -1,4 +1,3 @@
-add_subdirectory(generated)
 add_subdirectory(general)
 add_subdirectory(utils)
 

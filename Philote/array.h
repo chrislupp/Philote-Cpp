@@ -11,17 +11,17 @@ namespace philote
      *
      */
     template <typename Type>
-    class Array
+    class DataArray
     {
     public:
         //! Default Constructor
-        Array();
+        DataArray();
 
         //! Default Constructor
-        Array(const std::vector<size_t> &shape);
+        DataArray(const std::vector<size_t> &shape);
 
         //! Destructor
-        ~Array();
+        ~DataArray();
 
         /**
          * @brief Assigns a segment of the array given a subvector
@@ -78,12 +78,12 @@ namespace philote
      * @brief Type definition for a continuous array.
      *
      */
-    typedef Array<double> ContArray;
+    typedef DataArray<double> ContArray;
 
     /**
      * @brief Type definition for a discrete array.
      *
      */
-    typedef Array<int64_t> DiscArray;
+    typedef DataArray<int64_t> DiscArray;
 
 } // namespace philote

@@ -7,19 +7,6 @@
 namespace philote
 {
     /**
-     * @brief Enum defining the type of variable being used.
-     *
-     */
-    enum VariableType
-    {
-        kInput,
-        kDiscreteInput,
-        kResidual,
-        kOutput,
-        kDiscreteOutput
-    };
-
-    /**
      * @brief Class for saving variable metadata.
      *
      */

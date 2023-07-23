@@ -1,3 +1,7 @@
+
+add_library(DisciplineServer OBJECT discipline_server.cpp)
+target_link_libraries(DisciplineServer PRIVATE protobuf::libprotobuf gRPC::grpc++)
+
 add_library(ExplicitServer OBJECT explicit_server.cpp)
 target_link_libraries(ExplicitServer PRIVATE protobuf::libprotobuf gRPC::grpc++)
 
