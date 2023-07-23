@@ -36,7 +36,7 @@ void DisciplineServer::AddVariable(const ::philote::VariableMetaData &var)
 }
 
 Status DisciplineServer::SetStreamOptions(ServerContext *context,
-                                          const ::philote::Options *request,
+                                          const ::philote::StreamOptions *request,
                                           Empty *response)
 {
     stream_opts_ = *request;

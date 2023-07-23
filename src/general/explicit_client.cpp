@@ -19,9 +19,7 @@
 #include <Philote/explicit_client.h>
 
 // protobuf/gRPC generated header
-#include <array.pb.h>
-#include <metadata.pb.h>
-#include <options.pb.h>
+#include <data.pb.h>
 #include <explicit.pb.h>
 #include <explicit.grpc.pb.h>
 

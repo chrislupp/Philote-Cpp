@@ -20,9 +20,8 @@
 #include <string>
 #include <vector>
 
+// #include <data.pb.h>
 #include <discipline.grpc.pb.h>
-#include <options.pb.h>
-#include <metadata.pb.h>
 
 namespace philote
 {
@@ -55,7 +54,7 @@ namespace philote
          * @return grpc::Status
          */
         grpc::Status SetStreamOptions(grpc::ServerContext *context,
-                                      const ::philote::Options *request,
+                                      const ::philote::StreamOptions *request,
                                       google::protobuf::Empty *response) override;
 
         /**
@@ -84,7 +83,7 @@ namespace philote
 
     protected:
         //! Options that determine how data is streamed
-        Options stream_opts_;
+        StreamOptions stream_opts_;
 
         //! vector containing all variable metadata for the discipline
         std::vector<VariableMetaData> var_meta_;
