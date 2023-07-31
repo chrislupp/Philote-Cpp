@@ -16,7 +16,6 @@
     limitations under the License.
 */
 #include <Philote/explicit_client.h>
-#include <Philote/chunk.h>
 
 #include <data.pb.h>
 #include <disciplines.pb.h>

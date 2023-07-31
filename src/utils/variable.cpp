@@ -78,17 +78,39 @@ double Variable::operator()(const size_t &i) const
     return data_[i];
 }
 
+Array Variable::CreateChunk(const size_t &start, const size_t end)
+{
+    Array out;
+    out.set_name(name_);
+    out.set_start(start);
+    out.set_end(end);
+
+    // set the data
+    if (type_ == kInput or type_ == kOutput or type_ == kResidual)
+    {
+        for (const double &value : Segment(start, end))
+        {
+            out.add_continuous(value);
+        }
+    }
+    else if (type_ == kDiscreteInput or type_ == kDiscreteOutput)
+    {
+        /* code */
+    }
+
+    return out;
+}
+
 void Variable::Send(shared_ptr<ClientReaderWriter<Array, Array>> stream)
 {
-    ::philote::Array inputs;
+    size_t start = 0, end = 1;
 
-    inputs.set_name(name_);
+    for (size_t i = 0; i < 0; i++)
+    {
+        Array array = CreateChunk(start, end);
 
-    // chunk start and end indices within the serialized array
-    inputs.set_start(0);
-    inputs.set_end(1);
-
-    stream->Write(inputs);
+        stream->Write(array);
+    }
 }
 
 void Variable::Send(ServerReaderWriter<Array, Array> *stream)
