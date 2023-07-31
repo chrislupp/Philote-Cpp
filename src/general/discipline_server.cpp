@@ -35,6 +35,10 @@ void DisciplineServer::AddVariable(const ::philote::VariableMetaData &var)
     var_meta_.push_back(var);
 }
 
+void DisciplineServer::DeclarePartials(const std::string &f, const std::string &x)
+{
+}
+
 Status DisciplineServer::SetStreamOptions(ServerContext *context,
                                           const ::philote::StreamOptions *request,
                                           Empty *response)

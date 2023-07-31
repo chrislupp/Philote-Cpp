@@ -17,6 +17,8 @@
 */
 #pragma once
 
+#include <Philote/variable.h>
+
 /**
  * @brief Base class for all analysis discipline clients
  *
@@ -29,4 +31,5 @@ public:
     ~DisciplineClient() = default;
 
 private:
+    philote::Variables variables_;
 };

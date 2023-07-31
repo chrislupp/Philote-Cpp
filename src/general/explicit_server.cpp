@@ -28,8 +28,6 @@ using grpc::ServerContext;
 using grpc::ServerReaderWriter;
 using grpc::ServerWriter;
 using grpc::Status;
-using philote::ContArray;
-using philote::DiscArray;
 using philote::ExplicitServer;
 using philote::Partials;
 using philote::Variables;
@@ -62,7 +60,7 @@ Status ExplicitServer::Functions(ServerContext *context,
             value.assign(array.continuous().begin(), array.continuous().end());
 
             // set the variable slice
-            inputs.SetContinuous(name, start, end, value);
+            // inputs.SetContinuous(name, start, end, value);
         }
         else if (var->type() == VariableType::kDiscreteInput)
         {
@@ -71,7 +69,7 @@ Status ExplicitServer::Functions(ServerContext *context,
             value.assign(array.discrete().begin(), array.discrete().end());
 
             // set the variable slice
-            inputs.SetDiscrete(name, start, end, value);
+            // inputs.SetDiscrete(name, start, end, value);
         }
         else
         {
@@ -107,13 +105,13 @@ Status ExplicitServer::Functions(ServerContext *context,
 
             if (var->type() == VariableType::kOutput)
             {
-                vector<double> slice = outputs.ContinuousSlice(name, start, end);
-                out_array.mutable_continuous()->Add(slice.begin(), slice.end());
+                // vector<double> slice = outputs.ContinuousSlice(name, start, end);
+                // out_array.mutable_continuous()->Add(slice.begin(), slice.end());
             }
             else if (var->type() == VariableType::kDiscreteOutput)
             {
-                vector<int64_t> slice = outputs.DiscreteSlice(name, start, end);
-                out_array.mutable_discrete()->Add(slice.begin(), slice.end());
+                // vector<int64_t> slice = outputs.DiscreteSlice(name, start, end);
+                // out_array.mutable_discrete()->Add(slice.begin(), slice.end());
             }
             else
             {

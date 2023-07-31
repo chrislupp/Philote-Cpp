@@ -1,5 +1,5 @@
 
-#include <Philote/array.h>
+#include <Philote/variable.h>
 #include <gtest/gtest.h>
 
 #include <iostream>
@@ -10,7 +10,7 @@ using namespace philote;
 TEST(ArrayTests, Constructor)
 {
     // create a 3-dimensional array
-    ContArray array = ContArray({3, 4, 2});
+    Variable array = Variable("test", kInput, {3, 4, 2}, "");
 
     // check the shape of the array
     auto shape = array.Shape();
@@ -25,7 +25,7 @@ TEST(ArrayTests, Constructor)
 TEST(ArrayTests, Segment)
 {
     // create a 2-dimensional array
-    ContArray array = ContArray({2, 2});
+    Variable array = Variable("test", kInput, {2, 2}, "");
 
     // assign some data
     std::vector<double> data = {1.0, 2.0, 3.0, 4.0};
@@ -68,7 +68,7 @@ TEST(ArrayTests, Segment)
 TEST(ArrayTests, Size)
 {
     // create a 3-dimensional array
-    ContArray array = ContArray({3, 4, 2});
+    Variable array = Variable("test", kInput, {3, 4, 2}, "");
 
     // check the shape of the array
     auto size = array.Size();
@@ -80,7 +80,7 @@ TEST(ArrayTests, Size)
 TEST(ArrayTests, Shape)
 {
     // create a 3-dimensional array
-    ContArray array = ContArray({3, 4, 2});
+    Variable array = Variable("test", kInput, {3, 4, 2}, "");
 
     // check the shape of the array
     auto shape = array.Shape();
@@ -95,7 +95,7 @@ TEST(ArrayTests, Shape)
 TEST(ArrayTests, ElementRetrieval)
 {
     // create a 2-dimensional array
-    ContArray array = ContArray({2, 2});
+    Variable array = Variable("test", kInput, {2, 2}, "");
 
     // assign some data
     std::vector<double> data = {1.0, 2.0, 3.0, 4.0};

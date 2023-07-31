@@ -20,7 +20,6 @@
 #include <string>
 #include <map>
 #include <vector>
-#include <Philote/array.h>
 
 #include <data.pb.h>
 

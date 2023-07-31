@@ -1,20 +1,15 @@
+#include <Philote/variable.h>
 
-#include <cstdarg>
-#include <stdexcept>
-#include <Philote/array.h>
-
-#include <iostream>
+using std::map;
+using std::string;
+using std::vector;
 
 using namespace philote;
 
-// explicit instantiation
-template class DataArray<TYPE>;
-
-template <>
-DataArray<TYPE>::DataArray() {}
-
-template <>
-DataArray<TYPE>::DataArray(const std::vector<size_t> &shape)
+Variable::Variable(const std::string &name,
+                   const philote::VariableType &type,
+                   const std::vector<size_t> &shape,
+                   const std::string &units)
 {
     // assign the array shape
     shape_ = shape;
@@ -28,12 +23,8 @@ DataArray<TYPE>::DataArray(const std::vector<size_t> &shape)
     data_.resize(size);
 }
 
-template <>
-DataArray<TYPE>::~DataArray() {}
-
-template <>
-void DataArray<TYPE>::Segment(const size_t &start, const size_t &end,
-                              const std::vector<TYPE> &data)
+void Variable::Segment(const size_t &start, const size_t &end,
+                       const std::vector<double> &data)
 {
     // check that the segment matches length of (end - start)
     if ((end - start) + 1 != data.size())
@@ -49,10 +40,9 @@ void DataArray<TYPE>::Segment(const size_t &start, const size_t &end,
         data_[start + i] = data[i];
 }
 
-template <>
-std::vector<TYPE> DataArray<TYPE>::Segment(const size_t &start, const size_t &end)
+std::vector<double> Variable::Segment(const size_t &start, const size_t &end)
 {
-    std::vector<TYPE> data(end - start + 1);
+    std::vector<double> data(end - start + 1);
 
     // check that the segment matches length of (end - start)
     if ((end - start) + 1 != data_.size())
@@ -70,20 +60,17 @@ std::vector<TYPE> DataArray<TYPE>::Segment(const size_t &start, const size_t &en
     return data;
 }
 
-template <>
-std::vector<size_t> DataArray<TYPE>::Shape() const
+std::vector<size_t> Variable::Shape() const
 {
     return shape_;
 }
 
-template <>
-size_t DataArray<TYPE>::Size() const
+size_t Variable::Size() const
 {
     return data_.size();
 }
 
-template <>
-double DataArray<TYPE>::operator()(const size_t &i) const
+double Variable::operator()(const size_t &i) const
 {
     return data_[i];
 }

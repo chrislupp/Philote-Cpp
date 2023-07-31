@@ -20,7 +20,6 @@
 #include <string>
 #include <vector>
 
-// #include <data.pb.h>
 #include <disciplines.grpc.pb.h>
 
 namespace philote
@@ -32,8 +31,16 @@ namespace philote
     class DisciplineServer : public Discipline::Service
     {
     public:
+        /**
+         * @brief Construct a new Discipline Server object
+         *
+         */
         DisciplineServer() = default;
 
+        /**
+         * @brief Destroy the Discipline Server object
+         *
+         */
         ~DisciplineServer() = default;
 
         /**
@@ -43,6 +50,12 @@ namespace philote
          */
         void AddVariable(const ::philote::VariableMetaData &var);
 
+        /**
+         * @brief Declare a (set of) partial(s) for the discipline
+         *
+         * @param f
+         * @param x
+         */
         void DeclarePartials(const std::string &f, const std::string &x);
 
         /**
@@ -55,7 +68,7 @@ namespace philote
          */
         grpc::Status SetStreamOptions(grpc::ServerContext *context,
                                       const ::philote::StreamOptions *request,
-                                      google::protobuf::Empty *response) override;
+                                      google::protobuf::Empty *response);
 
         /**
          * @brief RPC to define the discipline variables on the client side.
@@ -67,7 +80,7 @@ namespace philote
          */
         grpc::Status DefineVariables(grpc::ServerContext *context,
                                      const google::protobuf::Empty *request,
-                                     grpc::ServerWriter<::philote::VariableMetaData> *writer) override;
+                                     grpc::ServerWriter<::philote::VariableMetaData> *writer);
 
         /**
          * @brief RPC to define the discipline partials on the client side.

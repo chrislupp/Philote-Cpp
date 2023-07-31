@@ -15,15 +15,13 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */
-#include <Philote/array.h>
 #include <Philote/explicit_client.h>
+#include <Philote/chunk.h>
 
-// protobuf/gRPC generated header
 #include <data.pb.h>
 #include <disciplines.pb.h>
 #include <disciplines.grpc.pb.h>
 
-// namespace statements for readibility
 using philote::ExplicitClient;
 using std::map;
 using std::pair;
@@ -104,107 +102,92 @@ void ExplicitClient::RemoteSetup()
     }
 }
 
-void ExplicitClient::RemoteCompute(map<string, ContArray> &inputs,
-                                   map<string, DiscArray> &discrete_inputs,
-                                   map<string, ContArray> &outputs,
-                                   map<string, DiscArray> &discrete_outputs)
+void ExplicitClient::RemoteCompute(Variables &inputs, Variables &outputs)
 {
-    grpc::ClientContext context;
-    std::shared_ptr<grpc::ClientReaderWriter<::philote::Array, ::philote::Array>> stream(
-        stub_->Functions(&context));
+    // grpc::ClientContext context;
+    // std::shared_ptr<grpc::ClientReaderWriter<::philote::Array, ::philote::Array>> stream(
+    //     stub_->Functions(&context));
 
-    // assign inputs
-    for (auto &key : vars_)
-    {
-        ::philote::Array inputs;
+    // // assign inputs
+    // for (const string &key : vars_)
+    // {
+    //     // philote::SendChunkedArray(stream, key);
+    // }
 
-        inputs.set_name("hello");
+    // // assign discrete inputs
+    // for (const string &key : discrete_vars_)
+    // {
+    //     // philote::SendChunkedArray(stream, key);
+    // }
 
-        inputs.set_start(0);
-        inputs.set_end(1);
+    // // finish streaming data to the server
+    // stream->WritesDone();
 
-        // inputs.set_continuous({0});
-    }
+    // ::philote::Array result;
+    // while (stream->Read(&result))
+    // {
+    //     continue;
+    // }
 
-    // assign discrete inputs
-    for (auto &key : discrete_vars_)
-    {
-        ::philote::Array dinputs;
+    // // iterate through defined functions for assignment
+    // for (auto &key : funcs_)
+    // {
+    //     // data array for the function data
+    //     ContArray temp;
 
-        dinputs.set_name("hello");
+    //     // assign functions to map
+    //     outputs[key] = temp;
+    // }
 
-        dinputs.set_start(0);
-        dinputs.set_end(1);
-    }
+    // // iterate through defined discrete functions for assignment
+    // for (auto &key : discrete_funcs_)
+    // {
+    //     // data array for the function data
+    //     DiscArray temp;
 
-    // finish streaming data to the server
-    stream->WritesDone();
+    //     // assign functions to map
+    //     discrete_outputs[key] = temp;
+    // }
 
-    ::philote::Array result;
-    while (stream->Read(&result))
-    {
-        continue;
-    }
-
-    // iterate through defined functions for assignment
-    for (auto &key : funcs_)
-    {
-        // data array for the function data
-        ContArray temp;
-
-        // assign functions to map
-        outputs[key] = temp;
-    }
-
-    // iterate through defined discrete functions for assignment
-    for (auto &key : discrete_funcs_)
-    {
-        // data array for the function data
-        DiscArray temp;
-
-        // assign functions to map
-        discrete_outputs[key] = temp;
-    }
-
-    grpc::Status status = stream->Finish();
+    // grpc::Status status = stream->Finish();
 }
 
-void ExplicitClient::RemotePartials(map<string, ContArray> &inputs,
-                                    map<string, DiscArray> &discrete_inputs,
-                                    map<pair<string, string>, ContArray> &partials)
-{
-    grpc::ClientContext context;
-    std::shared_ptr<grpc::ClientReaderWriter<::philote::Array, ::philote::Array>> stream(
-        stub_->Gradient(&context));
+// void ExplicitClient::RemotePartials(map<string, ContArray> &inputs,
+//                                     map<string, DiscArray> &discrete_inputs,
+//                                     map<pair<string, string>, ContArray> &partials)
+// {
+//     grpc::ClientContext context;
+//     std::shared_ptr<grpc::ClientReaderWriter<::philote::Array, ::philote::Array>> stream(
+//         stub_->Gradient(&context));
 
-    // assign inputs
-    for (auto &key : vars_)
-    {
-    }
+//     // assign inputs
+//     for (auto &key : vars_)
+//     {
+//     }
 
-    // assign discrete inputs
-    for (auto &key : discrete_vars_)
-    {
-    }
+//     // assign discrete inputs
+//     for (auto &key : discrete_vars_)
+//     {
+//     }
 
-    // finish streaming data to the server
-    stream->WritesDone();
+//     // finish streaming data to the server
+//     stream->WritesDone();
 
-    ::philote::Array result;
-    while (stream->Read(&result))
-    {
-        continue;
-    }
+//     ::philote::Array result;
+//     while (stream->Read(&result))
+//     {
+//         continue;
+//     }
 
-    // iterate through defined partials for assignment
-    for (auto &key : partials_)
-    {
-        // data array for the partials
-        ContArray temp;
+//     // iterate through defined partials for assignment
+//     for (auto &key : partials_)
+//     {
+//         // data array for the partials
+//         ContArray temp;
 
-        // assign partials to map
-        partials[key] = temp;
-    }
+//         // assign partials to map
+//         partials[key] = temp;
+//     }
 
-    grpc::Status status = stream->Finish();
-}
+//     grpc::Status status = stream->Finish();
+// }

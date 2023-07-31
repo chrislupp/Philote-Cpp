@@ -1,12 +1,27 @@
+/*
+    Philote C++ Bindings
+
+    Copyright 2022-2023 Christopher A. Lupp
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+*/
 #pragma once
 
 #include <string>
 #include <map>
 #include <utility>
-#include <Philote/array.h>
 #include <Philote/options.h>
-// #include <Philote/variable_meta.h>
-#include <Philote/variables.h>
+#include <Philote/variable.h>
 #include <Philote/partials.h>
 #include <Philote/discipline_server.h>
 
@@ -32,11 +47,11 @@ namespace philote
 
         grpc::Status Functions(grpc::ServerContext *context,
                                grpc::ServerReaderWriter<::philote::Array,
-                                                        ::philote::Array> *stream) override;
+                                                        ::philote::Array> *stream);
 
         grpc::Status Gradient(grpc::ServerContext *context,
                               grpc::ServerReaderWriter<::philote::Array,
-                                                       ::philote::Array> *stream) override;
+                                                       ::philote::Array> *stream);
 
         /**
          * @brief Sets up the analysis server before any function or gradient

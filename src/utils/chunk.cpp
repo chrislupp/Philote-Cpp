@@ -15,28 +15,28 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */
-#pragma once
+#include <Philote/chunk.h>
 
-#include <Philote/explicit_server.h>
-#include <Philote/implicit_server.h>
+using namespace philote;
+using grpc::ClientReaderWriter;
+using std::shared_ptr;
 
-namespace philote
+void SendChunkedArray(std::shared_ptr<grpc::ClientReaderWriter<::philote::Array, ::philote::Array>> stream,
+                      const std::string &var_name,
+                      philote::Variables &variables)
 {
-    /**
-     * @brief Runs an explicit analysis server using a defined analysis server
-     * class.
-     *
-     * @param analysis Explicit analysis server class provided by the
-     * user/developer.
-     */
-    void RunServer(ExplicitServer &analysis);
+    ::philote::Array inputs;
 
-    /**
-     * @brief Runs an implicit analysis server using a defined analysis server
-     * class.
-     *
-     * @param analysis Implicit analysis server class provided by the
-     * user/developer.
-     */
-    void RunServer(ImplicitServer &analysis);
+    inputs.set_name(var_name);
+
+    // chunk start and end indices within the serialized array
+    inputs.set_start(0);
+    inputs.set_end(1);
+
+    stream->Write(inputs);
 }
+
+// DataArray<double> AssembleArray(std::vector<Array> &chunks)
+// {
+//     return DataArray<double>();
+// }

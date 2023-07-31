@@ -17,26 +17,22 @@
 */
 #pragma once
 
-#include <Philote/explicit_server.h>
-#include <Philote/implicit_server.h>
+#include <vector>
+#include <Philote/variable.h>
+
+#include <data.pb.h>
+#include <disciplines.grpc.pb.h>
 
 namespace philote
 {
-    /**
-     * @brief Runs an explicit analysis server using a defined analysis server
-     * class.
-     *
-     * @param analysis Explicit analysis server class provided by the
-     * user/developer.
-     */
-    void RunServer(ExplicitServer &analysis);
+    void SendChunkedArray(std::shared_ptr<grpc::ClientReaderWriter<::philote::Array, ::philote::Array>> stream,
+                          philote::Variable &variable);
 
     /**
-     * @brief Runs an implicit analysis server using a defined analysis server
-     * class.
+     * @brief Assembles an array from individual chunks
      *
-     * @param analysis Implicit analysis server class provided by the
-     * user/developer.
+     * @param chunks
+     * @return ::philote::DataArray<double>
      */
-    void RunServer(ImplicitServer &analysis);
+    // ::philote::DataArray<double> AssembleArray(std::vector<::philote::Array> &chunks);
 }
