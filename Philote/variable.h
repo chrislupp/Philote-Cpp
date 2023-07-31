@@ -22,6 +22,7 @@
 #include <vector>
 
 #include <data.pb.h>
+#include <disciplines.grpc.pb.h>
 
 namespace philote
 {
@@ -91,6 +92,20 @@ namespace philote
          * @return double value of the array at the given indices
          */
         double operator()(const size_t &i) const;
+
+        /**
+         * @brief Sends the variable from the client to the server
+         *
+         * @param stream
+         */
+        void Send(std::shared_ptr<grpc::ClientReaderWriter<::philote::Array, ::philote::Array>> stream);
+
+        /**
+         * @brief Sends the variable from the server to the client
+         *
+         * @param stream
+         */
+        void Send(grpc::ServerReaderWriter<::philote::Array, ::philote::Array> *stream);
 
     private:
         //! variable name

@@ -1,6 +1,9 @@
 #include <Philote/variable.h>
 
+using grpc::ClientReaderWriter;
+using grpc::ServerReaderWriter;
 using std::map;
+using std::shared_ptr;
 using std::string;
 using std::vector;
 
@@ -73,4 +76,30 @@ size_t Variable::Size() const
 double Variable::operator()(const size_t &i) const
 {
     return data_[i];
+}
+
+void Variable::Send(shared_ptr<ClientReaderWriter<Array, Array>> stream)
+{
+    ::philote::Array inputs;
+
+    inputs.set_name(name_);
+
+    // chunk start and end indices within the serialized array
+    inputs.set_start(0);
+    inputs.set_end(1);
+
+    stream->Write(inputs);
+}
+
+void Variable::Send(ServerReaderWriter<Array, Array> *stream)
+{
+    ::philote::Array inputs;
+
+    inputs.set_name(name_);
+
+    // chunk start and end indices within the serialized array
+    inputs.set_start(0);
+    inputs.set_end(1);
+
+    stream->Write(inputs);
 }
