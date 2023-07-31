@@ -101,27 +101,66 @@ Array Variable::CreateChunk(const size_t &start, const size_t end)
     return out;
 }
 
-void Variable::Send(shared_ptr<ClientReaderWriter<Array, Array>> stream)
+void Variable::Send(shared_ptr<ClientReaderWriter<Array, Array>> stream,
+                    const size_t &chunk_size)
 {
-    size_t start = 0, end = 1;
+    Array array;
+    size_t start, end;
+    size_t n = Size();
 
-    for (size_t i = 0; i < 0; i++)
+    if (n == 1)
     {
-        Array array = CreateChunk(start, end);
-
+        start = 0;
+        end = 1;
+        array = CreateChunk(start, end);
         stream->Write(array);
+    }
+    else
+    {
+        // find the chunk indices and create the chunk
+        for (size_t i = 0; i < n / chunk_size; i++)
+        {
+            start = i * chunk_size;
+            end = start + chunk_size;
+            if (end > n)
+            {
+                end = n;
+            }
+
+            array = CreateChunk(start, end);
+            stream->Write(array);
+        }
     }
 }
 
-void Variable::Send(ServerReaderWriter<Array, Array> *stream)
+void Variable::Send(ServerReaderWriter<Array, Array> *stream,
+                    const size_t &chunk_size)
 {
-    ::philote::Array inputs;
+    Array array;
+    size_t start = 0, end;
+    size_t n = Size();
 
-    inputs.set_name(name_);
+    if (n == 1)
+    {
+        start = 0;
+        end = 1;
+        array = CreateChunk(start, end);
+        stream->Write(array);
+    }
+    else
+    {
+        // find the chunk indices and create the chunk
+        for (size_t i = 0; i < n / chunk_size; i++)
+        {
+            start = i * chunk_size;
+            end = start + chunk_size;
+            if (end > n)
+            {
+                end = n;
+            }
 
-    // chunk start and end indices within the serialized array
-    inputs.set_start(0);
-    inputs.set_end(1);
-
-    stream->Write(inputs);
+            array = CreateChunk(start, end);
+            stream->Write(array);
+        }
+    }
 }

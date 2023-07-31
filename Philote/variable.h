@@ -107,14 +107,16 @@ namespace philote
          *
          * @param stream
          */
-        void Send(std::shared_ptr<grpc::ClientReaderWriter<::philote::Array, ::philote::Array>> stream);
+        void Send(std::shared_ptr<grpc::ClientReaderWriter<::philote::Array, ::philote::Array>> stream,
+                  const size_t &chunk_size);
 
         /**
          * @brief Sends the variable from the server to the client
          *
          * @param stream
          */
-        void Send(grpc::ServerReaderWriter<::philote::Array, ::philote::Array> *stream);
+        void Send(grpc::ServerReaderWriter<::philote::Array, ::philote::Array> *stream,
+                  const size_t &chunk_size);
 
     private:
         //! variable name
