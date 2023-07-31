@@ -65,11 +65,21 @@ public:
      */
     void DefinePartials();
 
+    /**
+     * @brief Gets the variable meta data of the discipline
+     *
+     * @return philote::Variables
+     */
     philote::Variables variables();
 
-    void set_variables();
+    /**
+     * @brief Set the variable meta data for the discipline
+     *
+     * @param vars
+     */
+    void set_variables(const philote::Variables &vars);
 
 private:
     //
-    philote::Variables variables_;
+    philote::Variables variables_; // this should be meta data
 };
