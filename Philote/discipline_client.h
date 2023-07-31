@@ -19,6 +19,8 @@
 
 #include <Philote/variable.h>
 
+#include <data.pb.h>
+
 /**
  * @brief Base class for all analysis discipline clients
  *
@@ -26,10 +28,48 @@
 class DisciplineClient
 {
 public:
+    /**
+     * @brief Construct a new Discipline Client object
+     *
+     */
     DisciplineClient() = default;
 
+    /**
+     * @brief Destroy the Discipline Client object
+     *
+     */
     ~DisciplineClient() = default;
 
+    /**
+     * @brief Get the fundamental properties of the discipline
+     *
+     * @return philote::DisciplineProperties
+     */
+    philote::DisciplineProperties GetInfo();
+
+    /**
+     * @brief Sends the stream options to the server
+     *
+     */
+    void SendStreamOptions();
+
+    /**
+     * @brief Receives the variable definitions from the server
+     *
+     */
+    void DefineVariables();
+
+    /**
+     * @brief Receives the partial definitions from the server
+     *
+     */
+    void DefinePartials();
+
+    philote::Variables variables();
+
+    void set_variables();
+
 private:
+    //
     philote::Variables variables_;
 };

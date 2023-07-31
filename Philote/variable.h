@@ -41,8 +41,7 @@ namespace philote
 
         Variable(const std::string &name,
                  const philote::VariableType &type,
-                 const std::vector<size_t> &shape,
-                 const std::string &units);
+                 const std::vector<size_t> &shape);
 
         /**
          * @brief Destroy the Variables object
@@ -122,6 +121,9 @@ namespace philote
         //! variable name
         std::string name_;
 
+        //! variable sub_name
+        std::string sub_name_;
+
         //! variable type
         philote::VariableType type_;
 
@@ -133,9 +135,6 @@ namespace philote
 
         //! raw discrete data (serialized, row major)
         std::vector<int64_t> discrete_data_;
-
-        //! variable units
-        std::string units_;
     };
 
     typedef std::map<std::string, philote::Variable> Variables;

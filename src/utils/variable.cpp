@@ -11,10 +11,9 @@ using namespace philote;
 
 Variable::Variable(const std::string &name,
                    const philote::VariableType &type,
-                   const std::vector<size_t> &shape,
-                   const std::string &units)
+                   const std::vector<size_t> &shape)
 {
-    // assign the array shape
+    type_ = type;
     shape_ = shape;
 
     // serialized array size
