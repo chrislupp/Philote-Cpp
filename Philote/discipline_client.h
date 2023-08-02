@@ -20,6 +20,7 @@
 #include <Philote/variable.h>
 
 #include <data.pb.h>
+#include <disciplines.grpc.pb.h>
 
 /**
  * @brief Base class for all analysis discipline clients
@@ -57,29 +58,42 @@ public:
      * @brief Receives the variable definitions from the server
      *
      */
-    void DefineVariables();
+    void GetVariableDefinitions();
 
     /**
      * @brief Receives the partial definitions from the server
      *
      */
-    void DefinePartials();
+    void GetPartialDefinitions();
+
+    /**
+     * @brief Get the names of all variables associated with this discipline
+     *
+     * @return std::vector<std::string>
+     */
+    std::vector<std::string> GetVariableNames();
 
     /**
      * @brief Gets the variable meta data of the discipline
      *
      * @return philote::Variables
      */
-    philote::Variables variables();
+    philote::VariableMetaData GetVariable(const std::string &name);
+
+private:
+    std::unique_ptr<philote::Discipline::Stub> stub_;
+
+    //! variable meta data
+    std::vector<philote::VariableMetaData> var_meta_;
 
     /**
      * @brief Set the variable meta data for the discipline
      *
+     * This function must be private to prevent a user from accidentally adding
+     * variables to the discipline client. It should only get called by the
+     * object itself and only in the context of a remote procedure call.
+     *
      * @param vars
      */
-    void set_variables(const philote::Variables &vars);
-
-private:
-    //
-    philote::Variables variables_; // this should be meta data
+    void AddVariable(const philote::VariableMetaData &var);
 };

@@ -17,6 +17,9 @@
 */
 #include <Philote/discipline_client.h>
 
+using std::string;
+using std::vector;
+
 using namespace philote;
 
 DisciplineProperties DisciplineClient::GetInfo()
@@ -28,20 +31,25 @@ void DisciplineClient::SendStreamOptions()
 {
 }
 
-void DisciplineClient::DefineVariables()
+void DisciplineClient::GetVariableDefinitions()
 {
 }
 
-void DisciplineClient::DefinePartials()
+void DisciplineClient::GetPartialDefinitions()
 {
 }
 
-Variables DisciplineClient::variables()
+vector<string> GetVariableNames()
 {
-    return Variables();
+    return vector<string>();
 }
 
-void DisciplineClient::set_variables(const philote::Variables &vars)
+VariableMetaData DisciplineClient::GetVariable(const string &name)
 {
-    variables_ = vars;
+    return VariableMetaData();
+}
+
+void DisciplineClient::AddVariable(const philote::VariableMetaData &var)
+{
+    var_meta_.push_back(var);
 }

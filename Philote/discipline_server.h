@@ -78,9 +78,9 @@ namespace philote
          * @param writer
          * @return grpc::Status
          */
-        grpc::Status DefineVariables(grpc::ServerContext *context,
-                                     const google::protobuf::Empty *request,
-                                     grpc::ServerWriter<::philote::VariableMetaData> *writer);
+        grpc::Status GetVariableDefinitions(grpc::ServerContext *context,
+                                            const google::protobuf::Empty *request,
+                                            grpc::ServerWriter<::philote::VariableMetaData> *writer);
 
         /**
          * @brief RPC to define the discipline partials on the client side.
@@ -90,9 +90,9 @@ namespace philote
          * @param writer
          * @return grpc::Status
          */
-        grpc::Status DefinePartials(grpc::ServerContext *context,
-                                    const google::protobuf::Empty *request,
-                                    grpc::ServerWriter<::philote::PartialsMetaData> *writer) override;
+        grpc::Status GetPartialDefinitions(grpc::ServerContext *context,
+                                           const google::protobuf::Empty *request,
+                                           grpc::ServerWriter<::philote::PartialsMetaData> *writer) override;
 
     protected:
         //! Options that determine how data is streamed

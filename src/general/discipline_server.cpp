@@ -48,9 +48,9 @@ Status DisciplineServer::SetStreamOptions(ServerContext *context,
     return Status::OK;
 }
 
-Status DisciplineServer::DefineVariables(ServerContext *context,
-                                         const Empty *request,
-                                         ServerWriter<::philote::VariableMetaData> *writer)
+Status DisciplineServer::GetVariableDefinitions(ServerContext *context,
+                                                const Empty *request,
+                                                ServerWriter<::philote::VariableMetaData> *writer)
 {
     VariableMetaData meta;
 
@@ -60,9 +60,9 @@ Status DisciplineServer::DefineVariables(ServerContext *context,
     return Status::OK;
 }
 
-Status DisciplineServer::DefinePartials(ServerContext *context,
-                                        const Empty *request,
-                                        ServerWriter<::philote::PartialsMetaData> *writer)
+Status DisciplineServer::GetPartialDefinitions(ServerContext *context,
+                                               const Empty *request,
+                                               ServerWriter<::philote::PartialsMetaData> *writer)
 {
     for (const PartialsMetaData &partial : partials_meta_)
         writer->Write(partial);
