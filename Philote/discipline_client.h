@@ -33,7 +33,7 @@ public:
      * @brief Construct a new Discipline Client object
      *
      */
-    DisciplineClient() = default;
+    DisciplineClient();
 
     /**
      * @brief Destroy the Discipline Client object
@@ -53,6 +53,18 @@ public:
      *
      */
     void SendStreamOptions();
+
+    /**
+     * @brief Sends the options for the discipline
+     *
+     */
+    void SendOptions();
+
+    /**
+     * @brief Sets up the discipline
+     *
+     */
+    void Setup();
 
     /**
      * @brief Receives the variable definitions from the server
@@ -81,6 +93,10 @@ public:
     philote::VariableMetaData GetVariable(const std::string &name);
 
 private:
+    //! streaming options for the client/server connection
+    philote::StreamOptions options_;
+
+    //! gRPC client stub for the generic discipline definition
     std::unique_ptr<philote::Discipline::Stub> stub_;
 
     //! variable meta data

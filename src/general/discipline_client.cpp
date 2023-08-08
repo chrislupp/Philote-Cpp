@@ -17,10 +17,18 @@
 */
 #include <Philote/discipline_client.h>
 
+using grpc::ClientContext;
 using std::string;
 using std::vector;
 
 using namespace philote;
+
+DisciplineClient::DisciplineClient()
+{
+    // set default streaming options
+    options_.set_num_double(1000);
+    options_.set_num_int(1000);
+}
 
 DisciplineProperties DisciplineClient::GetInfo()
 {
@@ -28,6 +36,18 @@ DisciplineProperties DisciplineClient::GetInfo()
 }
 
 void DisciplineClient::SendStreamOptions()
+{
+    ClientContext context;
+    ::google::protobuf::Empty response;
+
+    stub_->SetStreamOptions(&context, options_, &response);
+}
+
+void DisciplineClient::SendOptions()
+{
+}
+
+void DisciplineClient::Setup()
 {
 }
 
