@@ -17,7 +17,9 @@
 */
 #include <Philote/discipline_client.h>
 
+using google::protobuf::Empty;
 using grpc::ClientContext;
+using philote::DisciplineProperties;
 using std::string;
 using std::vector;
 
@@ -30,9 +32,12 @@ DisciplineClient::DisciplineClient()
     options_.set_num_int(1000);
 }
 
-DisciplineProperties DisciplineClient::GetInfo()
+void DisciplineClient::GetInfo()
 {
-    return DisciplineProperties();
+    ClientContext context;
+    Empty request;
+
+    stub_->GetInfo(&context, request, &properties_);
 }
 
 void DisciplineClient::SendStreamOptions()
@@ -49,6 +54,10 @@ void DisciplineClient::SendOptions()
 
 void DisciplineClient::Setup()
 {
+    ClientContext context;
+    ::google::protobuf::Empty request, response;
+
+    stub_->Setup(&context, request, &response);
 }
 
 void DisciplineClient::GetVariableDefinitions()

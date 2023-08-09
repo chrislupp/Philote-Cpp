@@ -46,7 +46,7 @@ public:
      *
      * @return philote::DisciplineProperties
      */
-    philote::DisciplineProperties GetInfo();
+    void GetInfo();
 
     /**
      * @brief Sends the stream options to the server
@@ -95,6 +95,9 @@ public:
 private:
     //! streaming options for the client/server connection
     philote::StreamOptions options_;
+
+    //! discipline properties
+    philote::DisciplineProperties properties_;
 
     //! gRPC client stub for the generic discipline definition
     std::unique_ptr<philote::Discipline::Stub> stub_;
