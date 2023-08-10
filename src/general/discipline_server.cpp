@@ -44,6 +44,11 @@ void DisciplineServer::AddVariable(const string &name,
 
 void DisciplineServer::DeclarePartials(const string &f, const string &x)
 {
+    PartialsMetaData meta;
+    meta.set_name(f);
+    meta.set_subname(x);
+
+    partials_meta_.push_back(meta);
 }
 
 grpc::Status DisciplineServer::GetInfo(ServerContext *context,
@@ -56,7 +61,7 @@ grpc::Status DisciplineServer::GetInfo(ServerContext *context,
 }
 
 Status DisciplineServer::SetStreamOptions(ServerContext *context,
-                                          const ::philote::StreamOptions *request,
+                                          const StreamOptions *request,
                                           Empty *response)
 {
     stream_opts_ = *request;
@@ -66,7 +71,7 @@ Status DisciplineServer::SetStreamOptions(ServerContext *context,
 
 Status DisciplineServer::GetVariableDefinitions(ServerContext *context,
                                                 const Empty *request,
-                                                ServerWriter<::philote::VariableMetaData> *writer)
+                                                ServerWriter<VariableMetaData> *writer)
 {
     VariableMetaData meta;
 
@@ -78,7 +83,7 @@ Status DisciplineServer::GetVariableDefinitions(ServerContext *context,
 
 Status DisciplineServer::GetPartialDefinitions(ServerContext *context,
                                                const Empty *request,
-                                               ServerWriter<::philote::PartialsMetaData> *writer)
+                                               ServerWriter<PartialsMetaData> *writer)
 {
     for (const PartialsMetaData &partial : partials_meta_)
         writer->Write(partial);
@@ -87,8 +92,8 @@ Status DisciplineServer::GetPartialDefinitions(ServerContext *context,
 }
 
 grpc::Status DisciplineServer::Setup(grpc::ServerContext *context,
-                                     const google::protobuf::Empty *request,
-                                     google::protobuf::Empty *response)
+                                     const Empty *request,
+                                     Empty *response)
 {
     Setup();
 
