@@ -90,7 +90,7 @@ public:
      *
      * @return philote::Variables
      */
-    philote::VariableMetaData GetVariable(const std::string &name);
+    philote::VariableMetaData GetVariableMeta(const std::string &name);
 
 private:
     //! streaming options for the client/server connection
@@ -114,5 +114,5 @@ private:
      *
      * @param vars
      */
-    void AddVariable(const philote::VariableMetaData &var);
+    void AddVariableMeta(const philote::VariableMetaData &var);
 };

@@ -45,13 +45,13 @@ namespace philote
         //! Destructor
         ~ExplicitServer() = default;
 
-        grpc::Status Functions(grpc::ServerContext *context,
-                               grpc::ServerReaderWriter<::philote::Array,
-                                                        ::philote::Array> *stream);
+        grpc::Status ComputeFunction(grpc::ServerContext *context,
+                                     grpc::ServerReaderWriter<::philote::Array,
+                                                              ::philote::Array> *stream);
 
-        grpc::Status Gradient(grpc::ServerContext *context,
-                              grpc::ServerReaderWriter<::philote::Array,
-                                                       ::philote::Array> *stream);
+        grpc::Status ComputeGradient(grpc::ServerContext *context,
+                                     grpc::ServerReaderWriter<::philote::Array,
+                                                              ::philote::Array> *stream);
 
         /**
          * @brief Sets up the analysis server before any function or gradient

@@ -32,8 +32,8 @@ using philote::ExplicitServer;
 using philote::Partials;
 using philote::Variables;
 
-Status ExplicitServer::Functions(ServerContext *context,
-                                 ServerReaderWriter<::philote::Array, ::philote::Array> *stream)
+Status ExplicitServer::ComputeFunction(ServerContext *context,
+                                       ServerReaderWriter<::philote::Array, ::philote::Array> *stream)
 {
     ::philote::Array array;
     Variables inputs;
@@ -126,9 +126,9 @@ Status ExplicitServer::Functions(ServerContext *context,
     return Status::OK;
 }
 
-Status ExplicitServer::Gradient(ServerContext *context,
-                                ServerReaderWriter<::philote::Array,
-                                                   ::philote::Array> *stream)
+Status ExplicitServer::ComputeGradient(ServerContext *context,
+                                       ServerReaderWriter<::philote::Array,
+                                                          ::philote::Array> *stream)
 {
     return Status::OK;
 }

@@ -19,7 +19,9 @@
 
 using google::protobuf::Empty;
 using grpc::ClientContext;
+using grpc::ClientReader;
 using philote::DisciplineProperties;
+using philote::VariableMetaData;
 using std::string;
 using std::vector;
 
@@ -62,10 +64,20 @@ void DisciplineClient::Setup()
 
 void DisciplineClient::GetVariableDefinitions()
 {
+    ClientContext context;
+    Empty request;
+    std::unique_ptr<ClientReader<VariableMetaData>> reactor;
+
+    reactor = stub_->GetVariableDefinitions(&context, request);
 }
 
 void DisciplineClient::GetPartialDefinitions()
 {
+    ClientContext context;
+    Empty request;
+    std::unique_ptr<ClientReader<PartialsMetaData>> reactor;
+
+    reactor = stub_->GetPartialDefinitions(&context, request);
 }
 
 vector<string> GetVariableNames()
@@ -73,12 +85,12 @@ vector<string> GetVariableNames()
     return vector<string>();
 }
 
-VariableMetaData DisciplineClient::GetVariable(const string &name)
+VariableMetaData DisciplineClient::GetVariableMeta(const string &name)
 {
     return VariableMetaData();
 }
 
-void DisciplineClient::AddVariable(const philote::VariableMetaData &var)
+void DisciplineClient::AddVariableMeta(const philote::VariableMetaData &var)
 {
     var_meta_.push_back(var);
 }

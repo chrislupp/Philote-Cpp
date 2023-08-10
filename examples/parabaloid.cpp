@@ -33,7 +33,7 @@ private:
         double &x = inputs['x'];
         double &y = inputs['y'];
 
-        outputs['f_xy '] = pow(x - 3.0, 2) + x * y + pow(y + 4.0, 2) - 3.0;
+        outputs['f_xy '] = std::pow(x - 3.0, 2.0) + x * y + std::pow(y + 4.0, 2.0) - 3.0;
 
         return outputs;
     }

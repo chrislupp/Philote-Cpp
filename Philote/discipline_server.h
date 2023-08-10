@@ -48,7 +48,9 @@ namespace philote
          *
          * @param var
          */
-        void AddVariable(const ::philote::VariableMetaData &var);
+        void AddVariable(const std::string &name,
+                         const std::vector<int64_t> &shape,
+                         const std::string &units);
 
         /**
          * @brief Declare a (set of) partial(s) for the discipline
@@ -59,7 +61,19 @@ namespace philote
         void DeclarePartials(const std::string &f, const std::string &x);
 
         /**
-         * @brief RPC to define the discipline stream options to the client.
+         * @brief RPC to send the discipline properties to the client
+         *
+         * @param context
+         * @param request
+         * @param response
+         * @return grpc::Status
+         */
+        grpc::Status GetInfo(grpc::ServerContext *context,
+                             google::protobuf::Empty *request,
+                             const ::philote::DisciplineProperties *response);
+
+        /**
+         * @brief RPC to define the discipline stream options to the client
          *
          * @param context
          * @param request
@@ -71,7 +85,7 @@ namespace philote
                                       google::protobuf::Empty *response);
 
         /**
-         * @brief RPC to define the discipline variables on the client side.
+         * @brief RPC to define the discipline variables on the client side
          *
          * @param context
          * @param request
@@ -83,7 +97,7 @@ namespace philote
                                             grpc::ServerWriter<::philote::VariableMetaData> *writer);
 
         /**
-         * @brief RPC to define the discipline partials on the client side.
+         * @brief RPC to define the discipline partials on the client side
          *
          * @param context
          * @param request
@@ -94,7 +108,28 @@ namespace philote
                                            const google::protobuf::Empty *request,
                                            grpc::ServerWriter<::philote::PartialsMetaData> *writer) override;
 
+        /**
+         * @brief RPC that invokes the discipline setup function
+         *
+         * @param context
+         * @param request
+         * @param response
+         * @return grpc::Status
+         */
+        grpc::Status Setup(grpc::ServerContext *context,
+                           const google::protobuf::Empty *request,
+                           google::protobuf::Empty *response);
+
+        /**
+         * @brief Sets up the discipline
+         *
+         */
+        virtual void Setup();
+
     protected:
+        //! Properties of the discipline (continuity, etc.)
+        philote::DisciplineProperties properties_;
+
         //! Options that determine how data is streamed
         StreamOptions stream_opts_;
 
