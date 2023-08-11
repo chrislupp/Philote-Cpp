@@ -93,15 +93,6 @@ namespace philote
         double operator()(const size_t &i) const;
 
         /**
-         * @brief Create a Chunk of the variable
-         *
-         * @param start
-         * @param end
-         * @return philote::Array
-         */
-        philote::Array CreateChunk(const size_t &start, const size_t end);
-
-        /**
          * @brief Sends the variable from the client to the server
          *
          * @param stream
@@ -135,6 +126,15 @@ namespace philote
 
         //! raw discrete data (serialized, row major)
         std::vector<int64_t> discrete_data_;
+
+        /**
+         * @brief Create a Chunk of the variable
+         *
+         * @param start
+         * @param end
+         * @return philote::Array
+         */
+        philote::Array CreateChunk(const size_t &start, const size_t end);
     };
 
     typedef std::map<std::string, philote::Variable> Variables;

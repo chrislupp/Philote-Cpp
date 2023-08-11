@@ -45,10 +45,24 @@ namespace philote
         //! Destructor
         ~ExplicitServer() = default;
 
+        /**
+         * @brief RPC that computes initiates function evaluation
+         *
+         * @param context
+         * @param stream
+         * @return grpc::Status
+         */
         grpc::Status ComputeFunction(grpc::ServerContext *context,
                                      grpc::ServerReaderWriter<::philote::Array,
                                                               ::philote::Array> *stream);
 
+        /**
+         * @brief RPC that computes initiates gradient evaluation
+         *
+         * @param context
+         * @param stream
+         * @return grpc::Status
+         */
         grpc::Status ComputeGradient(grpc::ServerContext *context,
                                      grpc::ServerReaderWriter<::philote::Array,
                                                               ::philote::Array> *stream);

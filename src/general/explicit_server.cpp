@@ -60,16 +60,11 @@ Status ExplicitServer::ComputeFunction(ServerContext *context,
             value.assign(array.continuous().begin(), array.continuous().end());
 
             // set the variable slice
-            // inputs.SetContinuous(name, start, end, value);
+            inputs[name].Segment(start, end, value);
         }
         else if (var->type() == VariableType::kDiscreteInput)
         {
-            // get array data
-            vector<int64_t> value;
-            value.assign(array.discrete().begin(), array.discrete().end());
-
-            // set the variable slice
-            // inputs.SetDiscrete(name, start, end, value);
+            // discrete data
         }
         else
         {
@@ -84,43 +79,7 @@ Status ExplicitServer::ComputeFunction(ServerContext *context,
     vector<string> var_list;
     for (auto &name : var_list)
     {
-        // chunk the array
-        for (size_t i = 0; i < 1; i++)
-        {
-            ::philote::Array out_array;
-
-            // set array name and meta data
-            out_array.set_name(name);
-
-            int64_t start, end;
-
-            // set start and end of the chunk
-            out_array.set_start(start);
-            out_array.set_end(end);
-
-            // get the variable corresponding to the current message
-            auto var = std::find_if(var_meta_.begin(), var_meta_.end(),
-                                    [&name](const VariableMetaData &var)
-                                    { return var.name() == name; });
-
-            if (var->type() == VariableType::kOutput)
-            {
-                // vector<double> slice = outputs.ContinuousSlice(name, start, end);
-                // out_array.mutable_continuous()->Add(slice.begin(), slice.end());
-            }
-            else if (var->type() == VariableType::kDiscreteOutput)
-            {
-                // vector<int64_t> slice = outputs.DiscreteSlice(name, start, end);
-                // out_array.mutable_discrete()->Add(slice.begin(), slice.end());
-            }
-            else
-            {
-                // error message
-            }
-
-            // send the outputs back via stream
-            stream->Write(out_array);
-        }
+        outputs[name].Send(stream, stream_opts_.num_double());
     }
 
     return Status::OK;
