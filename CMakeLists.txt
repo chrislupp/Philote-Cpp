@@ -33,6 +33,8 @@ include_directories(${CMAKE_SOURCE_DIR}/generated)
 # add subdirectories
 add_subdirectory(generated)
 add_subdirectory(src)
+add_subdirectory(examples)
+
 
 
 if (BUILD_TESTS)

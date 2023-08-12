@@ -92,9 +92,9 @@ public:
      */
     philote::VariableMetaData GetVariableMeta(const std::string &name);
 
-private:
+protected:
     //! streaming options for the client/server connection
-    philote::StreamOptions options_;
+    philote::StreamOptions stream_options_;
 
     //! discipline properties
     philote::DisciplineProperties properties_;

@@ -29,15 +29,30 @@ using philote::DisciplineServer;
 using std::string;
 using std::vector;
 
-void DisciplineServer::AddVariable(const string &name,
-                                   const vector<int64_t> &shape,
-                                   const string &units)
+void DisciplineServer::AddInput(const string &name,
+                                const vector<int64_t> &shape,
+                                const string &units)
 {
     VariableMetaData var;
     var.set_name(name);
     for (const int64_t dim : shape)
         var.add_shape(dim);
     var.set_units(units);
+    var.set_type(philote::kInput);
+
+    var_meta_.push_back(var);
+}
+
+void DisciplineServer::AddOutput(const string &name,
+                                 const vector<int64_t> &shape,
+                                 const string &units)
+{
+    VariableMetaData var;
+    var.set_name(name);
+    for (const int64_t dim : shape)
+        var.add_shape(dim);
+    var.set_units(units);
+    var.set_type(philote::kOutput);
 
     var_meta_.push_back(var);
 }

@@ -77,6 +77,11 @@ double Variable::operator()(const size_t &i) const
     return data_[i];
 }
 
+double &Variable::operator()(const size_t &i)
+{
+    return data_[i];
+}
+
 Array Variable::CreateChunk(const size_t &start, const size_t end)
 {
     Array out;
@@ -162,4 +167,13 @@ void Variable::Send(ServerReaderWriter<Array, Array> *stream,
             stream->Write(array);
         }
     }
+}
+
+void Variable::AssignChunk(const Array &data)
+{
+    size_t start = data.start();
+    size_t end = data.end();
+
+    for (size_t i = 0; i < end - start; i++)
+        data_[start + i] = data.continuous(i);
 }

@@ -44,13 +44,22 @@ namespace philote
         ~DisciplineServer() = default;
 
         /**
-         * @brief Declares a variable
+         * @brief Declares an input
          *
          * @param var
          */
-        void AddVariable(const std::string &name,
-                         const std::vector<int64_t> &shape,
-                         const std::string &units);
+        void AddInput(const std::string &name,
+                      const std::vector<int64_t> &shape,
+                      const std::string &units);
+
+        /**
+         * @brief Declares an output
+         *
+         * @param var
+         */
+        void AddOutput(const std::string &name,
+                       const std::vector<int64_t> &shape,
+                       const std::string &units);
 
         /**
          * @brief Declare a (set of) partial(s) for the discipline

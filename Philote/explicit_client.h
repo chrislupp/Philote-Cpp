@@ -23,6 +23,7 @@
 #include <grpcpp/grpcpp.h>
 
 #include <Philote/variable.h>
+#include <Philote/discipline_client.h>
 
 #include <disciplines.grpc.pb.h>
 
@@ -34,7 +35,7 @@ namespace philote
      * This class may be inherited from or used by MDO framework developers.
      * However, it is a fully functional Philote MDO client.
      */
-    class ExplicitClient
+    class ExplicitClient : public DisciplineClient
     {
     public:
         //! Constructor
@@ -51,25 +52,6 @@ namespace philote
         ~ExplicitClient();
 
         /**
-         * @brief Connects to an analysis server.
-         *
-         */
-        void Connect();
-
-        /**
-         * @brief Calls the setup function on the remote analysis server.
-         *
-         */
-        void RemoteSetup();
-
-        /**
-         * @brief Calls the setup partials function on the remote analysis
-         * server.
-         *
-         */
-        void RemoteSetupPartials();
-
-        /**
          * @brief Calls the remote analysis server function evaluation via gRPC.
          *
          * Unlike the analysis server, this function does not need to be
@@ -81,7 +63,7 @@ namespace philote
          * @param outputs
          * @param discrete_outputs
          */
-        void RemoteCompute(Variables &inputs, Variables &outputs);
+        void ComputeFunction(Variables &inputs, Variables &outputs);
 
         /**
          * @brief Calls the remote analysis server function evaluation via gRPC.
@@ -104,44 +86,5 @@ namespace philote
 
         std::shared_ptr<grpc::Channel> channel_;
         std::unique_ptr<ExplicitDiscipline::Stub> stub_;
-
-        //! names of all functions defined for this discipline
-        std::vector<std::string> funcs_;
-
-        //! shape of all functions defined for this discipline
-        std::map<std::string, std::vector<size_t>> funcs_shape_;
-
-        //! units of all functions defined for this discipline
-        std::map<std::string, std::string> funcs_units_;
-
-        //! names of all discrete functions defined for this discipline
-        std::vector<std::string> discrete_funcs_;
-
-        //! shape of all discrete functions defined for this discipline
-        std::map<std::string, std::vector<size_t>> discrete_funcs_shape_;
-
-        //! shape of all discrete functions defined for this discipline
-        std::map<std::string, std::string> discrete_funcs_units_;
-
-        //! names of all variables defined for this discipline
-        std::vector<std::string> vars_;
-
-        //! shape of all variables defined for this discipline
-        std::map<std::string, std::vector<size_t>> vars_shape_;
-
-        //! units of all variables defined for this discipline
-        std::map<std::string, std::string> vars_units_;
-
-        //! names of all discrete variables defined for this discipline
-        std::vector<std::string> discrete_vars_;
-
-        //! shape of all discrete variables defined for this discipline
-        std::map<std::string, std::vector<size_t>> discrete_vars_shape_;
-
-        //! units of all discrete variables defined for this discipline
-        std::map<std::string, std::string> discrete_vars_units_;
-
-        //! vector of all defined partials
-        std::vector<std::pair<std::string, std::string>> partials_;
     };
 } // namespace philote

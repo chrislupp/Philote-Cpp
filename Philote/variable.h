@@ -93,6 +93,14 @@ namespace philote
         double operator()(const size_t &i) const;
 
         /**
+         * @brief Returns the value of the array at a given index
+         *
+         * @param indices indices at which the array should be accessed
+         * @return double value of the array at the given indices
+         */
+        double &operator()(const size_t &i);
+
+        /**
          * @brief Sends the variable from the client to the server
          *
          * @param stream
@@ -107,6 +115,14 @@ namespace philote
          */
         void Send(grpc::ServerReaderWriter<::philote::Array, ::philote::Array> *stream,
                   const size_t &chunk_size);
+
+        /**
+         * @brief Assigns a chunk to the variable
+         *
+         * @param stream
+         * @param chunk_size
+         */
+        void AssignChunk(const Array &data);
 
     private:
         //! variable name

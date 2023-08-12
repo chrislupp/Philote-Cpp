@@ -30,8 +30,8 @@ using namespace philote;
 DisciplineClient::DisciplineClient()
 {
     // set default streaming options
-    options_.set_num_double(1000);
-    options_.set_num_int(1000);
+    stream_options_.set_num_double(1000);
+    stream_options_.set_num_int(1000);
 }
 
 void DisciplineClient::GetInfo()
@@ -47,7 +47,7 @@ void DisciplineClient::SendStreamOptions()
     ClientContext context;
     ::google::protobuf::Empty response;
 
-    stub_->SetStreamOptions(&context, options_, &response);
+    stub_->SetStreamOptions(&context, stream_options_, &response);
 }
 
 void DisciplineClient::SendOptions()
