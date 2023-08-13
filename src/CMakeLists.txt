@@ -1,4 +1,7 @@
 add_subdirectory(general)
+add_subdirectory(discipline)
+add_subdirectory(explicit)
+add_subdirectory(implicit)
 add_subdirectory(utils)
 
 add_library(PhiloteCpp STATIC

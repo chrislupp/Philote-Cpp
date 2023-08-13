@@ -15,7 +15,7 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */
-#include <Philote/explicit_client.h>
+#include <Philote/explicit.h>
 
 #include <data.pb.h>
 #include <disciplines.pb.h>

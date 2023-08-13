@@ -16,7 +16,7 @@
     limitations under the License.
 */
 #include <vector>
-#include <Philote/explicit_server.h>
+#include <Philote/explicit.h>
 
 using std::string;
 using std::vector;
@@ -32,8 +32,16 @@ using philote::ExplicitServer;
 using philote::Partials;
 using philote::Variables;
 
+void ExplicitServer::LinkPointers(philote::DisciplineServer *discipline,
+                                  philote::ExplicitDiscipline *implementation)
+{
+    discipline_ = discipline;
+    implementation_ = implementation;
+}
+
 Status ExplicitServer::ComputeFunction(ServerContext *context,
-                                       ServerReaderWriter<::philote::Array, ::philote::Array> *stream)
+                                       ServerReaderWriter<::philote::Array,
+                                                          ::philote::Array> *stream)
 {
     ::philote::Array array;
     Variables inputs;
@@ -48,7 +56,8 @@ Status ExplicitServer::ComputeFunction(ServerContext *context,
         auto end = array.end();
 
         // get the variable corresponding to the current message
-        auto var = std::find_if(var_meta_.begin(), var_meta_.end(),
+        auto var = std::find_if(discipline_->var_meta().begin(),
+                                discipline_->var_meta().end(),
                                 [&name](const VariableMetaData &var)
                                 { return var.name() == name; });
 
@@ -73,13 +82,13 @@ Status ExplicitServer::ComputeFunction(ServerContext *context,
     }
 
     // call the discipline developer-defined Compute function
-    Variables outputs = Compute(inputs);
+    Variables outputs = implementation_->Compute(inputs);
 
     // iterate through continuous outputs
     vector<string> var_list;
     for (auto &name : var_list)
     {
-        outputs[name].Send(stream, stream_opts_.num_double());
+        outputs[name].Send(stream, discipline_->stream_opts().num_double());
     }
 
     return Status::OK;
@@ -90,20 +99,4 @@ Status ExplicitServer::ComputeGradient(ServerContext *context,
                                                           ::philote::Array> *stream)
 {
     return Status::OK;
-}
-
-// these functions need to be overridden by discipline developers
-//------------------------------------------------------------------------------
-void ExplicitServer::Setup() {}
-
-void ExplicitServer::SetupPartials() {}
-
-Variables ExplicitServer::Compute(const ::philote::Variables &inputs)
-{
-    return Variables();
-}
-
-Partials ExplicitServer::ComputePartials(const ::philote::Variables &inputs)
-{
-    return Partials();
 }
