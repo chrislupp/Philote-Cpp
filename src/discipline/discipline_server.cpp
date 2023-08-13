@@ -16,7 +16,7 @@
     limitations under the License.
 */
 #include <vector>
-#include <Philote/explicit.h>
+#include <Philote/discipline.h>
 
 using google::protobuf::Empty;
 using grpc::Server;
