@@ -116,7 +116,12 @@ namespace philote
          */
         ~ExplicitDiscipline();
 
-        void RegisterServers();
+        /**
+         * @brief Registers all services with a gRPC channel
+         *
+         * @param builder
+         */
+        void RegisterServices(grpc::ServerBuilder &builder);
 
         /**
          * @brief Function evaluation for the discipline.

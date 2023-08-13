@@ -17,6 +17,8 @@
 */
 #include <Philote/explicit.h>
 
+using grpc::ServerBuilder;
+
 using philote::ExplicitDiscipline;
 using philote::Partials;
 using philote::Variables;
@@ -31,6 +33,12 @@ ExplicitDiscipline::~ExplicitDiscipline()
 {
     discipline_.UnlinkPointers();
     explicit_.UnlinkPointers();
+}
+
+void ExplicitDiscipline::RegisterServices(ServerBuilder &builder)
+{
+    builder.RegisterService(&discipline_);
+    builder.RegisterService(&explicit_);
 }
 
 Variables ExplicitDiscipline::Compute(const Variables &inputs)
