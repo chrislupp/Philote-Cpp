@@ -29,6 +29,16 @@ using philote::DisciplineServer;
 using std::string;
 using std::vector;
 
+DisciplineServer::~DisciplineServer()
+{
+    discipline_ = nullptr;
+}
+
+void DisciplineServer::LinkPointers(philote::Discipline *discipline)
+{
+    discipline_ = discipline;
+}
+
 grpc::Status DisciplineServer::GetInfo(ServerContext *context,
                                        Empty *request,
                                        const DisciplineProperties *response)
@@ -73,7 +83,7 @@ grpc::Status DisciplineServer::Setup(grpc::ServerContext *context,
                                      const Empty *request,
                                      Empty *response)
 {
-    // Setup();
+    discipline_->Setup();
 
     return Status::OK;
 }

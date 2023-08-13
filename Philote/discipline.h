@@ -41,8 +41,16 @@ namespace philote
         /**
          * @brief Destroy the Discipline Server object
          *
+         * Deallocates all pointers required by the discipline base class
          */
-        ~DisciplineServer() = default;
+        ~DisciplineServer();
+
+        /**
+         * @brief Links all pointers needed by the discipline base class
+         *
+         * @param discipline
+         */
+        void LinkPointers(philote::Discipline *discipline);
 
         /**
          * @brief RPC to send the discipline properties to the client
