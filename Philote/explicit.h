@@ -106,8 +106,14 @@ namespace philote
     class ExplicitDiscipline : public Discipline
     {
     public:
+        /**
+         * @brief Construct a new Explicit Discipline object
+         */
         ExplicitDiscipline();
 
+        /**
+         *  @brief Destroy the Explicit Disipline object
+         */
         ~ExplicitDiscipline();
 
         void RegisterServers();

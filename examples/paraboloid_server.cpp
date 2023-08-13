@@ -16,12 +16,12 @@
     limitations under the License.
 */
 #include <cmath>
-#include <Philote/explicit_server.h>
+#include <Philote/explicit.h>
 
-using philote::ExplicitServer;
+using philote::ExplicitDiscipline;
 using std::pow;
 
-class RemoteParabaloid : public ExplicitServer
+class RemoteParabaloid : public ExplicitDiscipline
 {
 public:
     // Constructor
