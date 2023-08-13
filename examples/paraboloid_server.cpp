@@ -16,19 +16,25 @@
     limitations under the License.
 */
 #include <cmath>
+
+#include <grpcpp/grpcpp.h>
+
 #include <Philote/explicit.h>
+
+using grpc::Server;
+using grpc::ServerBuilder;
 
 using philote::ExplicitDiscipline;
 using std::pow;
 
-class RemoteParabaloid : public ExplicitDiscipline
+class RemoteParaboloid : public ExplicitDiscipline
 {
 public:
     // Constructor
-    RemoteParabaloid() = default;
+    RemoteParaboloid() = default;
 
     // Destructor
-    ~RemoteParabaloid() = default;
+    ~RemoteParaboloid() = default;
 
 private:
     // Defines the variables for the discipline
@@ -61,21 +67,30 @@ private:
         return outputs;
     }
 
-    // philote::Partials ComputePartials(const philote::Variables &inputs)
-    // {
-    //     philote::Partials jac;
+    philote::Partials ComputePartials(const philote::Variables &inputs)
+    {
+        philote::Partials jac;
 
-    //     double &x = inputs['x'];
-    //     double &y = inputs['y'];
+        double x = inputs.at("x")(0);
+        double y = inputs.at("y")(0);
 
-    //     jac['f_xy ', 'x'] = 2.0 * x - 6.0 + y;
-    //     jac['f_xy ', 'y'] = 2.0 * y + 8.0 + x;
+        // jac['f_xy ', 'x'] = 2.0 * x - 6.0 + y;
+        // jac['f_xy ', 'y'] = 2.0 * y + 8.0 + x;
 
-    //     return jac;
-    // }
+        return jac;
+    }
 };
 
 int main()
 {
+    std::string address("localhost:50051");
+    RemoteParaboloid service;
+
+    // ServerBuilder builder;
+    // builder.AddListeningPort(address, grpc::InsecureServerCredentials());
+    // service.RegisterServices(builder);
+
+    // std::unique_ptr<Server> server(builder.BuildAndStart());
+
     return 0;
 }

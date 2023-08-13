@@ -15,8 +15,11 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */
+#include <grpcpp/grpcpp.h>
+
 #include <Philote/explicit.h>
 
+using grpc::Server;
 using grpc::ServerBuilder;
 
 using philote::ExplicitDiscipline;
@@ -46,7 +49,7 @@ Variables ExplicitDiscipline::Compute(const Variables &inputs)
     return Variables();
 }
 
-Partials ComputePartials(const Variables &inputs)
+Partials ExplicitDiscipline::ComputePartials(const Variables &inputs)
 {
     return Partials();
 }

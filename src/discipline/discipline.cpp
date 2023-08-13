@@ -17,9 +17,14 @@
 */
 #include <Philote/discipline.h>
 
-void DisciplineServer::AddInput(const string &name,
-                                const vector<int64_t> &shape,
-                                const string &units)
+using std::string;
+using std::vector;
+
+using philote::Discipline;
+
+void Discipline::AddInput(const string &name,
+                          const vector<int64_t> &shape,
+                          const string &units)
 {
     VariableMetaData var;
     var.set_name(name);
@@ -28,12 +33,12 @@ void DisciplineServer::AddInput(const string &name,
     var.set_units(units);
     var.set_type(philote::kInput);
 
-    var_meta_.push_back(var);
+    discipline_.var_meta().push_back(var);
 }
 
-void DisciplineServer::AddOutput(const string &name,
-                                 const vector<int64_t> &shape,
-                                 const string &units)
+void Discipline::AddOutput(const string &name,
+                           const vector<int64_t> &shape,
+                           const string &units)
 {
     VariableMetaData var;
     var.set_name(name);
@@ -42,14 +47,22 @@ void DisciplineServer::AddOutput(const string &name,
     var.set_units(units);
     var.set_type(philote::kOutput);
 
-    var_meta_.push_back(var);
+    discipline_.var_meta().push_back(var);
 }
 
-void DisciplineServer::DeclarePartials(const string &f, const string &x)
+void Discipline::DeclarePartials(const string &f, const string &x)
 {
     PartialsMetaData meta;
     meta.set_name(f);
     meta.set_subname(x);
 
-    partials_meta_.push_back(meta);
+    discipline_.partials_meta().push_back(meta);
+}
+
+void Discipline::Setup()
+{
+}
+
+void Discipline::SetupPartials()
+{
 }

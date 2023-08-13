@@ -99,6 +99,11 @@ std::vector<philote::VariableMetaData> &DisciplineServer::var_meta()
     return var_meta_;
 }
 
+std::vector<philote::PartialsMetaData> &DisciplineServer::partials_meta()
+{
+    return partials_meta_;
+}
+
 philote::StreamOptions &DisciplineServer::stream_opts()
 {
     return stream_opts_;

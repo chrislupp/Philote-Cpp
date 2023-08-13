@@ -119,8 +119,19 @@ namespace philote
                            const google::protobuf::Empty *request,
                            google::protobuf::Empty *response);
 
+        /**
+         * @brief Accesses the variable meta data
+         */
         std::vector<philote::VariableMetaData> &var_meta();
 
+        /**
+         * @brief Accesses the partials meta data
+         */
+        std::vector<philote::PartialsMetaData> &partials_meta();
+
+        /**
+         * @brief Accesses the streaming options
+         */
         philote::StreamOptions &stream_opts();
 
     private:

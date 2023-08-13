@@ -37,9 +37,3 @@ add_custom_command(
     COMMENT "Generating C++ stubs from protobuf files" 
     VERBATIM
 )
-
-
-# create targets for the generated source so it can be used with other targets
-add_library(GrpcGenerated OBJECT ${PROTO_HEADERS} ${PROTO_SRC})
-
-target_link_libraries(GrpcGenerated PRIVATE protobuf::libprotobuf gRPC::grpc++)
