@@ -24,7 +24,9 @@
 
 namespace philote
 {
+    // forward declaration
     class Discipline;
+
     /**
      * @brief Base class for all analysis discipline servers
      *
@@ -51,6 +53,11 @@ namespace philote
          * @param discipline
          */
         void LinkPointers(philote::Discipline *discipline);
+
+        /**
+         * @brief Unlinks all pointers
+         */
+        void UnlinkPointers();
 
         /**
          * @brief RPC to send the discipline properties to the client
@@ -200,7 +207,7 @@ namespace philote
          */
         virtual void SetupPartials();
 
-    private:
+    protected:
         //! Basic discipline server
         philote::DisciplineServer discipline_;
     };

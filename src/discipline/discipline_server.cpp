@@ -31,12 +31,17 @@ using std::vector;
 
 DisciplineServer::~DisciplineServer()
 {
-    discipline_ = nullptr;
+    UnlinkPointers();
 }
 
 void DisciplineServer::LinkPointers(philote::Discipline *discipline)
 {
     discipline_ = discipline;
+}
+
+void DisciplineServer::UnlinkPointers()
+{
+    discipline_ = nullptr;
 }
 
 grpc::Status DisciplineServer::GetInfo(ServerContext *context,
@@ -84,6 +89,7 @@ grpc::Status DisciplineServer::Setup(grpc::ServerContext *context,
                                      Empty *response)
 {
     discipline_->Setup();
+    discipline_->SetupPartials();
 
     return Status::OK;
 }

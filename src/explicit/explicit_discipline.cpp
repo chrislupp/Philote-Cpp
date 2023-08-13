@@ -15,3 +15,30 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */
+#include <Philote/explicit.h>
+
+using philote::ExplicitDiscipline;
+using philote::Partials;
+using philote::Variables;
+
+ExplicitDiscipline::ExplicitDiscipline()
+{
+    // link to discipline server and this object
+    explicit_.LinkPointers(&discipline_, this);
+}
+
+ExplicitDiscipline::~ExplicitDiscipline()
+{
+    discipline_.UnlinkPointers();
+    explicit_.UnlinkPointers();
+}
+
+Variables ExplicitDiscipline::Compute(const Variables &inputs)
+{
+    return Variables();
+}
+
+Partials ComputePartials(const Variables &inputs)
+{
+    return Partials();
+}

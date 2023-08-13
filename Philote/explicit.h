@@ -46,7 +46,7 @@ namespace philote
         ExplicitServer() = default;
 
         //! Destructor
-        ~ExplicitServer() = default;
+        ~ExplicitServer();
 
         /**
          * @brief Links the explicit server to the discipline server and
@@ -56,6 +56,12 @@ namespace philote
          */
         void LinkPointers(philote::DisciplineServer *discipline,
                           philote::ExplicitDiscipline *implementation);
+
+        /**
+         * @brief Dereferences all pointers
+         *
+         */
+        void UnlinkPointers();
 
         /**
          * @brief RPC that computes initiates function evaluation
@@ -97,9 +103,13 @@ namespace philote
      * to interact further with these services.
      *
      */
-    class ExplicitDiscipline
+    class ExplicitDiscipline : public Discipline
     {
     public:
+        ExplicitDiscipline();
+
+        ~ExplicitDiscipline();
+
         void RegisterServers();
 
         /**

@@ -32,11 +32,22 @@ using philote::ExplicitServer;
 using philote::Partials;
 using philote::Variables;
 
+ExplicitServer::~ExplicitServer()
+{
+    UnlinkPointers();
+}
+
 void ExplicitServer::LinkPointers(philote::DisciplineServer *discipline,
                                   philote::ExplicitDiscipline *implementation)
 {
     discipline_ = discipline;
     implementation_ = implementation;
+}
+
+void ExplicitServer::UnlinkPointers()
+{
+    discipline_ = nullptr;
+    implementation_ = nullptr;
 }
 
 Status ExplicitServer::ComputeFunction(ServerContext *context,
