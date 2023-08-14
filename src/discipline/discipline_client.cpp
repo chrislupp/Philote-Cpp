@@ -18,6 +18,7 @@
 #include <Philote/discipline.h>
 
 using google::protobuf::Empty;
+using grpc::ChannelInterface;
 using grpc::ClientContext;
 using grpc::ClientReader;
 using philote::DisciplineProperties;
@@ -32,6 +33,13 @@ DisciplineClient::DisciplineClient()
     // set default streaming options
     stream_options_.set_num_double(1000);
     stream_options_.set_num_int(1000);
+
+    stub_ = nullptr;
+}
+
+void DisciplineClient::ConnectChannel(std::shared_ptr<ChannelInterface> channel)
+{
+    stub_ = DisciplineService::NewStub(channel);
 }
 
 void DisciplineClient::GetInfo()

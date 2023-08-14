@@ -175,6 +175,13 @@ namespace philote
         ~ExplicitClient();
 
         /**
+         * @brief Connects the client stub to a gRPC channel
+         *
+         * @param channel
+         */
+        void ConnectChannel(std::shared_ptr<grpc::ChannelInterface> channel);
+
+        /**
          * @brief Calls the remote analysis server function evaluation via gRPC.
          *
          * Unlike the analysis server, this function does not need to be
@@ -182,9 +189,7 @@ namespace philote
          * function evaluation.
          *
          * @param inputs
-         * @param discrete_inputs
          * @param outputs
-         * @param discrete_outputs
          */
         void ComputeFunction(Variables &inputs, Variables &outputs);
 
@@ -196,7 +201,6 @@ namespace philote
          * gradient evaluation.
          *
          * @param inputs
-         * @param discrete_inputs
          * @param partials
          */
         // void RemotePartials(std::map<std::string, ContArray> &inputs,

@@ -21,6 +21,7 @@
 #include <disciplines.pb.h>
 #include <disciplines.grpc.pb.h>
 
+using grpc::ChannelInterface;
 using philote::ExplicitClient;
 using philote::VariableMetaData;
 
@@ -41,6 +42,12 @@ ExplicitClient::ExplicitClient(const std::string &host)
 }
 
 ExplicitClient::~ExplicitClient() {}
+
+void ExplicitClient::ConnectChannel(std::shared_ptr<ChannelInterface> channel)
+{
+    DisciplineClient::ConnectChannel(channel);
+    stub_ = ExplicitService::NewStub(channel);
+}
 
 void ExplicitClient::ComputeFunction(Variables &inputs, Variables &outputs)
 {

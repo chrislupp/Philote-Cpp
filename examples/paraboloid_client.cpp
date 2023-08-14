@@ -15,8 +15,37 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */
+#include <grpcpp/grpcpp.h>
+
+#include <Philote/variable.h>
+#include <Philote/explicit.h>
+
+using grpc::Channel;
+using philote::Variables;
 
 int main()
 {
+    std::shared_ptr<Channel> channel = grpc::CreateChannel("localhost:50051",
+                                                           grpc::InsecureChannelCredentials());
+    philote::ExplicitClient client;
+    client.ConnectChannel(channel);
+
+    // send stream options to the analysis server
+    client.SendStreamOptions();
+
+    // send stream options to the analysis server
+    client.Setup();
+
+    //
+    client.GetVariableDefinitions();
+
+    //
+    client.GetPartialDefinitions();
+
+    //
+    Variables inputs;
+    Variables outputs;
+    client.ComputeFunction(inputs, outputs);
+
     return 0;
 }

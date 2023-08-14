@@ -243,6 +243,13 @@ namespace philote
         ~DisciplineClient() = default;
 
         /**
+         * @brief Connects the client stub to a gRPC channel
+         *
+         * @param channel
+         */
+        void ConnectChannel(std::shared_ptr<grpc::ChannelInterface> channel);
+
+        /**
          * @brief Get the fundamental properties of the discipline
          *
          * @return philote::DisciplineProperties
