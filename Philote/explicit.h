@@ -189,9 +189,8 @@ namespace philote
          * function evaluation.
          *
          * @param inputs
-         * @param outputs
          */
-        void ComputeFunction(Variables &inputs, Variables &outputs);
+        Variables ComputeFunction(Variables &inputs);
 
         /**
          * @brief Calls the remote analysis server function evaluation via gRPC.

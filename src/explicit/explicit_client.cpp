@@ -49,7 +49,7 @@ void ExplicitClient::ConnectChannel(std::shared_ptr<ChannelInterface> channel)
     stub_ = ExplicitService::NewStub(channel);
 }
 
-void ExplicitClient::ComputeFunction(Variables &inputs, Variables &outputs)
+philote::Variables ExplicitClient::ComputeFunction(Variables &inputs)
 {
     grpc::ClientContext context;
     std::shared_ptr<grpc::ClientReaderWriter<::philote::Array, ::philote::Array>>
@@ -60,6 +60,18 @@ void ExplicitClient::ComputeFunction(Variables &inputs, Variables &outputs)
     {
         const string name = var.name();
         inputs[name].Send(stream, stream_options_.num_double());
+    }
+
+    // preallocate outputs
+    Variables outputs;
+    for (const VariableMetaData &var : var_meta_)
+    {
+        const string &name = var.name();
+        vector<size_t> shape;
+        for (auto val : var.shape())
+            shape.push_back(val);
+
+        outputs[var.name()] = Variable(var.name(), var.type(), shape);
     }
 
     // finish streaming data to the server
@@ -73,6 +85,8 @@ void ExplicitClient::ComputeFunction(Variables &inputs, Variables &outputs)
     }
 
     grpc::Status status = stream->Finish();
+
+    return outputs;
 }
 
 // void ExplicitClient::ComputeGradient(map<string, ContArray> &inputs,

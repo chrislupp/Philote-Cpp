@@ -44,8 +44,7 @@ int main()
 
     //
     Variables inputs;
-    Variables outputs;
-    client.ComputeFunction(inputs, outputs);
+    Variables outputs = client.ComputeFunction(inputs);
 
     return 0;
 }
