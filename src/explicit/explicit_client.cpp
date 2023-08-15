@@ -66,12 +66,8 @@ philote::Variables ExplicitClient::ComputeFunction(Variables &inputs)
     Variables outputs;
     for (const VariableMetaData &var : var_meta_)
     {
-        const string &name = var.name();
-        vector<size_t> shape;
-        for (auto val : var.shape())
-            shape.push_back(val);
-
-        outputs[var.name()] = Variable(var.name(), var.type(), shape);
+        if (var.type() == kOutput)
+            outputs[var.name()] = Variable(var);
     }
 
     // finish streaming data to the server

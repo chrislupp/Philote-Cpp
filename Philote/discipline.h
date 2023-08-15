@@ -167,7 +167,7 @@ namespace philote
          * @brief Construct a new Discipline object
          *
          */
-        Discipline() = default;
+        Discipline();
 
         /**
          * @brief Destroy the Discipline object
@@ -312,6 +312,9 @@ namespace philote
 
         //! variable meta data
         std::vector<philote::VariableMetaData> var_meta_;
+
+        //! vector containing all partials metadata for the discipline
+        std::vector<PartialsMetaData> partials_meta_;
 
         /**
          * @brief Set the variable meta data for the discipline

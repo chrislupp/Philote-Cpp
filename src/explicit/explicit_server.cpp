@@ -92,8 +92,16 @@ Status ExplicitServer::ComputeFunction(ServerContext *context,
         }
     }
 
+    // preallocate outputs
+    Variables outputs;
+    for (const VariableMetaData &var : discipline_->var_meta())
+    {
+        if (var.type() == kOutput)
+            outputs[var.name()] = Variable(var);
+    }
+
     // call the discipline developer-defined Compute function
-    Variables outputs = implementation_->Compute(inputs);
+    implementation_->Compute(inputs, outputs);
 
     // iterate through continuous outputs
     vector<string> var_list;

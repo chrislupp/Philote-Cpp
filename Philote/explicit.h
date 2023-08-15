@@ -133,7 +133,7 @@ namespace philote
          * discrete)
          * @return philote::Variables
          */
-        virtual philote::Variables Compute(const philote::Variables &inputs);
+        virtual void Compute(const philote::Variables &inputs, philote::Variables &outputs);
 
         /**
          * @brief Gradient evaluation for the discipline.

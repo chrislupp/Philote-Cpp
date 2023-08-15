@@ -13,8 +13,27 @@ Variable::Variable(const std::string &name,
                    const philote::VariableType &type,
                    const std::vector<size_t> &shape)
 {
+    name_ = name;
     type_ = type;
     shape_ = shape;
+
+    // serialized array size
+    size_t size = 1;
+    for (size_t i = 0; i < shape_.size(); i++)
+        size *= shape_[i];
+
+    // initialize the array from the shape input
+    data_.resize(size);
+}
+
+Variable::Variable(const philote::VariableMetaData &meta)
+{
+    name_ = meta.name();
+
+    for (auto &val : meta.shape())
+        shape_.push_back(val);
+
+    type_ = meta.type();
 
     // serialized array size
     size_t size = 1;
@@ -86,6 +105,8 @@ Array Variable::CreateChunk(const size_t &start, const size_t end)
 {
     Array out;
     out.set_name(name_);
+    out.set_subname(sub_name_);
+
     out.set_start(start);
     out.set_end(end);
 

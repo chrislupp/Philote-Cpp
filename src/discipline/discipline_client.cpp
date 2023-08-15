@@ -76,7 +76,20 @@ void DisciplineClient::GetVariableDefinitions()
     Empty request;
     std::unique_ptr<ClientReader<VariableMetaData>> reactor;
 
-    reactor = stub_->GetVariableDefinitions(&context, request);
+    if (var_meta_.size() > 0 or partials_meta_.size() > 0)
+    {
+        // clear any existing meta data
+        var_meta_.clear();
+        partials_meta_.clear();
+    }
+    else
+    {
+        reactor = stub_->GetVariableDefinitions(&context, request);
+
+        VariableMetaData meta;
+        while (reactor->Read(&meta))
+            AddVariableMeta(meta);
+    }
 }
 
 void DisciplineClient::GetPartialDefinitions()
@@ -88,14 +101,31 @@ void DisciplineClient::GetPartialDefinitions()
     reactor = stub_->GetPartialDefinitions(&context, request);
 }
 
-vector<string> GetVariableNames()
+vector<string> DisciplineClient::GetVariableNames()
 {
-    return vector<string>();
+    vector<string> keys;
+    for (auto &var : var_meta_)
+    {
+        keys.push_back(var.name());
+    }
+
+    return keys;
 }
 
 VariableMetaData DisciplineClient::GetVariableMeta(const string &name)
 {
-    return VariableMetaData();
+    VariableMetaData out;
+
+    for (auto &var : var_meta_)
+    {
+        if (var.name() == name)
+        {
+            out = var;
+            break;
+        }
+    }
+
+    return out;
 }
 
 void DisciplineClient::AddVariableMeta(const philote::VariableMetaData &var)

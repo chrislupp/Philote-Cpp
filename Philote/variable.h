@@ -39,9 +39,23 @@ namespace philote
          */
         Variable() = default;
 
+        /**
+         * @brief Construct a new Variable object
+         *
+         * @param name
+         * @param type
+         * @param shape
+         */
         Variable(const std::string &name,
                  const philote::VariableType &type,
                  const std::vector<size_t> &shape);
+
+        /**
+         * @brief Construct a new Variable object
+         *
+         * @param meta
+         */
+        Variable(const philote::VariableMetaData &meta);
 
         /**
          * @brief Destroy the Variables object

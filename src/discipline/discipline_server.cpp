@@ -66,8 +66,6 @@ Status DisciplineServer::GetVariableDefinitions(ServerContext *context,
                                                 const Empty *request,
                                                 ServerWriter<VariableMetaData> *writer)
 {
-    VariableMetaData meta;
-
     for (const VariableMetaData &var : var_meta_)
         writer->Write(var);
 
@@ -88,6 +86,13 @@ grpc::Status DisciplineServer::Setup(grpc::ServerContext *context,
                                      const Empty *request,
                                      Empty *response)
 {
+    if (var_meta_.size() > 0 or partials_meta_.size() > 0)
+    { // clear any existing meta data
+        var_meta_.clear();
+        partials_meta_.clear();
+    }
+
+    // run the developer-defined setup functions
     discipline_->Setup();
     discipline_->SetupPartials();
 

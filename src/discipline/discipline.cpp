@@ -22,6 +22,11 @@ using std::vector;
 
 using philote::Discipline;
 
+Discipline::Discipline()
+{
+    discipline_.LinkPointers(this);
+}
+
 void Discipline::AddInput(const string &name,
                           const vector<int64_t> &shape,
                           const string &units)

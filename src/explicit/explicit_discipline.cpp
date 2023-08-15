@@ -44,9 +44,9 @@ void ExplicitDiscipline::RegisterServices(ServerBuilder &builder)
     builder.RegisterService(&explicit_);
 }
 
-Variables ExplicitDiscipline::Compute(const Variables &inputs)
+void ExplicitDiscipline::Compute(const Variables &inputs,
+                                 philote::Variables &outputs)
 {
-    return Variables();
 }
 
 Partials ExplicitDiscipline::ComputePartials(const Variables &inputs)

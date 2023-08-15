@@ -54,17 +54,13 @@ private:
     }
 
     // Computes
-    philote::Variables Compute(const philote::Variables &inputs)
+    void Compute(const philote::Variables &inputs, philote::Variables &outputs)
     {
-        philote::Variables outputs;
-
         double x = inputs.at("x")(0);
         double y = inputs.at("y")(0);
 
         outputs.at("f_xy")(0) = pow(x - 3.0, 2.0) + x * y +
                                 pow(y + 4.0, 2.0) - 3.0;
-
-        return outputs;
     }
 
     philote::Partials ComputePartials(const philote::Variables &inputs)
@@ -86,11 +82,15 @@ int main()
     std::string address("localhost:50051");
     RemoteParaboloid service;
 
-    // ServerBuilder builder;
-    // builder.AddListeningPort(address, grpc::InsecureServerCredentials());
-    // service.RegisterServices(builder);
+    ServerBuilder builder;
+    builder.AddListeningPort(address, grpc::InsecureServerCredentials());
+    service.RegisterServices(builder);
 
-    // std::unique_ptr<Server> server(builder.BuildAndStart());
+    std::unique_ptr<Server> server(builder.BuildAndStart());
+
+    std::cout << "Server listening on port: " << address << std::endl;
+
+    server->Wait();
 
     return 0;
 }
