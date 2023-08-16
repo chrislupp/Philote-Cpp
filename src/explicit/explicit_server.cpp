@@ -77,7 +77,7 @@ Status ExplicitServer::ComputeFunction(ServerContext *context,
         {
             // get array data
             vector<double> value;
-            value.assign(array.continuous().begin(), array.continuous().end());
+            value.assign(array.data().begin(), array.data().end());
 
             // set the variable slice
             inputs[name].Segment(start, end, value);

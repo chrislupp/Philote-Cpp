@@ -16,6 +16,6 @@ add_library(PhiloteCpp STATIC
 
     implicit/implicit_server.cpp
     implicit/implicit_client.cpp
-
 )
+
 target_link_libraries(PhiloteCpp PRIVATE protobuf::libprotobuf gRPC::grpc++)

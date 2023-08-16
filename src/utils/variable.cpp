@@ -109,7 +109,7 @@ Array Variable::CreateChunk(const size_t &start, const size_t end)
     {
         for (const double &value : Segment(start, end))
         {
-            out.add_continuous(value);
+            out.add_data(value);
         }
     }
     else if (type_ == kDiscreteInput or type_ == kDiscreteOutput)
@@ -200,5 +200,5 @@ void Variable::AssignChunk(const Array &data)
     size_t end = data.end();
 
     for (size_t i = 0; i < end - start; i++)
-        data_[start + i] = data.continuous(i);
+        data_[start + i] = data.data(i);
 }
