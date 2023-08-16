@@ -107,7 +107,7 @@ Status ExplicitServer::ComputeFunction(ServerContext *context,
     vector<string> var_list;
     for (auto &name : var_list)
     {
-        outputs[name].Send(stream, discipline_->stream_opts().num_double());
+        outputs[name].Send(name, "", stream, discipline_->stream_opts().num_double());
     }
 
     return Status::OK;

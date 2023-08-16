@@ -9,11 +9,9 @@ using std::vector;
 
 using namespace philote;
 
-Variable::Variable(const std::string &name,
-                   const philote::VariableType &type,
+Variable::Variable(const philote::VariableType &type,
                    const std::vector<size_t> &shape)
 {
-    name_ = name;
     type_ = type;
     shape_ = shape;
 
@@ -28,8 +26,6 @@ Variable::Variable(const std::string &name,
 
 Variable::Variable(const philote::VariableMetaData &meta)
 {
-    name_ = meta.name();
-
     for (auto &val : meta.shape())
         shape_.push_back(val);
 
@@ -104,8 +100,6 @@ double &Variable::operator()(const size_t &i)
 Array Variable::CreateChunk(const size_t &start, const size_t end)
 {
     Array out;
-    out.set_name(name_);
-    out.set_subname(sub_name_);
 
     out.set_start(start);
     out.set_end(end);
@@ -126,10 +120,15 @@ Array Variable::CreateChunk(const size_t &start, const size_t end)
     return out;
 }
 
-void Variable::Send(shared_ptr<ClientReaderWriter<Array, Array>> stream,
+void Variable::Send(string name,
+                    string subname,
+                    shared_ptr<ClientReaderWriter<Array, Array>> stream,
                     const size_t &chunk_size)
 {
     Array array;
+    array.set_name(name);
+    array.set_subname(subname);
+
     size_t start, end;
     size_t n = Size();
 
@@ -158,10 +157,15 @@ void Variable::Send(shared_ptr<ClientReaderWriter<Array, Array>> stream,
     }
 }
 
-void Variable::Send(ServerReaderWriter<Array, Array> *stream,
+void Variable::Send(string name,
+                    string subname,
+                    ServerReaderWriter<Array, Array> *stream,
                     const size_t &chunk_size)
 {
     Array array;
+    array.set_name(name);
+    array.set_subname(subname);
+
     size_t start = 0, end;
     size_t n = Size();
 

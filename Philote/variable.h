@@ -42,12 +42,10 @@ namespace philote
         /**
          * @brief Construct a new Variable object
          *
-         * @param name
          * @param type
          * @param shape
          */
-        Variable(const std::string &name,
-                 const philote::VariableType &type,
+        Variable(const philote::VariableType &type,
                  const std::vector<size_t> &shape);
 
         /**
@@ -119,7 +117,9 @@ namespace philote
          *
          * @param stream
          */
-        void Send(std::shared_ptr<grpc::ClientReaderWriter<::philote::Array, ::philote::Array>> stream,
+        void Send(std::string name,
+                  std::string subname,
+                  std::shared_ptr<grpc::ClientReaderWriter<::philote::Array, ::philote::Array>> stream,
                   const size_t &chunk_size);
 
         /**
@@ -127,7 +127,9 @@ namespace philote
          *
          * @param stream
          */
-        void Send(grpc::ServerReaderWriter<::philote::Array, ::philote::Array> *stream,
+        void Send(std::string name,
+                  std::string subname,
+                  grpc::ServerReaderWriter<::philote::Array, ::philote::Array> *stream,
                   const size_t &chunk_size);
 
         /**
@@ -139,12 +141,6 @@ namespace philote
         void AssignChunk(const Array &data);
 
     private:
-        //! variable name
-        std::string name_;
-
-        //! variable sub_name
-        std::string sub_name_;
-
         //! variable type
         philote::VariableType type_;
 
