@@ -44,9 +44,9 @@ void Variable::Segment(const size_t &start, const size_t &end,
                        const std::vector<double> &data)
 {
     // check that the segment matches length of (end - start)
-    if ((end - start) + 1 != data.size())
+    if ((end - start) != data.size())
     {
-        std::string expected = std::to_string((end - start) + 1);
+        std::string expected = std::to_string((end - start));
         std::string actual = std::to_string(data.size());
         throw std::length_error("Vector data has incompatable length. Should be " +
                                 expected + ", but received " + actual + ".");
@@ -59,12 +59,12 @@ void Variable::Segment(const size_t &start, const size_t &end,
 
 std::vector<double> Variable::Segment(const size_t &start, const size_t &end)
 {
-    std::vector<double> data(end - start + 1);
+    std::vector<double> data(end - start);
 
     // check that the segment matches length of (end - start)
-    if ((end - start) + 1 != data_.size())
+    if ((end - start) != data_.size())
     {
-        std::string expected = std::to_string((end - start) + 1);
+        std::string expected = std::to_string((end - start));
         std::string actual = std::to_string(data.size());
         throw std::length_error("Vector data has incompatable length. Should be " +
                                 expected + ", but received " + actual + ".");
