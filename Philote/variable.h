@@ -79,7 +79,7 @@ namespace philote
          * @param end
          * @return std::vector<Type>&
          */
-        std::vector<double> Segment(const size_t &start, const size_t &end);
+        std::vector<double> Segment(const size_t &start, const size_t &end) const;
 
         /**
          * @brief Returns the shape of the array
@@ -120,7 +120,7 @@ namespace philote
         void Send(std::string name,
                   std::string subname,
                   std::shared_ptr<grpc::ClientReaderWriter<::philote::Array, ::philote::Array>> stream,
-                  const size_t &chunk_size);
+                  const size_t &chunk_size) const;
 
         /**
          * @brief Sends the variable from the server to the client
@@ -130,7 +130,7 @@ namespace philote
         void Send(std::string name,
                   std::string subname,
                   grpc::ServerReaderWriter<::philote::Array, ::philote::Array> *stream,
-                  const size_t &chunk_size);
+                  const size_t &chunk_size) const;
 
         /**
          * @brief Assigns a chunk to the variable
@@ -160,9 +160,9 @@ namespace philote
          * @param end
          * @return philote::Array
          */
-        philote::Array CreateChunk(const size_t &start, const size_t end);
-
+        philote::Array CreateChunk(const size_t &start, const size_t end) const;
     };
 
     typedef std::map<std::string, philote::Variable> Variables;
+    typedef std::map<std::pair<std::string, std::string>, philote::Variable> Partials;
 }

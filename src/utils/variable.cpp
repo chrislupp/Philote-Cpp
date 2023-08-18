@@ -57,7 +57,7 @@ void Variable::Segment(const size_t &start, const size_t &end,
         data_[start + i] = data[i];
 }
 
-std::vector<double> Variable::Segment(const size_t &start, const size_t &end)
+std::vector<double> Variable::Segment(const size_t &start, const size_t &end) const
 {
     std::vector<double> data(end - start);
 
@@ -97,7 +97,7 @@ double &Variable::operator()(const size_t &i)
     return data_[i];
 }
 
-Array Variable::CreateChunk(const size_t &start, const size_t end)
+Array Variable::CreateChunk(const size_t &start, const size_t end) const
 {
     Array out;
 
@@ -123,7 +123,7 @@ Array Variable::CreateChunk(const size_t &start, const size_t end)
 void Variable::Send(string name,
                     string subname,
                     shared_ptr<ClientReaderWriter<Array, Array>> stream,
-                    const size_t &chunk_size)
+                    const size_t &chunk_size) const
 {
     Array array;
 
@@ -162,7 +162,7 @@ void Variable::Send(string name,
 void Variable::Send(string name,
                     string subname,
                     ServerReaderWriter<Array, Array> *stream,
-                    const size_t &chunk_size)
+                    const size_t &chunk_size) const
 {
     Array array;
 
