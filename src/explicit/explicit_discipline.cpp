@@ -49,7 +49,7 @@ void ExplicitDiscipline::Compute(const Variables &inputs,
 {
 }
 
-Partials ExplicitDiscipline::ComputePartials(const Variables &inputs)
+void ExplicitDiscipline::ComputePartials(const Variables &inputs,
+                                         Partials &partials)
 {
-    return Partials();
 }

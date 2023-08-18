@@ -84,8 +84,10 @@ int main()
 
     Variables outputs = client.ComputeFunction(inputs);
 
-    // cout << outputs.size() << endl;
-
+    cout << endl
+         << endl;
+    cout << "Outputs" << endl;
+    cout << "-------" << endl;
     for (auto &var : outputs)
     {
         cout << "name: " << var.first << ", " << var.second(0) << endl;

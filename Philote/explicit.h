@@ -24,7 +24,6 @@
 #include <Philote/discipline.h>
 #include <Philote/options.h>
 #include <Philote/variable.h>
-#include <Philote/partials.h>
 
 #include <disciplines.grpc.pb.h>
 
@@ -145,7 +144,8 @@ namespace philote
          * @param inputs input variables for the discipline (continuous and
          * discrete)
          */
-        virtual philote::Partials ComputePartials(const philote::Variables &inputs);
+        virtual void ComputePartials(const philote::Variables &inputs,
+                                     Partials &partials);
 
     private:
         //! Explicit discipline server
@@ -190,7 +190,7 @@ namespace philote
          *
          * @param inputs
          */
-        Variables ComputeFunction(Variables &inputs);
+        Variables ComputeFunction(const Variables &inputs);
 
         /**
          * @brief Calls the remote analysis server function evaluation via gRPC.
@@ -202,9 +202,7 @@ namespace philote
          * @param inputs
          * @param partials
          */
-        // void RemotePartials(std::map<std::string, ContArray> &inputs,
-        //                     std::map<std::string, DiscArray> &discrete_inputs,
-        //                     std::map<std::pair<std::string, std::string>, ContArray> &partials);
+        void RemotePartials(const Variables &inputs, Partials &partials);
 
     private:
         //! host name of the analysis server

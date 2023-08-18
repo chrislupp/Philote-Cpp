@@ -49,7 +49,7 @@ void ExplicitClient::ConnectChannel(std::shared_ptr<ChannelInterface> channel)
     stub_ = ExplicitService::NewStub(channel);
 }
 
-philote::Variables ExplicitClient::ComputeFunction(Variables &inputs)
+philote::Variables ExplicitClient::ComputeFunction(const Variables &inputs)
 {
     grpc::ClientContext context;
     std::shared_ptr<grpc::ClientReaderWriter<::philote::Array, ::philote::Array>>
@@ -63,7 +63,7 @@ philote::Variables ExplicitClient::ComputeFunction(Variables &inputs)
         const string name = var.name();
 
         if (var.type() == kInput)
-            inputs[name].Send(name, "", stream, stream_options_.num_double());
+            inputs.at(name).Send(name, "", stream, stream_options_.num_double());
 
         if (var.type() == kOutput)
             outputs[var.name()] = Variable(var);
