@@ -75,16 +75,8 @@ Status ExplicitServer::ComputeFunction(ServerContext *context,
         // obtain the inputs and discrete inputs from the stream
         if (var->type() == VariableType::kInput)
         {
-            // get array data
-            vector<double> value;
-            value.assign(array.data().begin(), array.data().end());
-
             // set the variable slice
-            inputs[name].Segment(start, end, value);
-        }
-        else if (var->type() == VariableType::kDiscreteInput)
-        {
-            // discrete data
+            inputs[name].AssignChunk(array);
         }
         else
         {
@@ -93,22 +85,24 @@ Status ExplicitServer::ComputeFunction(ServerContext *context,
     }
 
     // preallocate outputs
-    Variables outputs;
-    for (const VariableMetaData &var : discipline_->var_meta())
-    {
-        if (var.type() == kOutput)
-            outputs[var.name()] = Variable(var);
-    }
+    // Variables outputs;
+    // for (const VariableMetaData &var : discipline_->var_meta())
+    // {
+    //     if (var.type() == kOutput)
+    //         outputs[var.name()] = Variable(var);
+    // }
 
-    // call the discipline developer-defined Compute function
-    implementation_->Compute(inputs, outputs);
+    // // call the discipline developer-defined Compute function
+    // implementation_->Compute(inputs, outputs);
 
-    // iterate through continuous outputs
-    vector<string> var_list;
-    for (auto &name : var_list)
-    {
-        outputs[name].Send(name, "", stream, discipline_->stream_opts().num_double());
-    }
+    // // iterate through continuous outputs
+    // for (const VariableMetaData &var : discipline_->var_meta())
+    // {
+    //     const string name = var.name();
+
+    //     if (var.type() == kOutput)
+    //         outputs[name].Send(name, "", stream, discipline_->stream_opts().num_double());
+    // }
 
     return Status::OK;
 }

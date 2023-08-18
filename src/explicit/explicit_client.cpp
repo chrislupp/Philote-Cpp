@@ -55,17 +55,15 @@ philote::Variables ExplicitClient::ComputeFunction(Variables &inputs)
     std::shared_ptr<grpc::ClientReaderWriter<::philote::Array, ::philote::Array>>
         stream(stub_->ComputeFunction(&context));
 
-    // assign inputs
+    // send/assign inputs and preallocate outputs
+    Variables outputs;
+
     for (const VariableMetaData &var : var_meta_)
     {
         const string name = var.name();
-        inputs[name].Send(name, "", stream, stream_options_.num_double());
-    }
+        if (var.type() == kInput)
+            inputs[name].Send(name, "", stream, stream_options_.num_double());
 
-    // preallocate outputs
-    Variables outputs;
-    for (const VariableMetaData &var : var_meta_)
-    {
         if (var.type() == kOutput)
             outputs[var.name()] = Variable(var);
     }

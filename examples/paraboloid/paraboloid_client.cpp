@@ -72,17 +72,17 @@ int main()
     }
 
     // get the partials meta data from the server
-    // client.GetPartialDefinitions();
+    client.GetPartialDefinitions();
 
     // define the inputs and run a function evaluation
-    // Variables inputs;
-    // inputs["x"] = Variable("x", philote::kInput, {1});
-    // inputs["y"] = Variable("y", philote::kInput, {1});
+    Variables inputs;
+    inputs["x"] = Variable(philote::kInput, {1});
+    inputs["y"] = Variable(philote::kInput, {1});
 
-    // inputs["x"](0) = 1.0;
-    // inputs["y"](0) = 2.0;
+    inputs["x"](0) = 1.0;
+    inputs["y"](0) = 2.0;
 
-    // Variables outputs = client.ComputeFunction(inputs);
+    Variables outputs = client.ComputeFunction(inputs);
 
     // cout << outputs.size() << endl;
 
