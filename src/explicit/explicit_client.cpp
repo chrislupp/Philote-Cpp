@@ -61,6 +61,7 @@ philote::Variables ExplicitClient::ComputeFunction(Variables &inputs)
     for (const VariableMetaData &var : var_meta_)
     {
         const string name = var.name();
+
         if (var.type() == kInput)
             inputs[name].Send(name, "", stream, stream_options_.num_double());
 

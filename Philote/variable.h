@@ -161,6 +161,7 @@ namespace philote
          * @return philote::Array
          */
         philote::Array CreateChunk(const size_t &start, const size_t end);
+
     };
 
     typedef std::map<std::string, philote::Variable> Variables;

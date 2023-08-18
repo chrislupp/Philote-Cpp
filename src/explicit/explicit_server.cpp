@@ -54,13 +54,19 @@ Status ExplicitServer::ComputeFunction(ServerContext *context,
                                        ServerReaderWriter<::philote::Array,
                                                           ::philote::Array> *stream)
 {
-    ::philote::Array array;
-    Variables inputs;
+    philote::Array array;
 
     // preallocate the inputs based on meta data
+    Variables inputs;
+    for (auto &var : discipline_->var_meta())
+    {
+        string name = var.name();
+        if (var.type() == kInput)
+            inputs[name] = Variable(var);
+    }
+
     while (stream->Read(&array))
     {
-
         // get variables from the stream message
         string name = array.name();
         auto start = array.start();
@@ -85,24 +91,24 @@ Status ExplicitServer::ComputeFunction(ServerContext *context,
     }
 
     // preallocate outputs
-    // Variables outputs;
-    // for (const VariableMetaData &var : discipline_->var_meta())
-    // {
-    //     if (var.type() == kOutput)
-    //         outputs[var.name()] = Variable(var);
-    // }
+    Variables outputs;
+    for (const VariableMetaData &var : discipline_->var_meta())
+    {
+        if (var.type() == kOutput)
+            outputs[var.name()] = Variable(var);
+    }
 
-    // // call the discipline developer-defined Compute function
-    // implementation_->Compute(inputs, outputs);
+    // call the discipline developer-defined Compute function
+    implementation_->Compute(inputs, outputs);
 
-    // // iterate through continuous outputs
-    // for (const VariableMetaData &var : discipline_->var_meta())
-    // {
-    //     const string name = var.name();
+    // iterate through continuous outputs
+    for (const VariableMetaData &var : discipline_->var_meta())
+    {
+        const string name = var.name();
 
-    //     if (var.type() == kOutput)
-    //         outputs[name].Send(name, "", stream, discipline_->stream_opts().num_double());
-    // }
+        if (var.type() == kOutput)
+            outputs[name].Send(name, "", stream, discipline_->stream_opts().num_double());
+    }
 
     return Status::OK;
 }

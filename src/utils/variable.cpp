@@ -126,8 +126,6 @@ void Variable::Send(string name,
                     const size_t &chunk_size)
 {
     Array array;
-    array.set_name(name);
-    array.set_subname(subname);
 
     size_t start, end;
     size_t n = Size();
@@ -137,6 +135,8 @@ void Variable::Send(string name,
         start = 0;
         end = 1;
         array = CreateChunk(start, end);
+        array.set_name(name);
+        array.set_subname(subname);
         stream->Write(array);
     }
     else
@@ -152,6 +152,8 @@ void Variable::Send(string name,
             }
 
             array = CreateChunk(start, end);
+            array.set_name(name);
+            array.set_subname(subname);
             stream->Write(array);
         }
     }
@@ -163,8 +165,6 @@ void Variable::Send(string name,
                     const size_t &chunk_size)
 {
     Array array;
-    array.set_name(name);
-    array.set_subname(subname);
 
     size_t start = 0, end;
     size_t n = Size();
@@ -174,6 +174,8 @@ void Variable::Send(string name,
         start = 0;
         end = 1;
         array = CreateChunk(start, end);
+        array.set_name(name);
+        array.set_subname(subname);
         stream->Write(array);
     }
     else
@@ -189,6 +191,8 @@ void Variable::Send(string name,
             }
 
             array = CreateChunk(start, end);
+            array.set_name(name);
+            array.set_subname(subname);
             stream->Write(array);
         }
     }

@@ -86,10 +86,10 @@ int main()
 
     // cout << outputs.size() << endl;
 
-    // for (auto &var : outputs)
-    // {
-    //     cout << "name: " << var.first << ", " << var.second(0) << endl;
-    // }
+    for (auto &var : outputs)
+    {
+        cout << "name: " << var.first << ", " << var.second(0) << endl;
+    }
 
     return 0;
 }
