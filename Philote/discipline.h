@@ -119,36 +119,9 @@ namespace philote
                            const google::protobuf::Empty *request,
                            google::protobuf::Empty *response);
 
-        /**
-         * @brief Accesses the variable meta data
-         */
-        std::vector<philote::VariableMetaData> &var_meta();
-
-        /**
-         * @brief Accesses the partials meta data
-         */
-        std::vector<philote::PartialsMetaData> &partials_meta();
-
-        /**
-         * @brief Accesses the streaming options
-         */
-        philote::StreamOptions &stream_opts();
-
     private:
         //! Pointer to the discipline implementation
         philote::Discipline *discipline_;
-
-        //! Properties of the discipline (continuity, etc.)
-        philote::DisciplineProperties properties_;
-
-        //! Options that determine how data is streamed
-        StreamOptions stream_opts_;
-
-        //! vector containing all variable metadata for the discipline
-        std::vector<VariableMetaData> var_meta_;
-
-        //! vector containing all partials metadata for the discipline
-        std::vector<PartialsMetaData> partials_meta_;
     };
 
     /**
@@ -174,6 +147,30 @@ namespace philote
          *
          */
         ~Discipline() = default;
+
+        /**
+         * @brief Accesses the variable meta data
+         */
+        std::vector<philote::VariableMetaData> &var_meta();
+
+        /**
+         * @brief Accesses the partials meta data
+         */
+        std::vector<philote::PartialsMetaData> &partials_meta();
+
+        /**
+         * @brief Gets the discipline properties
+         *
+         * @return DisciplineProperties
+         */
+        philote::DisciplineProperties &properties();
+
+        /**
+         * @brief Gets the stream options
+         *
+         * @return StreamOptions&
+         */
+        philote::StreamOptions &stream_opts();
 
         /**
          * @brief Declares an input
@@ -219,8 +216,20 @@ namespace philote
         virtual void SetupPartials();
 
     protected:
+        //! Properties of the discipline (continuity, etc.)
+        philote::DisciplineProperties properties_;
+
+        //! Options that determine how data is streamed
+        StreamOptions stream_opts_;
+
+        //! vector containing all variable metadata for the discipline
+        std::vector<VariableMetaData> var_meta_;
+
+        //! vector containing all partials metadata for the discipline
+        std::vector<PartialsMetaData> partials_meta_;
+
         //! Basic discipline server
-        philote::DisciplineServer discipline_;
+        philote::DisciplineServer discipline_server_;
     };
 
     /**

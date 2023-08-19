@@ -18,6 +18,7 @@
 #include <vector>
 #include <Philote/explicit.h>
 
+using std::make_pair;
 using std::string;
 using std::vector;
 
@@ -37,16 +38,13 @@ ExplicitServer::~ExplicitServer()
     UnlinkPointers();
 }
 
-void ExplicitServer::LinkPointers(philote::DisciplineServer *discipline,
-                                  philote::ExplicitDiscipline *implementation)
+void ExplicitServer::LinkPointers(philote::ExplicitDiscipline *implementation)
 {
-    discipline_ = discipline;
     implementation_ = implementation;
 }
 
 void ExplicitServer::UnlinkPointers()
 {
-    discipline_ = nullptr;
     implementation_ = nullptr;
 }
 
@@ -58,7 +56,7 @@ Status ExplicitServer::ComputeFunction(ServerContext *context,
 
     // preallocate the inputs based on meta data
     Variables inputs;
-    for (auto &var : discipline_->var_meta())
+    for (auto &var : implementation_->var_meta())
     {
         string name = var.name();
         if (var.type() == kInput)
@@ -73,8 +71,8 @@ Status ExplicitServer::ComputeFunction(ServerContext *context,
         auto end = array.end();
 
         // get the variable corresponding to the current message
-        auto var = std::find_if(discipline_->var_meta().begin(),
-                                discipline_->var_meta().end(),
+        auto var = std::find_if(implementation_->var_meta().begin(),
+                                implementation_->var_meta().end(),
                                 [&name](const VariableMetaData &var)
                                 { return var.name() == name; });
 
@@ -92,7 +90,7 @@ Status ExplicitServer::ComputeFunction(ServerContext *context,
 
     // preallocate outputs
     Variables outputs;
-    for (const VariableMetaData &var : discipline_->var_meta())
+    for (const VariableMetaData &var : implementation_->var_meta())
     {
         if (var.type() == kOutput)
             outputs[var.name()] = Variable(var);
@@ -102,12 +100,12 @@ Status ExplicitServer::ComputeFunction(ServerContext *context,
     implementation_->Compute(inputs, outputs);
 
     // iterate through continuous outputs
-    for (const VariableMetaData &var : discipline_->var_meta())
+    for (const VariableMetaData &var : implementation_->var_meta())
     {
         const string name = var.name();
 
         if (var.type() == kOutput)
-            outputs[name].Send(name, "", stream, discipline_->stream_opts().num_double());
+            outputs[name].Send(name, "", stream, implementation_->stream_opts().num_double());
     }
 
     return Status::OK;
@@ -117,5 +115,65 @@ Status ExplicitServer::ComputeGradient(ServerContext *context,
                                        ServerReaderWriter<::philote::Array,
                                                           ::philote::Array> *stream)
 {
+    philote::Array array;
+
+    // preallocate the inputs based on meta data
+    Variables inputs;
+    for (auto &var : implementation_->var_meta())
+    {
+        string name = var.name();
+        if (var.type() == kInput)
+            inputs[name] = Variable(var);
+    }
+
+    while (stream->Read(&array))
+    {
+        // get variables from the stream message
+        string name = array.name();
+        auto start = array.start();
+        auto end = array.end();
+
+        // get the variable corresponding to the current message
+        auto var = std::find_if(implementation_->var_meta().begin(),
+                                implementation_->var_meta().end(),
+                                [&name](const VariableMetaData &var)
+                                { return var.name() == name; });
+
+        // obtain the inputs and discrete inputs from the stream
+        if (var->type() == VariableType::kInput)
+        {
+            // set the variable slice
+            inputs[name].AssignChunk(array);
+        }
+        else
+        {
+            // error message
+        }
+    }
+
+    // preallocate outputs
+    Partials partials;
+    for (const PartialsMetaData &par : implementation_->partials_meta())
+    {
+        vector<size_t> shape;
+        for (const int64_t &dim : par.shape())
+            shape.push_back(dim);
+
+        partials[make_pair(par.name(), par.subname())] = Variable(kOutput, shape);
+    }
+
+    // call the discipline developer-defined Compute function
+    implementation_->ComputePartials(inputs, partials);
+
+    // iterate through continuous outputs
+    // for (const VariableMetaData &var : partials_meta_)
+    // {
+    //     const string name = var.name();
+    //     const string subname = var.subname();
+
+    //     if (var.type() == kOutput)
+    //         outputs[name].Send(name, subname, stream, discipline_->stream_opts().num_double());
+    // }
+
     return Status::OK;
 }

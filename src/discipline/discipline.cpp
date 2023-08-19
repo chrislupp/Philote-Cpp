@@ -21,10 +21,32 @@ using std::string;
 using std::vector;
 
 using philote::Discipline;
+using philote::DisciplineProperties;
+using philote::StreamOptions;
 
 Discipline::Discipline()
 {
-    discipline_.LinkPointers(this);
+    discipline_server_.LinkPointers(this);
+}
+
+std::vector<philote::VariableMetaData> &Discipline::var_meta()
+{
+    return var_meta_;
+}
+
+std::vector<philote::PartialsMetaData> &Discipline::partials_meta()
+{
+    return partials_meta_;
+}
+
+DisciplineProperties &Discipline::properties()
+{
+    return properties_;
+}
+
+StreamOptions &Discipline::stream_opts()
+{
+    return stream_opts_;
 }
 
 void Discipline::AddInput(const string &name,
@@ -38,7 +60,7 @@ void Discipline::AddInput(const string &name,
     var.set_units(units);
     var.set_type(philote::kInput);
 
-    discipline_.var_meta().push_back(var);
+    var_meta().push_back(var);
 }
 
 void Discipline::AddOutput(const string &name,
@@ -52,7 +74,7 @@ void Discipline::AddOutput(const string &name,
     var.set_units(units);
     var.set_type(philote::kOutput);
 
-    discipline_.var_meta().push_back(var);
+    var_meta().push_back(var);
 }
 
 void Discipline::DeclarePartials(const string &f, const string &x)
@@ -61,7 +83,16 @@ void Discipline::DeclarePartials(const string &f, const string &x)
     meta.set_name(f);
     meta.set_subname(x);
 
-    discipline_.partials_meta().push_back(meta);
+    vector<int64_t> shape;
+    for (const auto &var : var_meta_)
+    {
+        /* code */
+    }
+
+    // determine and assign the shape of the partials array
+    meta.shape(0);
+
+    partials_meta().push_back(meta);
 }
 
 void Discipline::Setup()

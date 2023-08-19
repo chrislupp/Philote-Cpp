@@ -53,8 +53,7 @@ namespace philote
          *
          * @param discipline
          */
-        void LinkPointers(philote::DisciplineServer *discipline,
-                          philote::ExplicitDiscipline *implementation);
+        void LinkPointers(philote::ExplicitDiscipline *implementation);
 
         /**
          * @brief Dereferences all pointers
@@ -85,9 +84,6 @@ namespace philote
                                                               ::philote::Array> *stream);
 
     private:
-        //! Pointer to the discipline server
-        philote::DisciplineServer *discipline_;
-
         //! Pointer to the implementation of the explicit discipline
         philote::ExplicitDiscipline *implementation_;
     };

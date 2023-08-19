@@ -29,18 +29,17 @@ using philote::Variables;
 ExplicitDiscipline::ExplicitDiscipline()
 {
     // link to discipline server and this object
-    explicit_.LinkPointers(&discipline_, this);
+    explicit_.LinkPointers(this);
 }
 
 ExplicitDiscipline::~ExplicitDiscipline()
 {
-    discipline_.UnlinkPointers();
     explicit_.UnlinkPointers();
 }
 
 void ExplicitDiscipline::RegisterServices(ServerBuilder &builder)
 {
-    builder.RegisterService(&discipline_);
+    builder.RegisterService(&discipline_server_);
     builder.RegisterService(&explicit_);
 }
 

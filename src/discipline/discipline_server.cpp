@@ -48,7 +48,7 @@ grpc::Status DisciplineServer::GetInfo(ServerContext *context,
                                        Empty *request,
                                        const DisciplineProperties *response)
 {
-    response = &properties_;
+    response = &discipline_->properties();
 
     return Status::OK;
 }
@@ -57,7 +57,7 @@ Status DisciplineServer::SetStreamOptions(ServerContext *context,
                                           const StreamOptions *request,
                                           Empty *response)
 {
-    stream_opts_ = *request;
+    discipline_->stream_opts() = *request;
 
     return Status::OK;
 }
@@ -66,7 +66,7 @@ Status DisciplineServer::GetVariableDefinitions(ServerContext *context,
                                                 const Empty *request,
                                                 ServerWriter<VariableMetaData> *writer)
 {
-    for (const VariableMetaData &var : var_meta_)
+    for (const VariableMetaData &var : discipline_->var_meta())
         writer->Write(var);
 
     return Status::OK;
@@ -76,7 +76,7 @@ Status DisciplineServer::GetPartialDefinitions(ServerContext *context,
                                                const Empty *request,
                                                ServerWriter<PartialsMetaData> *writer)
 {
-    for (const PartialsMetaData &partial : partials_meta_)
+    for (const PartialsMetaData &partial : discipline_->partials_meta())
         writer->Write(partial);
 
     return Status::OK;
@@ -86,10 +86,10 @@ grpc::Status DisciplineServer::Setup(grpc::ServerContext *context,
                                      const Empty *request,
                                      Empty *response)
 {
-    if (var_meta_.size() > 0 or partials_meta_.size() > 0)
+    if (discipline_->var_meta().size() > 0 or discipline_->partials_meta().size() > 0)
     { // clear any existing meta data
-        var_meta_.clear();
-        partials_meta_.clear();
+        discipline_->var_meta().clear();
+        discipline_->partials_meta().clear();
     }
 
     // run the developer-defined setup functions
@@ -97,19 +97,4 @@ grpc::Status DisciplineServer::Setup(grpc::ServerContext *context,
     discipline_->SetupPartials();
 
     return Status::OK;
-}
-
-std::vector<philote::VariableMetaData> &DisciplineServer::var_meta()
-{
-    return var_meta_;
-}
-
-std::vector<philote::PartialsMetaData> &DisciplineServer::partials_meta()
-{
-    return partials_meta_;
-}
-
-philote::StreamOptions &DisciplineServer::stream_opts()
-{
-    return stream_opts_;
 }
