@@ -79,20 +79,34 @@ void Discipline::AddOutput(const string &name,
 
 void Discipline::DeclarePartials(const string &f, const string &x)
 {
+
+    // determine and assign the shape of the partials array
+    vector<int64_t> shape_f, shape_x;
+    for (const auto &var : var_meta_)
+    {
+        if (var.name() == f and var.type() == kOutput)
+        {
+            for (const auto &dim : var.shape())
+                shape_f.push_back(dim);
+        }
+
+        if (var.name() == x and var.type() == kInput)
+        {
+            for (const auto &dim : var.shape())
+                shape_x.push_back(dim);
+        }
+    }
+    vector<int64_t> shape(shape_f.size() + shape_x.size());
+    shape.insert(shape.end(), shape_f.begin(), shape_f.end());
+    shape.insert(shape.end(), shape_x.begin(), shape_x.end());
+
     PartialsMetaData meta;
     meta.set_name(f);
     meta.set_subname(x);
+    for (const auto &dim : shape)
+        meta.add_shape(dim);
 
-    vector<int64_t> shape;
-    for (const auto &var : var_meta_)
-    {
-        /* code */
-    }
-
-    // determine and assign the shape of the partials array
-    meta.shape(0);
-
-    partials_meta().push_back(meta);
+    partials_meta_.push_back(meta);
 }
 
 void Discipline::Setup()
