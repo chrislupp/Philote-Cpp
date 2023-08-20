@@ -165,15 +165,14 @@ Status ExplicitServer::ComputeGradient(ServerContext *context,
     // call the discipline developer-defined Compute function
     implementation_->ComputePartials(inputs, partials);
 
-    // iterate through continuous outputs
-    // for (const VariableMetaData &var : partials_meta_)
-    // {
-    //     const string name = var.name();
-    //     const string subname = var.subname();
+    // iterate through partials
+    for (const PartialsMetaData &par : implementation_->partials_meta())
+    {
+        const string name = par.name();
+        const string subname = par.subname();
 
-    //     if (var.type() == kOutput)
-    //         outputs[name].Send(name, subname, stream, discipline_->stream_opts().num_double());
-    // }
+        partials[make_pair(name, subname)].Send(name, subname, stream, implementation_->stream_opts().num_double());
+    }
 
     return Status::OK;
 }
