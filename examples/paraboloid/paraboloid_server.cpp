@@ -25,6 +25,10 @@ using grpc::Server;
 using grpc::ServerBuilder;
 
 using philote::ExplicitDiscipline;
+using philote::Partials;
+using philote::Variables;
+
+using std::make_pair;
 using std::pow;
 
 class RemoteParaboloid : public ExplicitDiscipline
@@ -63,17 +67,13 @@ private:
                                 pow(y + 4.0, 2.0) - 3.0;
     }
 
-    philote::Partials ComputePartials(const philote::Variables &inputs)
+    void ComputePartials(const philote::Variables &inputs, Partials &jac)
     {
-        philote::Partials jac;
-
         double x = inputs.at("x")(0);
         double y = inputs.at("y")(0);
 
-        // jac['f_xy ', 'x'] = 2.0 * x - 6.0 + y;
-        // jac['f_xy ', 'y'] = 2.0 * y + 8.0 + x;
-
-        return jac;
+        jac[make_pair("f_xy", "x")](0) = 2.0 * x - 6.0 + y;
+        jac[make_pair("f_xy", "y")](0) = 2.0 * y + 8.0 + x;
     }
 };
 

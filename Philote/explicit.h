@@ -189,16 +189,12 @@ namespace philote
         Variables ComputeFunction(const Variables &inputs);
 
         /**
-         * @brief Calls the remote analysis server function evaluation via gRPC.
-         *
-         * Unlike the analysis server, this function does not need to be
-         * overridden, as it contains all logic necessary to retrieve the remote
-         * gradient evaluation.
+         * @brief Calls the remote analysis server gradient evaluation via gRPC
          *
          * @param inputs
-         * @param partials
+         * @return Partials
          */
-        void RemotePartials(const Variables &inputs, Partials &partials);
+        Partials ComputeGradient(const Variables &inputs);
 
     private:
         //! host name of the analysis server

@@ -24,11 +24,13 @@
 
 using std::cout;
 using std::endl;
+using std::make_pair;
 using std::string;
 using std::vector;
 
 using grpc::Channel;
 
+using philote::Partials;
 using philote::Variable;
 using philote::Variables;
 
@@ -92,6 +94,15 @@ int main()
     {
         cout << "name: " << var.first << ", " << var.second(0) << endl;
     }
+
+    Partials partials = client.ComputeGradient(inputs);
+
+    cout << endl
+         << endl
+         << "Partials" << endl
+         << "--------" << endl;
+    cout << "df_dx: " << partials[make_pair("f_xy", "x")](0) << endl;
+    cout << "df_dy: " << partials[make_pair("f_xy", "y")](0) << endl;
 
     return 0;
 }

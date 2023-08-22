@@ -22,9 +22,12 @@
 #include <disciplines.grpc.pb.h>
 
 using grpc::ChannelInterface;
+
+using philote::Array;
 using philote::ExplicitClient;
 using philote::VariableMetaData;
 
+using std::make_pair;
 using std::map;
 using std::pair;
 using std::string;
@@ -52,7 +55,7 @@ void ExplicitClient::ConnectChannel(std::shared_ptr<ChannelInterface> channel)
 philote::Variables ExplicitClient::ComputeFunction(const Variables &inputs)
 {
     grpc::ClientContext context;
-    std::shared_ptr<grpc::ClientReaderWriter<::philote::Array, ::philote::Array>>
+    std::shared_ptr<grpc::ClientReaderWriter<Array, Array>>
         stream(stub_->ComputeFunction(&context));
 
     // send/assign inputs and preallocate outputs
@@ -72,7 +75,7 @@ philote::Variables ExplicitClient::ComputeFunction(const Variables &inputs)
     // finish streaming data to the server
     stream->WritesDone();
 
-    ::philote::Array result;
+    Array result;
     while (stream->Read(&result))
     {
         const string name = result.name();
@@ -84,30 +87,43 @@ philote::Variables ExplicitClient::ComputeFunction(const Variables &inputs)
     return outputs;
 }
 
-// void ExplicitClient::ComputeGradient(map<string, ContArray> &inputs,
-//                                      map<string, DiscArray> &discrete_inputs,
-//                                      map<pair<string, string>, ContArray> &partials)
-// {
-//     grpc::ClientContext context;
-//     std::shared_ptr<grpc::ClientReaderWriter<::philote::Array, ::philote::Array>>
-//         stream(stub_->ComputeGradient(&context));
+philote::Partials ExplicitClient::ComputeGradient(const Variables &inputs)
+{
+    grpc::ClientContext context;
+    std::shared_ptr<grpc::ClientReaderWriter<Array, Array>>
+        stream(stub_->ComputeGradient(&context));
 
-//     // assign inputs
-//     for (const VariableMetaData &var : var_meta_)
-//     {
-//         const string name = var.name();
-//         inputs[name].Send(stream, stream_options_.num_double());
-//     }
+    // send/assign inputs
+    for (const VariableMetaData &var : var_meta_)
+    {
+        const string name = var.name();
+        const string subname = var.name();
 
-//     // finish streaming data to the server
-//     stream->WritesDone();
+        if (var.type() == kInput)
+            inputs.at(name).Send(name, subname, stream, stream_options_.num_double());
+    }
 
-//     ::philote::Array result;
-//     while (stream->Read(&result))
-//     {
-//         const string name = result.name();
-//         outputs[name].AssignChunk(result);
-//     }
+    // finish streaming data to the server
+    stream->WritesDone();
 
-//     grpc::Status status = stream->Finish();
-// }
+    // preallocate partials
+    Partials partials;
+    for (const auto &par : partials_meta_)
+    {
+        partials[make_pair(par.name(), par.subname())] = Variable(par);
+    }
+
+    // process messages from server
+    Array result;
+    while (stream->Read(&result))
+    {
+        const string name = result.name();
+        const string subname = result.subname();
+
+        partials[make_pair(name, subname)].AssignChunk(result);
+    }
+
+    grpc::Status status = stream->Finish();
+
+    return partials;
+}

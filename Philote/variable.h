@@ -56,6 +56,13 @@ namespace philote
         Variable(const philote::VariableMetaData &meta);
 
         /**
+         * @brief Construct a new Variable object
+         *
+         * @param meta
+         */
+        Variable(const philote::PartialsMetaData &meta);
+
+        /**
          * @brief Destroy the Variables object
          *
          */

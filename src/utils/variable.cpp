@@ -40,6 +40,22 @@ Variable::Variable(const philote::VariableMetaData &meta)
     data_.resize(size);
 }
 
+Variable::Variable(const philote::PartialsMetaData &meta)
+{
+    for (auto &val : meta.shape())
+        shape_.push_back(val);
+
+    type_ = kPartial;
+
+    // serialized array size
+    size_t size = 1;
+    for (size_t i = 0; i < shape_.size(); i++)
+        size *= shape_[i];
+
+    // initialize the array from the shape input
+    data_.resize(size);
+}
+
 void Variable::Segment(const size_t &start, const size_t &end,
                        const std::vector<double> &data)
 {
