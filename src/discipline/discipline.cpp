@@ -96,10 +96,33 @@ void Discipline::DeclarePartials(const string &f, const string &x)
                 shape_x.push_back(dim);
         }
     }
-    vector<int64_t> shape(shape_f.size() + shape_x.size());
-    shape.insert(shape.end(), shape_f.begin(), shape_f.end());
-    shape.insert(shape.end(), shape_x.begin(), shape_x.end());
 
+    // create the combined shape array
+    vector<int64_t> shape;
+
+    if (shape_f.size() == 1 and shape_f[0] == 1 and shape_x.size() == 1 and shape_x[0] == 1)
+    {
+        shape.resize(1);
+        shape[0] = 1;
+    }
+    else if (shape_f.size() == 1 and shape_f[0] == 1)
+    {
+        shape.resize(shape_x.size());
+        shape = shape_x;
+    }
+    else if (shape_x.size() == 1 and shape_x[0] == 1)
+    {
+        shape.resize(shape_f.size());
+        shape = shape_f;
+    }
+    else
+    {
+        shape.resize(shape_f.size() + shape_x.size());
+        shape.insert(shape.end(), shape_f.begin(), shape_f.end());
+        shape.insert(shape.end(), shape_x.begin(), shape_x.end());
+    }
+
+    // assign the meta data
     PartialsMetaData meta;
     meta.set_name(f);
     meta.set_subname(x);

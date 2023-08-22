@@ -76,6 +76,16 @@ int main()
     // get the partials meta data from the server
     client.GetPartialDefinitions();
 
+    auto partials_meta = client.partials_meta();
+
+    cout << endl;
+    cout << "Partials Meta" << endl
+         << "-------------" << endl;
+    for (const auto &par : partials_meta)
+    {
+        cout << "d" << par.name() << "/d" << par.subname() << ", size: " << par.shape()[0] << endl;
+    }
+
     // define the inputs and run a function evaluation
     Variables inputs;
     inputs["x"] = Variable(philote::kInput, {1});
@@ -95,6 +105,7 @@ int main()
         cout << "name: " << var.first << ", " << var.second(0) << endl;
     }
 
+    // run a gradient evaluation
     Partials partials = client.ComputeGradient(inputs);
 
     cout << endl

@@ -87,7 +87,8 @@ grpc::Status DisciplineServer::Setup(grpc::ServerContext *context,
                                      Empty *response)
 {
     if (discipline_->var_meta().size() > 0 or discipline_->partials_meta().size() > 0)
-    { // clear any existing meta data
+    {
+        // clear any existing meta data
         discipline_->var_meta().clear();
         discipline_->partials_meta().clear();
     }

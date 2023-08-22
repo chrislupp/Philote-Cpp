@@ -331,17 +331,6 @@ namespace philote
 
         //! vector containing all partials metadata for the discipline
         std::vector<philote::PartialsMetaData> partials_meta_;
-
-        /**
-         * @brief Set the variable meta data for the discipline
-         *
-         * This function must be private to prevent a user from accidentally adding
-         * variables to the discipline client. It should only get called by the
-         * object itself and only in the context of a remote procedure call.
-         *
-         * @param vars
-         */
-        void AddVariableMeta(const philote::VariableMetaData &var);
     };
 
 }
