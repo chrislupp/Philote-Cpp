@@ -309,6 +309,13 @@ namespace philote
          */
         philote::VariableMetaData GetVariableMeta(const std::string &name);
 
+        /**
+         * @brief Gets the partials meta data
+         *
+         * @return std::vector<philote::PartialsMetaData>
+         */
+        std::vector<philote::PartialsMetaData> partials_meta();
+
     protected:
         //! streaming options for the client/server connection
         philote::StreamOptions stream_options_;
@@ -323,7 +330,7 @@ namespace philote
         std::vector<philote::VariableMetaData> var_meta_;
 
         //! vector containing all partials metadata for the discipline
-        std::vector<PartialsMetaData> partials_meta_;
+        std::vector<philote::PartialsMetaData> partials_meta_;
 
         /**
          * @brief Set the variable meta data for the discipline
