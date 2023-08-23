@@ -1,6 +1,8 @@
 .vscode/
 build/
 
+docs/hdoc-output/
+
 *.DS_Store
 
 # grpc generated files
