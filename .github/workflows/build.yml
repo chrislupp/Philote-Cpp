@@ -44,3 +44,7 @@ jobs:
           cmake .. -DCMAKE_C_COMPILER=${{ matrix.compiler.c }} -DCMAKE_CXX_COMPILER=${{ matrix.compiler.cpp }} -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
           make
         working-directory: ${{github.workspace}}
+
+
+# documentation cleanup
+#find docs/hdoc-output -type f -exec sed -i 's/<footer class="footer">.*<\/footer>//g' {} +
