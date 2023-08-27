@@ -29,6 +29,7 @@ using grpc::ServerContext;
 using grpc::ServerReaderWriter;
 using grpc::ServerWriter;
 using grpc::Status;
+
 using philote::ExplicitServer;
 using philote::Partials;
 using philote::Variables;
