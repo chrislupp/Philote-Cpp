@@ -15,10 +15,4 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */
-#include <Philote/implicit_client.h>
-
-using namespace philote;
-
-ImplicitClient::ImplicitClient() {}
-
-ImplicitClient::~ImplicitClient() {}
+#include <Philote/implicit.h>

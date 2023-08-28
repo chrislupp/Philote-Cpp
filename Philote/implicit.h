@@ -34,7 +34,7 @@ namespace philote
     {
     public:
         //! Constructor
-        ImplicitServer();
+        ImplicitServer() = default;
 
         //! Destructor
         ~ImplicitServer();
@@ -148,7 +148,7 @@ namespace philote
          * @return philote::Variables
          */
         virtual void ComputeResiduals(const philote::Variables &inputs,
-                                      philote::Variables &outputs,
+                                      const philote::Variables &outputs,
                                       philote::Variables &residuals);
 
         /**
@@ -175,10 +175,60 @@ namespace philote
          * discrete)
          */
         virtual void ComputeResidualGradients(const philote::Variables &inputs,
+                                              const philote::Variables &outputs,
                                               Partials &partials);
 
     private:
         //! Implicit discipline server
         philote::ImplicitServer implicit_;
+    };
+
+    /**
+     * @brief Client class for calling a remote implicit discipline.
+     *
+     * This class may be inherited from or used by MDO framework developers.
+     * However, it is a fully functional Philote MDO client.
+     */
+    class ImplicitClient : public DisciplineClient
+    {
+    public:
+        //! Constructor
+        ImplicitClient();
+
+        //! Destructor
+        ~ImplicitClient();
+
+        /**
+         * @brief Connects the client stub to a gRPC channel
+         *
+         * @param channel
+         */
+        void ConnectChannel(std::shared_ptr<grpc::ChannelInterface> channel);
+
+        /**
+         * @brief Calls the remote analysis server function evaluation via gRPC.
+         *
+         * Unlike the analysis server, this function does not need to be
+         * overridden, as it contains all logic necessary to retrieve the remote
+         * function evaluation.
+         *
+         * @param inputs
+         */
+        Variables ComputeFunction(const Variables &inputs);
+
+        /**
+         * @brief Calls the remote analysis server gradient evaluation via gRPC
+         *
+         * @param inputs
+         * @return Partials
+         */
+        Partials ComputeGradient(const Variables &inputs);
+
+    private:
+        //! host name of the analysis server
+        std::string host_;
+
+        std::shared_ptr<grpc::Channel> channel_;
+        std::unique_ptr<ExplicitService::Stub> stub_;
     };
 } // namespace philote

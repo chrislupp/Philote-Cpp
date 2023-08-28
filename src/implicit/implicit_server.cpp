@@ -82,10 +82,9 @@ grpc::Status ImplicitServer::ComputeResidual(grpc::ServerContext *context,
 
         // obtain the inputs and discrete inputs from the stream
         if (var->type() == VariableType::kInput)
-        {
-            // set the variable slice
             inputs[name].AssignChunk(array);
-        }
+        else if (var->type() == VariableType::kOutput)
+            outputs[name].AssignChunk(array);
         else
         {
             // error message
@@ -177,11 +176,13 @@ grpc::Status ImplicitServer::ComputeResidualGradients(grpc::ServerContext *conte
     philote::Array array;
 
     // preallocate the inputs based on meta data
-    Variables inputs;
+    Variables inputs, outputs;
     for (auto &var : implementation_->var_meta())
     {
         string name = var.name();
         if (var.type() == kInput)
+            inputs[name] = Variable(var);
+        if (var.type() == kOutput)
             inputs[name] = Variable(var);
     }
 
@@ -200,10 +201,9 @@ grpc::Status ImplicitServer::ComputeResidualGradients(grpc::ServerContext *conte
 
         // obtain the inputs and discrete inputs from the stream
         if (var->type() == VariableType::kInput)
-        {
-            // set the variable slice
             inputs[name].AssignChunk(array);
-        }
+        else if (var->type() == VariableType::kOutput)
+            outputs[name].AssignChunk(array);
         else
         {
             // error message
@@ -222,7 +222,7 @@ grpc::Status ImplicitServer::ComputeResidualGradients(grpc::ServerContext *conte
     }
 
     // call the discipline developer-defined Compute function
-    implementation_->ComputeResidualGradients(inputs, partials);
+    implementation_->ComputeResidualGradients(inputs, outputs, partials);
 
     // iterate through partials
     for (const PartialsMetaData &par : implementation_->partials_meta())

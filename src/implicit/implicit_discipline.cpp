@@ -66,7 +66,7 @@ void ImplicitDiscipline::AddOutput(const string &name,
 }
 
 void ImplicitDiscipline::ComputeResiduals(const Variables &inputs,
-                                          philote::Variables &outputs,
+                                          const philote::Variables &outputs,
                                           philote::Variables &residuals)
 {
 }
@@ -77,6 +77,7 @@ void ImplicitDiscipline::SolveResiduals(const Variables &inputs,
 }
 
 void ImplicitDiscipline::ComputeResidualGradients(const Variables &inputs,
+                                                  const philote::Variables &outputs,
                                                   Partials &partials)
 {
 }
