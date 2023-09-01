@@ -200,7 +200,7 @@ namespace philote
         //! host name of the analysis server
         std::string host_;
 
-        std::shared_ptr<grpc::Channel> channel_;
+        //! explicit service stub
         std::unique_ptr<ExplicitService::Stub> stub_;
     };
 }

@@ -206,29 +206,40 @@ namespace philote
         void ConnectChannel(std::shared_ptr<grpc::ChannelInterface> channel);
 
         /**
-         * @brief Calls the remote analysis server function evaluation via gRPC.
+         * @brief Calls the remote analysis server residuals evaluation via gRPC.
          *
          * Unlike the analysis server, this function does not need to be
          * overridden, as it contains all logic necessary to retrieve the remote
          * function evaluation.
          *
-         * @param inputs
+         * @param vars inputs and outputs for the discipline
          */
-        Variables ComputeFunction(const Variables &inputs);
+        Variables ComputeResiduals(const Variables &vars);
+
+        /**
+         * @brief Calls the remote analysis server to solve  via gRPC.
+         *
+         * Unlike the analysis server, this function does not need to be
+         * overridden, as it contains all logic necessary to retrieve the remote
+         * function evaluation.
+         *
+         * @param vars inputs and outputs for the discipline
+         */
+        Variables SolveResiduals(const Variables &vars);
 
         /**
          * @brief Calls the remote analysis server gradient evaluation via gRPC
          *
-         * @param inputs
+         * @param vars inputs and outputs for the discipline
          * @return Partials
          */
-        Partials ComputeGradient(const Variables &inputs);
+        Partials ComputeResidualGradients(const Variables &vars);
 
     private:
         //! host name of the analysis server
         std::string host_;
 
-        std::shared_ptr<grpc::Channel> channel_;
-        std::unique_ptr<ExplicitService::Stub> stub_;
+        //! explicit service stub
+        std::unique_ptr<ImplicitService::Stub> stub_;
     };
 } // namespace philote
