@@ -33,19 +33,6 @@ using std::pair;
 using std::string;
 using std::vector;
 
-ExplicitClient::ExplicitClient()
-{
-    // default host name
-    host_ = "localhost:50051";
-}
-
-ExplicitClient::ExplicitClient(const std::string &host)
-{
-    host_ = host;
-}
-
-ExplicitClient::~ExplicitClient() {}
-
 void ExplicitClient::ConnectChannel(std::shared_ptr<ChannelInterface> channel)
 {
     DisciplineClient::ConnectChannel(channel);

@@ -20,7 +20,7 @@
 #include <grpcpp/grpcpp.h>
 
 #include <Philote/variable.h>
-#include <Philote/explicit.h>
+#include <Philote/implicit.h>
 
 using std::cout;
 using std::endl;
@@ -30,6 +30,7 @@ using std::vector;
 
 using grpc::Channel;
 
+using philote::ImplicitClient;
 using philote::Partials;
 using philote::Variable;
 using philote::Variables;
@@ -38,7 +39,7 @@ int main()
 {
     std::shared_ptr<Channel> channel = grpc::CreateChannel("localhost:50051",
                                                            grpc::InsecureChannelCredentials());
-    philote::ExplicitClient client;
+    philote::ImplicitClient client;
     client.ConnectChannel(channel);
 
     // send stream options to the analysis server
@@ -94,7 +95,8 @@ int main()
     inputs["x"](0) = 1.0;
     inputs["y"](0) = 2.0;
 
-    Variables outputs = client.ComputeFunction(inputs);
+    Variables res = client.ComputeResiduals(inputs);
+    Variables outputs = client.SolveResiduals(inputs);
 
     cout << endl
          << endl;
@@ -106,7 +108,7 @@ int main()
     }
 
     // run a gradient evaluation
-    Partials partials = client.ComputeGradient(inputs);
+    Partials partials = client.ComputeResidualGradients(inputs);
 
     cout << endl
          << endl

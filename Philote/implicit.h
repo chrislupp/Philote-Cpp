@@ -193,10 +193,10 @@ namespace philote
     {
     public:
         //! Constructor
-        ImplicitClient();
+        ImplicitClient() = default;
 
         //! Destructor
-        ~ImplicitClient();
+        ~ImplicitClient() = default;
 
         /**
          * @brief Connects the client stub to a gRPC channel
@@ -236,9 +236,6 @@ namespace philote
         Partials ComputeResidualGradients(const Variables &vars);
 
     private:
-        //! host name of the analysis server
-        std::string host_;
-
         //! explicit service stub
         std::unique_ptr<ImplicitService::Stub> stub_;
     };
