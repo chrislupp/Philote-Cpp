@@ -108,7 +108,7 @@ void DisciplineClient::GetPartialDefinitions()
 vector<string> DisciplineClient::GetVariableNames()
 {
     vector<string> keys;
-    for (auto &var : var_meta_)
+    for (const auto &var : var_meta_)
     {
         keys.push_back(var.name());
     }
@@ -120,7 +120,7 @@ VariableMetaData DisciplineClient::GetVariableMeta(const string &name)
 {
     VariableMetaData out;
 
-    for (auto &var : var_meta_)
+    for (const auto &var : var_meta_)
     {
         if (var.name() == name)
         {
