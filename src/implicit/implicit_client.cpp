@@ -108,7 +108,49 @@ Variables ImplicitClient::SolveResiduals(const Variables &vars)
     return out;
 }
 
-Partials ImplicitClient::ComputeResidualGradients(const Variables &inputs)
+Partials ImplicitClient::ComputeResidualGradients(const Variables &vars)
 {
-    return Partials();
+    ClientContext context;
+    std::shared_ptr<ClientReaderWriter<Array, Array>>
+        stream(stub_->ComputeResiduals(&context));
+
+    // send/assign inputs and outputs, preallocate residuals
+    Variables out;
+    for (const VariableMetaData &var : var_meta_)
+    {
+        const string &name = var.name();
+
+        if (var.type() == kInput)
+            vars.at(name).Send(name, "", stream, stream_options_.num_double());
+
+        if (var.type() == kOutput)
+        {
+            vars.at(name).Send(name, "", stream, stream_options_.num_double());
+            out[name] = Variable(var);
+        }
+    }
+
+    // finish streaming data to the server
+    stream->WritesDone();
+
+    // preallocate partials
+    Partials partials;
+    for (const auto &par : partials_meta_)
+    {
+        partials[make_pair(par.name(), par.subname())] = Variable(par);
+    }
+
+    // process messages from server
+    Array result;
+    while (stream->Read(&result))
+    {
+        const string name = result.name();
+        const string subname = result.subname();
+
+        partials[make_pair(name, subname)].AssignChunk(result);
+    }
+
+    grpc::Status status = stream->Finish();
+
+    return partials;
 }
