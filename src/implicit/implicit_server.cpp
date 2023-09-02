@@ -56,7 +56,7 @@ grpc::Status ImplicitServer::ComputeResidual(grpc::ServerContext *context,
 
     // preallocate the variables based on meta data
     Variables inputs, outputs, residuals;
-    for (auto &var : implementation_->var_meta())
+    for (const auto &var : implementation_->var_meta())
     {
         string name = var.name();
         if (var.type() == kInput)
@@ -70,15 +70,15 @@ grpc::Status ImplicitServer::ComputeResidual(grpc::ServerContext *context,
     while (stream->Read(&array))
     {
         // get variables from the stream message
-        string name = array.name();
-        auto start = array.start();
-        auto end = array.end();
+        const string &name = array.name();
+        const auto &start = array.start();
+        const auto &end = array.end();
 
         // get the variable corresponding to the current message
-        auto var = std::find_if(implementation_->var_meta().begin(),
-                                implementation_->var_meta().end(),
-                                [&name](const VariableMetaData &var)
-                                { return var.name() == name; });
+        const auto &var = std::find_if(implementation_->var_meta().begin(),
+                                       implementation_->var_meta().end(),
+                                       [&name](const VariableMetaData &var)
+                                       { return var.name() == name; });
 
         // obtain the inputs and discrete inputs from the stream
         if (var->type() == VariableType::kInput)
@@ -97,7 +97,7 @@ grpc::Status ImplicitServer::ComputeResidual(grpc::ServerContext *context,
     // iterate through residuals
     for (const VariableMetaData &var : implementation_->var_meta())
     {
-        const string name = var.name();
+        const string &name = var.name();
 
         if (var.type() == kResidual)
             outputs[name].Send(name, "", stream, implementation_->stream_opts().num_double());
@@ -114,7 +114,7 @@ grpc::Status ImplicitServer::SolveResidual(grpc::ServerContext *context,
 
     // preallocate the inputs based on meta data
     Variables inputs;
-    for (auto &var : implementation_->var_meta())
+    for (const auto &var : implementation_->var_meta())
     {
         string name = var.name();
         if (var.type() == kInput or var.type() == kOutput)
@@ -124,15 +124,15 @@ grpc::Status ImplicitServer::SolveResidual(grpc::ServerContext *context,
     while (stream->Read(&array))
     {
         // get variables from the stream message
-        string name = array.name();
-        auto start = array.start();
-        auto end = array.end();
+        const string &name = array.name();
+        const auto &start = array.start();
+        const auto &end = array.end();
 
         // get the variable corresponding to the current message
-        auto var = std::find_if(implementation_->var_meta().begin(),
-                                implementation_->var_meta().end(),
-                                [&name](const VariableMetaData &var)
-                                { return var.name() == name; });
+        const auto &var = std::find_if(implementation_->var_meta().begin(),
+                                       implementation_->var_meta().end(),
+                                       [&name](const VariableMetaData &var)
+                                       { return var.name() == name; });
 
         // obtain the inputs and discrete inputs from the stream
         if (var->type() == VariableType::kInput)
@@ -160,7 +160,7 @@ grpc::Status ImplicitServer::SolveResidual(grpc::ServerContext *context,
     // iterate through continuous outputs
     for (const VariableMetaData &var : implementation_->var_meta())
     {
-        const string name = var.name();
+        const string &name = var.name();
 
         if (var.type() == kOutput)
             outputs[name].Send(name, "", stream, implementation_->stream_opts().num_double());
@@ -177,9 +177,9 @@ grpc::Status ImplicitServer::ComputeResidualGradients(grpc::ServerContext *conte
 
     // preallocate the inputs based on meta data
     Variables inputs, outputs;
-    for (auto &var : implementation_->var_meta())
+    for (const auto &var : implementation_->var_meta())
     {
-        string name = var.name();
+        const string &name = var.name();
         if (var.type() == kInput)
             inputs[name] = Variable(var);
         if (var.type() == kOutput)
@@ -189,15 +189,15 @@ grpc::Status ImplicitServer::ComputeResidualGradients(grpc::ServerContext *conte
     while (stream->Read(&array))
     {
         // get variables from the stream message
-        string name = array.name();
-        auto start = array.start();
-        auto end = array.end();
+        const string &name = array.name();
+        const auto &start = array.start();
+        const auto &end = array.end();
 
         // get the variable corresponding to the current message
-        auto var = std::find_if(implementation_->var_meta().begin(),
-                                implementation_->var_meta().end(),
-                                [&name](const VariableMetaData &var)
-                                { return var.name() == name; });
+        const auto &var = std::find_if(implementation_->var_meta().begin(),
+                                       implementation_->var_meta().end(),
+                                       [&name](const VariableMetaData &var)
+                                       { return var.name() == name; });
 
         // obtain the inputs and discrete inputs from the stream
         if (var->type() == VariableType::kInput)
@@ -227,8 +227,8 @@ grpc::Status ImplicitServer::ComputeResidualGradients(grpc::ServerContext *conte
     // iterate through partials
     for (const PartialsMetaData &par : implementation_->partials_meta())
     {
-        const string name = par.name();
-        const string subname = par.subname();
+        const string &name = par.name();
+        const string &subname = par.subname();
 
         partials[make_pair(name, subname)].Send(name, subname, stream, implementation_->stream_opts().num_double());
     }

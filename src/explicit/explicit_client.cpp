@@ -63,7 +63,7 @@ philote::Variables ExplicitClient::ComputeFunction(const Variables &inputs)
 
     for (const VariableMetaData &var : var_meta_)
     {
-        const string name = var.name();
+        const string &name = var.name();
 
         if (var.type() == kInput)
             inputs.at(name).Send(name, "", stream, stream_options_.num_double());
@@ -78,7 +78,7 @@ philote::Variables ExplicitClient::ComputeFunction(const Variables &inputs)
     Array result;
     while (stream->Read(&result))
     {
-        const string name = result.name();
+        const string &name = result.name();
         outputs[name].AssignChunk(result);
     }
 

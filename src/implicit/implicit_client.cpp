@@ -40,18 +40,20 @@ Variables ImplicitClient::ComputeResiduals(const Variables &vars)
     std::shared_ptr<ClientReaderWriter<Array, Array>>
         stream(stub_->ComputeResiduals(&context));
 
-    // send/assign inputs and preallocate outputs
-    Variables outputs;
-
+    // send/assign inputs and outputs, preallocate residuals
+    Variables res;
     for (const VariableMetaData &var : var_meta_)
     {
-        const string name = var.name();
+        const string &name = var.name();
 
         if (var.type() == kInput)
             vars.at(name).Send(name, "", stream, stream_options_.num_double());
 
         if (var.type() == kOutput)
+        {
             vars.at(name).Send(name, "", stream, stream_options_.num_double());
+            res[name] = Variable(var);
+        }
     }
 
     // finish streaming data to the server
@@ -60,13 +62,13 @@ Variables ImplicitClient::ComputeResiduals(const Variables &vars)
     Array result;
     while (stream->Read(&result))
     {
-        const string name = result.name();
-        outputs[name].AssignChunk(result);
+        const string &name = result.name();
+        res[name].AssignChunk(result);
     }
 
     grpc::Status status = stream->Finish();
 
-    return outputs;
+    return res;
 }
 
 Variables ImplicitClient::SolveResiduals(const Variables &vars)
