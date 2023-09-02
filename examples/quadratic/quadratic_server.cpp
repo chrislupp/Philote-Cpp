@@ -30,6 +30,7 @@ using philote::Variables;
 
 using std::make_pair;
 using std::pow;
+using std::sqrt;
 
 class RemoteQuadratic : public ImplicitDiscipline
 {
@@ -43,52 +44,56 @@ public:
 private:
     void Setup()
     {
-        AddInput("x", {1}, "m");
-        AddInput("y", {1}, "m");
+        AddInput("a", {1}, "m");
+        AddInput("b", {1}, "m");
+        AddInput("c", {1}, "m");
 
-        AddOutput("f_xy", {1}, "m**2");
+        AddOutput("x", {1}, "m**2");
     }
 
     void SetupPartials()
     {
-        DeclarePartials("f_xy", "x");
-        DeclarePartials("f_xy", "y");
+        DeclarePartials("x", "a");
+        DeclarePartials("x", "b");
+        DeclarePartials("x", "c");
+        DeclarePartials("x", "x");
     }
 
     void ComputeResiduals(const philote::Variables &inputs,
                           const philote::Variables &outputs,
                           philote::Variables &residuals)
     {
-        double x = inputs.at("x")(0);
-        double y = inputs.at("y")(0);
+        double a = inputs.at("a")(0);
+        double b = inputs.at("b")(0);
+        double c = inputs.at("c")(0);
+        double x = outputs.at("x")(0);
 
-        double y2 = outputs.at("y")(0);
-
-        residuals.at("f_xy")(0) = pow(x - 3.0, 2.0) + x * y +
-                                  pow(y + 4.0, 2.0) - 3.0;
+        residuals.at("x")(0) = a * pow(x, 2) + b * x + c;
     }
 
     void SolveResiduals(const philote::Variables &inputs,
                         philote::Variables &outputs)
     {
-        double x = inputs.at("x")(0);
-        double y = inputs.at("y")(0);
+        double a = inputs.at("a")(0);
+        double b = inputs.at("b")(0);
+        double c = inputs.at("c")(0);
 
-        double y2 = outputs.at("y")(0);
-
-        outputs.at("f_xy")(0) = pow(x - 3.0, 2.0) + x * y +
-                                pow(y + 4.0, 2.0) - 3.0;
+        outputs.at("x")(0) = (-b + sqrt(pow(b, 2) - 4 * a * c)) / (2 * a);
     }
 
     void ComputeResidualGradients(const philote::Variables &inputs,
                                   philote::Variables &outputs,
                                   Partials &jac)
     {
-        double x = inputs.at("x")(0);
-        double y = inputs.at("y")(0);
+        double a = inputs.at("a")(0);
+        double b = inputs.at("b")(0);
+        double c = inputs.at("c")(0);
+        double x = outputs.at("x")(0);
 
-        jac[make_pair("f_xy", "x")](0) = 2.0 * x - 6.0 + y;
-        jac[make_pair("f_xy", "y")](0) = 2.0 * y + 8.0 + x;
+        jac[make_pair("x", "a")](0) = pow(x, 2);
+        jac[make_pair("x", "b")](0) = x;
+        jac[make_pair("x", "c")](0) = 1.0;
+        jac[make_pair("x", "x")](0) = 2 * a * x + b;
     }
 };
 
