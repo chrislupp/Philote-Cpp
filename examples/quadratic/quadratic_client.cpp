@@ -62,16 +62,16 @@ int main()
 
     for (auto &name : vars)
     {
-        auto var = client.GetVariableMeta(name);
+        auto var = client.GetVariableMeta(name); // not accounting for residual
         cout << "name: " << var.name() << ", ";
 
         if (var.type() == philote::kInput)
             cout << "input";
-        else if (var.type() == philote::kOutput)
+        if (var.type() == philote::kOutput)
         {
             cout << "output";
         }
-        else if (var.type() == philote::kResidual)
+        if (var.type() == philote::kResidual)
         {
             cout << "residual";
         }
@@ -110,7 +110,7 @@ int main()
     cout << "-------" << endl;
     for (auto &var : res)
     {
-        cout << "name: " << var.first << ", " << var.second(0) << endl;
+        cout << var.first << " = " << var.second(0) << endl;
     }
 
     // Variables outputs = client.SolveResiduals(inputs);
