@@ -46,25 +46,6 @@ void ImplicitDiscipline::RegisterServices(ServerBuilder &builder)
     builder.RegisterService(&implicit_);
 }
 
-void ImplicitDiscipline::AddOutput(const string &name,
-                                   const vector<int64_t> &shape,
-                                   const string &units)
-{
-    VariableMetaData var;
-    var.set_name(name);
-    for (const int64_t dim : shape)
-        var.add_shape(dim);
-    var.set_units(units);
-    var.set_type(philote::kOutput);
-
-    // add the output
-    var_meta().push_back(var);
-
-    // add the residual
-    var.set_type(philote::kResidual);
-    var_meta().push_back(var);
-}
-
 void ImplicitDiscipline::DeclarePartials(const string &f, const string &x)
 {
 

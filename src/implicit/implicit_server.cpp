@@ -62,9 +62,10 @@ grpc::Status ImplicitServer::ComputeResiduals(grpc::ServerContext *context,
         if (var.type() == kInput)
             inputs[name] = Variable(var);
         if (var.type() == kOutput)
+        {
             outputs[var.name()] = Variable(var);
-        if (var.type() == kResidual)
             residuals[var.name()] = Variable(var);
+        }
     }
 
     while (stream->Read(&array))
@@ -99,7 +100,7 @@ grpc::Status ImplicitServer::ComputeResiduals(grpc::ServerContext *context,
     {
         const string &name = var.name();
 
-        if (var.type() == kResidual)
+        if (var.type() == kOutput)
             residuals[name].Send(name, "", stream, implementation_->stream_opts().num_double());
     }
 

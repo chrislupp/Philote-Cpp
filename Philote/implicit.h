@@ -124,20 +124,6 @@ namespace philote
         void RegisterServices(grpc::ServerBuilder &builder);
 
         /**
-         * @brief Declares an output. This is a specialization of the add output
-         * function for the implicit discipline. It is necessary to overload
-         * this function, as the implicit discipline adds residuals to the
-         * variable vector.
-         *
-         * @param name
-         * @param shape
-         * @param units
-         */
-        void AddOutput(const std::string &name,
-                       const std::vector<int64_t> &shape,
-                       const std::string &units);
-
-        /**
          * @brief Declare a (set of) partial(s) for the discipline
          *
          * @param f
