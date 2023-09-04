@@ -89,33 +89,37 @@ int main()
 
     // define the inputs and run a function evaluation
     Variables inputs;
+    inputs["a"] = Variable(philote::kInput, {1});
+    inputs["b"] = Variable(philote::kInput, {1});
+    inputs["c"] = Variable(philote::kInput, {1});
     inputs["x"] = Variable(philote::kInput, {1});
-    inputs["y"] = Variable(philote::kInput, {1});
 
-    inputs["x"](0) = 1.0;
-    inputs["y"](0) = 2.0;
+    inputs["a"](0) = 1.0;
+    inputs["b"](0) = -4.0;
+    inputs["c"](0) = 3.0;
+    inputs["x"](0) = 0.0;
 
     Variables res = client.ComputeResiduals(inputs);
-    Variables outputs = client.SolveResiduals(inputs);
+    // Variables outputs = client.SolveResiduals(inputs);
 
-    cout << endl
-         << endl;
-    cout << "Outputs" << endl;
-    cout << "-------" << endl;
-    for (auto &var : outputs)
-    {
-        cout << "name: " << var.first << ", " << var.second(0) << endl;
-    }
+    // cout << endl
+    //      << endl;
+    // cout << "Outputs" << endl;
+    // cout << "-------" << endl;
+    // for (auto &var : outputs)
+    // {
+    //     cout << "name: " << var.first << ", " << var.second(0) << endl;
+    // }
 
-    // run a gradient evaluation
-    Partials partials = client.ComputeResidualGradients(inputs);
+    // // run a gradient evaluation
+    // Partials partials = client.ComputeResidualGradients(inputs);
 
-    cout << endl
-         << endl
-         << "Partials" << endl
-         << "--------" << endl;
-    cout << "df_dx: " << partials[make_pair("f_xy", "x")](0) << endl;
-    cout << "df_dy: " << partials[make_pair("f_xy", "y")](0) << endl;
+    // cout << endl
+    //      << endl
+    //      << "Partials" << endl
+    //      << "--------" << endl;
+    // cout << "df_dx: " << partials[make_pair("f_xy", "x")](0) << endl;
+    // cout << "df_dy: " << partials[make_pair("f_xy", "y")](0) << endl;
 
     return 0;
 }

@@ -138,6 +138,14 @@ namespace philote
                        const std::string &units);
 
         /**
+         * @brief Declare a (set of) partial(s) for the discipline
+         *
+         * @param f
+         * @param x
+         */
+        void DeclarePartials(const std::string &f, const std::string &x);
+
+        /**
          * @brief Computes the residual for the discipline.
          *
          * This function should be overridden by the developer of the
