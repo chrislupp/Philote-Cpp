@@ -75,7 +75,7 @@ Variables ImplicitClient::SolveResiduals(const Variables &vars)
 {
     ClientContext context;
     std::shared_ptr<ClientReaderWriter<Array, Array>>
-        stream(stub_->ComputeResiduals(&context));
+        stream(stub_->SolveResiduals(&context));
 
     // send/assign inputs and outputs, preallocate residuals
     Variables out;

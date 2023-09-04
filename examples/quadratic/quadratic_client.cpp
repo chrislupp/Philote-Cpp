@@ -113,16 +113,16 @@ int main()
         cout << var.first << " = " << var.second(0) << endl;
     }
 
-    // Variables outputs = client.SolveResiduals(inputs);
+    Variables outputs = client.SolveResiduals(inputs);
 
-    // cout << endl
-    //      << endl;
-    // cout << "Outputs" << endl;
-    // cout << "-------" << endl;
-    // for (auto &var : outputs)
-    // {
-    //     cout << "name: " << var.first << ", " << var.second(0) << endl;
-    // }
+    cout << endl
+         << endl;
+    cout << "Outputs" << endl;
+    cout << "-------" << endl;
+    for (auto &var : outputs)
+    {
+        cout << var.first << " = " << var.second(0) << endl;
+    }
 
     // // run a gradient evaluation
     // Partials partials = client.ComputeResidualGradients(inputs);

@@ -107,9 +107,9 @@ grpc::Status ImplicitServer::ComputeResiduals(grpc::ServerContext *context,
     return Status::OK;
 }
 
-grpc::Status ImplicitServer::SolveResidual(grpc::ServerContext *context,
-                                           grpc::ServerReaderWriter<::philote::Array,
-                                                                    ::philote::Array> *stream)
+grpc::Status ImplicitServer::SolveResiduals(grpc::ServerContext *context,
+                                            grpc::ServerReaderWriter<::philote::Array,
+                                                                     ::philote::Array> *stream)
 {
     philote::Array array;
 

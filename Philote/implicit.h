@@ -71,9 +71,9 @@ namespace philote
          * @param stream
          * @return grpc::Status
          */
-        grpc::Status SolveResidual(grpc::ServerContext *context,
-                                   grpc::ServerReaderWriter<::philote::Array,
-                                                            ::philote::Array> *stream);
+        grpc::Status SolveResiduals(grpc::ServerContext *context,
+                                    grpc::ServerReaderWriter<::philote::Array,
+                                                             ::philote::Array> *stream);
 
         /**
          * @brief RPC that computes the residual evaluation
@@ -151,9 +151,9 @@ namespace philote
          * This function should be overridden by the developer of the
          * discipline.
          *
-         * @param inputs input variables for the discipline (continuous and
-         * discrete)
-         * @return philote::Variables
+         * @param inputs input variables for the discipline
+         * @param outputs output variables for the discipline (will be assigned
+         * during the function call)
          */
         virtual void SolveResiduals(const philote::Variables &inputs, philote::Variables &outputs);
 
