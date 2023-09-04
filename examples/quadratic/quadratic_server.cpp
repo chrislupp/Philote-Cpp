@@ -16,6 +16,7 @@
     limitations under the License.
 */
 #include <cmath>
+#include <iostream>
 
 #include <grpcpp/grpcpp.h>
 
@@ -28,9 +29,13 @@ using philote::ImplicitDiscipline;
 using philote::Partials;
 using philote::Variables;
 
+using std::cout;
+using std::endl;
 using std::make_pair;
 using std::pow;
 using std::sqrt;
+using std::string;
+using std::unique_ptr;
 
 class RemoteQuadratic : public ImplicitDiscipline
 {
@@ -99,16 +104,16 @@ private:
 
 int main()
 {
-    std::string address("localhost:50051");
+    string address("localhost:50051");
     RemoteQuadratic service;
 
     ServerBuilder builder;
     builder.AddListeningPort(address, grpc::InsecureServerCredentials());
     service.RegisterServices(builder);
 
-    std::unique_ptr<Server> server(builder.BuildAndStart());
+    unique_ptr<Server> server(builder.BuildAndStart());
 
-    std::cout << "Server listening on port: " << address << std::endl;
+    cout << "Server listening on port: " << address << endl;
 
     server->Wait();
 

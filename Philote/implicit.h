@@ -60,9 +60,9 @@ namespace philote
          * @param stream
          * @return grpc::Status
          */
-        grpc::Status ComputeResidual(grpc::ServerContext *context,
-                                     grpc::ServerReaderWriter<::philote::Array,
-                                                              ::philote::Array> *stream);
+        grpc::Status ComputeResiduals(grpc::ServerContext *context,
+                                      grpc::ServerReaderWriter<::philote::Array,
+                                                               ::philote::Array> *stream);
 
         /**
          * @brief RPC that computes the residual evaluation

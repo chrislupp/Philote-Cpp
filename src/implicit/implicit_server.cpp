@@ -48,9 +48,9 @@ void ImplicitServer::UnlinkPointers()
     implementation_ = nullptr;
 }
 
-grpc::Status ImplicitServer::ComputeResidual(grpc::ServerContext *context,
-                                             grpc::ServerReaderWriter<::philote::Array,
-                                                                      ::philote::Array> *stream)
+grpc::Status ImplicitServer::ComputeResiduals(grpc::ServerContext *context,
+                                              grpc::ServerReaderWriter<::philote::Array,
+                                                                       ::philote::Array> *stream)
 {
     philote::Array array;
 
@@ -100,7 +100,7 @@ grpc::Status ImplicitServer::ComputeResidual(grpc::ServerContext *context,
         const string &name = var.name();
 
         if (var.type() == kResidual)
-            outputs[name].Send(name, "", stream, implementation_->stream_opts().num_double());
+            residuals[name].Send(name, "", stream, implementation_->stream_opts().num_double());
     }
 
     return Status::OK;

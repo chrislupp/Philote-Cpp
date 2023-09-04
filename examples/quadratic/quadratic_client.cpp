@@ -71,6 +71,10 @@ int main()
         {
             cout << "output";
         }
+        else if (var.type() == philote::kResidual)
+        {
+            cout << "residual";
+        }
         cout << endl;
     }
 
@@ -100,6 +104,15 @@ int main()
     inputs["x"](0) = 0.0;
 
     Variables res = client.ComputeResiduals(inputs);
+    cout << endl
+         << endl;
+    cout << "Residuals" << endl;
+    cout << "-------" << endl;
+    for (auto &var : res)
+    {
+        cout << "name: " << var.first << ", " << var.second(0) << endl;
+    }
+
     // Variables outputs = client.SolveResiduals(inputs);
 
     // cout << endl
