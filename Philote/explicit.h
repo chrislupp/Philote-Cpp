@@ -158,17 +158,10 @@ namespace philote
     {
     public:
         //! Constructor
-        ExplicitClient();
-
-        /**
-         * @brief Construct a new Explicit Client object
-         *
-         * @param host server host name
-         */
-        ExplicitClient(const std::string &host);
+        ExplicitClient() = default;
 
         //! Destructor
-        ~ExplicitClient();
+        ~ExplicitClient() = default;
 
         /**
          * @brief Connects the client stub to a gRPC channel
@@ -197,10 +190,7 @@ namespace philote
         Partials ComputeGradient(const Variables &inputs);
 
     private:
-        //! host name of the analysis server
-        std::string host_;
-
-        std::shared_ptr<grpc::Channel> channel_;
+        //! explicit service stub
         std::unique_ptr<ExplicitService::Stub> stub_;
     };
 }

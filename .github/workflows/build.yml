@@ -37,6 +37,9 @@ jobs:
         with:
           grpc-version: 1.51.1
 
+      - name: Correct gRPC C++ protoc plugin
+        run: ln -s $(which grpc_cpp_plugin) $GRPC_ROOT/bin/protoc-gen-grpc
+
       - name: PhiloteCpp Build
         run: |
           mkdir build
