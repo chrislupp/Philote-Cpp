@@ -101,12 +101,10 @@ Status ExplicitServer::ComputeFunction(ServerContext *context,
     implementation_->Compute(inputs, outputs);
 
     // iterate through continuous outputs
-    for (const VariableMetaData &var : implementation_->var_meta())
+    for (const auto &out : outputs)
     {
-        const string &name = var.name();
-
-        if (var.type() == kOutput)
-            outputs[name].Send(name, "", stream, implementation_->stream_opts().num_double());
+        const string &name = out.first;
+        out.second.Send(name, "", stream, implementation_->stream_opts().num_double());
     }
 
     return Status::OK;
@@ -167,12 +165,15 @@ Status ExplicitServer::ComputeGradient(ServerContext *context,
     implementation_->ComputePartials(inputs, partials);
 
     // iterate through partials
-    for (const PartialsMetaData &par : implementation_->partials_meta())
+    for (const auto &par : partials)
     {
-        const string &name = par.name();
-        const string &subname = par.subname();
+        const string &name = par.first.first;
+        const string &subname = par.first.second;
 
-        partials[make_pair(name, subname)].Send(name, subname, stream, implementation_->stream_opts().num_double());
+        par.second.Send(name,
+                        subname,
+                        stream,
+                        implementation_->stream_opts().num_double());
     }
 
     return Status::OK;
