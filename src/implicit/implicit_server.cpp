@@ -96,12 +96,11 @@ grpc::Status ImplicitServer::ComputeResiduals(grpc::ServerContext *context,
     implementation_->ComputeResiduals(inputs, outputs, residuals);
 
     // iterate through residuals
-    for (const VariableMetaData &var : implementation_->var_meta())
+    for (const auto &res : residuals)
     {
-        const string &name = var.name();
+        const string &name = res.first;
 
-        if (var.type() == kOutput)
-            residuals[name].Send(name, "", stream, implementation_->stream_opts().num_double());
+        res.second.Send(name, "", stream, implementation_->stream_opts().num_double());
     }
 
     return Status::OK;
@@ -159,12 +158,11 @@ grpc::Status ImplicitServer::SolveResiduals(grpc::ServerContext *context,
     implementation_->SolveResiduals(inputs, outputs);
 
     // iterate through continuous outputs
-    for (const VariableMetaData &var : implementation_->var_meta())
+    for (const auto &var : outputs)
     {
-        const string &name = var.name();
+        const string &name = var.first;
 
-        if (var.type() == kOutput)
-            outputs[name].Send(name, "", stream, implementation_->stream_opts().num_double());
+        var.second.Send(name, "", stream, implementation_->stream_opts().num_double());
     }
 
     return Status::OK;
