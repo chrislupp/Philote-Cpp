@@ -15,10 +15,142 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */
-#include <Philote/implicit_client.h>
+#include <Philote/implicit.h>
 
-using namespace philote;
+using std::shared_ptr;
+using std::string;
 
-ImplicitClient::ImplicitClient() {}
+using grpc::ChannelInterface;
+using grpc::ClientContext;
+using grpc::ClientReaderWriter;
 
-ImplicitClient::~ImplicitClient() {}
+using philote::ImplicitClient;
+using philote::Partials;
+using philote::Variables;
+
+void ImplicitClient::ConnectChannel(shared_ptr<ChannelInterface> channel)
+{
+    DisciplineClient::ConnectChannel(channel);
+    stub_ = ImplicitService::NewStub(channel);
+}
+
+Variables ImplicitClient::ComputeResiduals(const Variables &vars)
+{
+    ClientContext context;
+    std::shared_ptr<ClientReaderWriter<Array, Array>>
+        stream(stub_->ComputeResiduals(&context));
+
+    // send/assign inputs and outputs, preallocate residuals
+    Variables res;
+    for (const VariableMetaData &var : var_meta_)
+    {
+        const string &name = var.name();
+
+        if (var.type() == kInput)
+            vars.at(name).Send(name, "", stream, stream_options_.num_double());
+
+        if (var.type() == kOutput)
+        {
+            vars.at(name).Send(name, "", stream, stream_options_.num_double());
+            res[name] = Variable(var);
+        }
+    }
+
+    // finish streaming data to the server
+    stream->WritesDone();
+
+    Array result;
+    while (stream->Read(&result))
+    {
+        const string &name = result.name();
+        res[name].AssignChunk(result);
+    }
+
+    grpc::Status status = stream->Finish();
+
+    return res;
+}
+
+Variables ImplicitClient::SolveResiduals(const Variables &vars)
+{
+    ClientContext context;
+    std::shared_ptr<ClientReaderWriter<Array, Array>>
+        stream(stub_->SolveResiduals(&context));
+
+    // send/assign inputs and outputs, preallocate residuals
+    Variables out;
+    for (const VariableMetaData &var : var_meta_)
+    {
+        const string &name = var.name();
+
+        if (var.type() == kInput)
+            vars.at(name).Send(name, "", stream, stream_options_.num_double());
+
+        if (var.type() == kOutput)
+        {
+            vars.at(name).Send(name, "", stream, stream_options_.num_double());
+            out[name] = Variable(var);
+        }
+    }
+
+    // finish streaming data to the server
+    stream->WritesDone();
+
+    Array result;
+    while (stream->Read(&result))
+    {
+        const string &name = result.name();
+        out[name].AssignChunk(result);
+    }
+
+    grpc::Status status = stream->Finish();
+
+    return out;
+}
+
+Partials ImplicitClient::ComputeResidualGradients(const Variables &vars)
+{
+    ClientContext context;
+    std::shared_ptr<ClientReaderWriter<Array, Array>>
+        stream(stub_->ComputeResidualGradients(&context));
+
+    // send/assign inputs and outputs, preallocate residuals
+    Variables out;
+    for (const VariableMetaData &var : var_meta_)
+    {
+        const string &name = var.name();
+
+        if (var.type() == kInput)
+            vars.at(name).Send(name, "", stream, stream_options_.num_double());
+
+        if (var.type() == kOutput)
+        {
+            vars.at(name).Send(name, "", stream, stream_options_.num_double());
+            out[name] = Variable(var);
+        }
+    }
+
+    // finish streaming data to the server
+    stream->WritesDone();
+
+    // preallocate partials
+    Partials partials;
+    for (const auto &par : partials_meta_)
+    {
+        partials[make_pair(par.name(), par.subname())] = Variable(par);
+    }
+
+    // process messages from server
+    Array result;
+    while (stream->Read(&result))
+    {
+        const string name = result.name();
+        const string subname = result.subname();
+
+        partials[make_pair(name, subname)].AssignChunk(result);
+    }
+
+    grpc::Status status = stream->Finish();
+
+    return partials;
+}
