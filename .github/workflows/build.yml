@@ -37,6 +37,11 @@ jobs:
         with:
           grpc-version: 1.51.1
 
+      - name: Setup cmake
+        uses: jwlawson/actions-setup-cmake@v1.13
+        with:
+          cmake-version: '3.22.5'
+
       - name: PhiloteCpp Build
         run: |
           mkdir build
