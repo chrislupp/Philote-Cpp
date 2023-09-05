@@ -33,12 +33,12 @@ jobs:
           submodules: recursive
           token: ${{ secrets.PAT_TOKEN }}
 
-      # - uses: eWaterCycle/setup-grpc@v5
-      #   with:
-      #     grpc-version: 1.51.1
+      - uses: eWaterCycle/setup-grpc@v5
+        with:
+          grpc-version: 1.51.1
 
-      - name: Install grpc
-        run: sudo apt-get update; sudo apt-get install -y grpc
+      - name: Correct gRPC C++ protoc plugin
+        run: ln -s $(which grpc_cpp_plugin) $GRPC_ROOT/bin/protoc-gen-grpc
 
       - name: PhiloteCpp Build
         run: |
