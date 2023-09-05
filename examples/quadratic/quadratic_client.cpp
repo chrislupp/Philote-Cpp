@@ -124,15 +124,20 @@ int main()
         cout << var.first << " = " << var.second(0) << endl;
     }
 
-    // // run a gradient evaluation
-    // Partials partials = client.ComputeResidualGradients(inputs);
+    // run a gradient evaluation
+    inputs["x"](0) = 3.0;
 
-    // cout << endl
-    //      << endl
-    //      << "Partials" << endl
-    //      << "--------" << endl;
-    // cout << "df_dx: " << partials[make_pair("f_xy", "x")](0) << endl;
-    // cout << "df_dy: " << partials[make_pair("f_xy", "y")](0) << endl;
+    Partials partials = client.ComputeResidualGradients(inputs);
+
+    cout << endl
+         << endl
+         << "Partials" << endl
+         << "--------" << endl;
+    cout << "dx/da: " << partials[make_pair("x", "a")](0) << endl;
+    cout << "dx/db: " << partials[make_pair("x", "b")](0) << endl;
+    cout << "dx/dc: " << partials[make_pair("x", "c")](0) << endl;
+
+    cout << "dx/dx: " << partials[make_pair("x", "x")](0) << endl;
 
     return 0;
 }

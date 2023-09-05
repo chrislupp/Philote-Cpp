@@ -112,7 +112,7 @@ Partials ImplicitClient::ComputeResidualGradients(const Variables &vars)
 {
     ClientContext context;
     std::shared_ptr<ClientReaderWriter<Array, Array>>
-        stream(stub_->ComputeResiduals(&context));
+        stream(stub_->ComputeResidualGradients(&context));
 
     // send/assign inputs and outputs, preallocate residuals
     Variables out;

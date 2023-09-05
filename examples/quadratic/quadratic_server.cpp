@@ -87,7 +87,7 @@ private:
     }
 
     void ComputeResidualGradients(const philote::Variables &inputs,
-                                  philote::Variables &outputs,
+                                  const philote::Variables &outputs,
                                   Partials &jac)
     {
         double a = inputs.at("a")(0);

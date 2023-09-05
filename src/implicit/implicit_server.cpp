@@ -184,7 +184,7 @@ grpc::Status ImplicitServer::ComputeResidualGradients(grpc::ServerContext *conte
         if (var.type() == kInput)
             inputs[name] = Variable(var);
         if (var.type() == kOutput)
-            inputs[name] = Variable(var);
+            outputs[name] = Variable(var);
     }
 
     while (stream->Read(&array))
@@ -226,12 +226,12 @@ grpc::Status ImplicitServer::ComputeResidualGradients(grpc::ServerContext *conte
     implementation_->ComputeResidualGradients(inputs, outputs, partials);
 
     // iterate through partials
-    for (const PartialsMetaData &par : implementation_->partials_meta())
+    for (const auto &par : partials)
     {
-        const string &name = par.name();
-        const string &subname = par.subname();
+        const string &name = par.first.first;
+        const string &subname = par.first.second;
 
-        partials[make_pair(name, subname)].Send(name, subname, stream, implementation_->stream_opts().num_double());
+        par.second.Send(name, subname, stream, implementation_->stream_opts().num_double());
     }
 
     return Status::OK;
