@@ -86,6 +86,18 @@ namespace philote
                                       google::protobuf::Empty *response);
 
         /**
+         * @brief Set the discipline options
+         * 
+         * @param context 
+         * @param request 
+         * @param response 
+         * @return grpc::Status 
+         */
+        grpc::Status SetOptions(grpc::ServerContext *context,
+                                      const ::philote::DisciplineOptions *request,
+                                      google::protobuf::Empty *response);
+
+        /**
          * @brief RPC to define the discipline variables on the client side
          *
          * @param context

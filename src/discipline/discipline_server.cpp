@@ -18,16 +18,20 @@
 #include <vector>
 #include <Philote/discipline.h>
 
+using std::string;
+using std::vector;
+
 using google::protobuf::Empty;
+using google::protobuf::Struct;
+
 using grpc::Server;
 using grpc::ServerBuilder;
 using grpc::ServerContext;
 using grpc::ServerReaderWriter;
 using grpc::ServerWriter;
 using grpc::Status;
+
 using philote::DisciplineServer;
-using std::string;
-using std::vector;
 
 DisciplineServer::~DisciplineServer()
 {
@@ -58,6 +62,17 @@ Status DisciplineServer::SetStreamOptions(ServerContext *context,
                                           Empty *response)
 {
     discipline_->stream_opts() = *request;
+
+    return Status::OK;
+}
+
+grpc::Status DisciplineServer::SetOptions(ServerContext *context,
+                                          const DisciplineOptions *request,
+                                          Empty *response)
+{
+    Struct options = request->options();
+
+    discipline_->Initialize(options);
 
     return Status::OK;
 }
