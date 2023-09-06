@@ -23,5 +23,5 @@ While early tests were written to run on all three major operating system
 high (macOS is billed at a factor of ten higher than Linux) that it is not
 feasible to run anything other than Linux. However, as the main dependency for
 Philote-Cpp is gRPC, it is likely that any system that can compile and run gRPC
-will be able to run Philote-Cpp. This is especially true, as Philote-Cpp follows
-the same C++ standards as gRPC.
+will be able to run Philote-Cpp. This is especially true, as Philote-Cpp adheres
+to the same C++ standards as gRPC.
