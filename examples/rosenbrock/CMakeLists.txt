@@ -15,15 +15,15 @@
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
 #===============================================================================
-add_executable(ExampleQuadraticServer quadratic_server.cpp)
-target_link_libraries(ExampleQuadraticServer
+add_executable(ExampleRosenbrockServer rosenbrock_server.cpp)
+target_link_libraries(ExampleRosenbrockServer
                       PhiloteCpp
                       protobuf::libprotobuf
                       gRPC::grpc++
 )
 
-add_executable(ExampleQuadraticClient quadratic_client.cpp)
-target_link_libraries(ExampleQuadraticClient
+add_executable(ExampleRosenbrockClient rosenbrock_client.cpp)
+target_link_libraries(ExampleRosenbrockClient
                       PhiloteCpp
                       protobuf::libprotobuf
                       gRPC::grpc++

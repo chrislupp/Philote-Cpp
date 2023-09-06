@@ -21,3 +21,6 @@ add_subdirectory(paraboloid)
 
 # implicit disciplines
 add_subdirectory(quadratic)
+
+# explicit Rosenbrock function (to demonstrate options functionality)
+add_subdirectory(rosenbrock)
