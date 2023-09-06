@@ -17,6 +17,8 @@
 */
 #pragma once
 
+#include "google/protobuf/struct.pb.h"
+
 #include <Philote/variable.h>
 
 #include <data.pb.h>
@@ -197,6 +199,15 @@ namespace philote
          * @param x
          */
         void DeclarePartials(const std::string &f, const std::string &x);
+
+
+        /**
+         * @brief Sets up all discipline options based on a protobuf struct that
+         * the server received from the client.
+         * 
+         * @param options_struct 
+         */
+        virtual void Initialize(const google::protobuf::Struct &options_struct);
 
         /**
          * @brief Sets up the analysis server before any function or gradient
