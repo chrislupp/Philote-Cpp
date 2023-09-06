@@ -31,14 +31,14 @@ using philote::Variables;
 using std::make_pair;
 using std::pow;
 
-class RemoteParaboloid : public ExplicitDiscipline
+class Paraboloid : public ExplicitDiscipline
 {
 public:
     // Constructor
-    RemoteParaboloid() = default;
+    Paraboloid() = default;
 
     // Destructor
-    ~RemoteParaboloid() = default;
+    ~Paraboloid() = default;
 
 private:
     // Defines the variables for the discipline
@@ -80,7 +80,7 @@ private:
 int main()
 {
     std::string address("localhost:50051");
-    RemoteParaboloid service;
+    Paraboloid service;
 
     ServerBuilder builder;
     builder.AddListeningPort(address, grpc::InsecureServerCredentials());

@@ -37,14 +37,14 @@ using std::sqrt;
 using std::string;
 using std::unique_ptr;
 
-class RemoteQuadratic : public ImplicitDiscipline
+class Quadratic : public ImplicitDiscipline
 {
 public:
     // Constructor
-    RemoteQuadratic() = default;
+    Quadratic() = default;
 
     // Destructor
-    ~RemoteQuadratic() = default;
+    ~Quadratic() = default;
 
 private:
     void Setup()
@@ -105,7 +105,7 @@ private:
 int main()
 {
     string address("localhost:50051");
-    RemoteQuadratic service;
+    Quadratic service;
 
     ServerBuilder builder;
     builder.AddListeningPort(address, grpc::InsecureServerCredentials());
