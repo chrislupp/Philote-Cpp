@@ -21,6 +21,8 @@
 
 #include <Philote/explicit.h>
 
+using google::protobuf::Struct;
+
 using grpc::Server;
 using grpc::ServerBuilder;
 
@@ -41,18 +43,21 @@ public:
     ~Rosenbrock() = default;
 
 private:
-    // set options
-    void Initialize()
-    {
+    // dimension of the Rosenbrock function
+    int64_t n_;
 
+    // set options
+    void Initialize(const Struct &options)
+    {
+        n_ = options.fields().find("n")->second.number_value();
     }
 
     // Defines the variables for the discipline
     void Setup()
     {
-        AddInput("x", {1}, "m");
+        AddInput("x", {n_}, "m");
 
-        AddOutput("f", {1}, "m**2");
+        AddOutput("f", {n_}, "m**2");
     }
 
     // Defines the partials for the discipline
