@@ -74,7 +74,7 @@ void DisciplineClient::GetVariableDefinitions()
     Empty request;
     std::unique_ptr<ClientReader<VariableMetaData>> reactor;
 
-    if (var_meta_.size() > 0 or partials_meta_.size() > 0)
+    if (!var_meta_.empty() or !partials_meta_.empty())
     {
         // clear any existing meta data
         var_meta_.clear();
@@ -106,6 +106,7 @@ void DisciplineClient::GetPartialDefinitions()
 vector<string> DisciplineClient::GetVariableNames()
 {
     vector<string> keys;
+    keys.reserve(var_meta_.size());
     for (const auto &var : var_meta_)
     {
         keys.push_back(var.name());

@@ -70,7 +70,7 @@ grpc::Status DisciplineServer::SetOptions(ServerContext *context,
                                           const DisciplineOptions *request,
                                           Empty *response)
 {
-    Struct options = request->options();
+    const Struct &options = request->options();
 
     discipline_->Initialize(options);
 
@@ -101,7 +101,7 @@ grpc::Status DisciplineServer::Setup(grpc::ServerContext *context,
                                      const Empty *request,
                                      Empty *response)
 {
-    if (discipline_->var_meta().size() > 0 or discipline_->partials_meta().size() > 0)
+    if (!discipline_->var_meta().empty() or !discipline_->partials_meta().empty())
     {
         // clear any existing meta data
         discipline_->var_meta().clear();
