@@ -32,8 +32,6 @@ DisciplineClient::DisciplineClient()
 {
     // set default streaming options
     stream_options_.set_num_double(1000);
-    stream_options_.set_num_int(1000);
-
     stub_ = nullptr;
 }
 
