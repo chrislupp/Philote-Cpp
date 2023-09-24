@@ -47,7 +47,7 @@ namespace philote
          *
          * Deallocates all pointers required by the discipline base class
          */
-        ~DisciplineServer();
+        ~DisciplineServer() override;
 
         /**
          * @brief Links all pointers needed by the discipline base class
@@ -83,7 +83,7 @@ namespace philote
          */
         grpc::Status SetStreamOptions(grpc::ServerContext *context,
                                       const ::philote::StreamOptions *request,
-                                      google::protobuf::Empty *response);
+                                      google::protobuf::Empty *response) override;
 
         /**
          * @brief Set the discipline options
@@ -95,7 +95,7 @@ namespace philote
          */
         grpc::Status SetOptions(grpc::ServerContext *context,
                                       const ::philote::DisciplineOptions *request,
-                                      google::protobuf::Empty *response);
+                                      google::protobuf::Empty *response) override;
 
         /**
          * @brief RPC to define the discipline variables on the client side
@@ -107,7 +107,7 @@ namespace philote
          */
         grpc::Status GetVariableDefinitions(grpc::ServerContext *context,
                                             const google::protobuf::Empty *request,
-                                            grpc::ServerWriter<::philote::VariableMetaData> *writer);
+                                            grpc::ServerWriter<::philote::VariableMetaData> *writer) override;
 
         /**
          * @brief RPC to define the discipline partials on the client side
@@ -131,7 +131,7 @@ namespace philote
          */
         grpc::Status Setup(grpc::ServerContext *context,
                            const google::protobuf::Empty *request,
-                           google::protobuf::Empty *response);
+                           google::protobuf::Empty *response) override;
 
     private:
         //! Pointer to the discipline implementation
@@ -279,7 +279,7 @@ namespace philote
          *
          * @param channel
          */
-        void ConnectChannel(std::shared_ptr<grpc::ChannelInterface> channel);
+        void ConnectChannel(const std::shared_ptr<grpc::ChannelInterface> &channel);
 
         /**
          * @brief Get the fundamental properties of the discipline

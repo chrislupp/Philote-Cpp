@@ -35,7 +35,7 @@ DisciplineClient::DisciplineClient()
     stub_ = nullptr;
 }
 
-void DisciplineClient::ConnectChannel(std::shared_ptr<ChannelInterface> channel)
+void DisciplineClient::ConnectChannel(const std::shared_ptr<ChannelInterface> &channel)
 {
     stub_ = DisciplineService::NewStub(channel);
 }
