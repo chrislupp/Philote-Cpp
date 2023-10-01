@@ -77,7 +77,7 @@ void Variable::Segment(const size_t &start, const size_t &end,
                        const std::vector<double> &data)
 {
     // check that the segment matches length of (end - start)
-    if ((end - start) != data.size())
+    if ((end - start) + 1 != data.size())
     {
         std::string expected = std::to_string((end - start));
         std::string actual = std::to_string(data.size());
