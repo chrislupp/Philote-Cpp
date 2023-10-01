@@ -86,7 +86,7 @@ namespace philote
          * @param end
          * @return std::vector<Type>&
          */
-        [[nodiscard]] std::vector<double> Segment(const size_t &start, const size_t &end) const;
+        std::vector<double> Segment(const size_t &start, const size_t &end) const;
 
         /**
          * @brief Returns the shape of the array
@@ -94,14 +94,14 @@ namespace philote
          * @return std::vector<size_t> vector containing the length of the
          * individual dimensions
          */
-        [[nodiscard]] std::vector<size_t> Shape() const;
+        std::vector<size_t> Shape() const;
 
         /**
          * @brief Returns the size of the array.
          *
          * @return size_t size of the array
          */
-        [[nodiscard]] size_t Size() const;
+        size_t Size() const;
 
         /**
          * @brief Returns the value of the array at a given index
@@ -118,6 +118,15 @@ namespace philote
          * @return double value of the array at the given indices
          */
         double &operator()(const size_t &i);
+
+		/**
+         * @brief Create a Chunk of the variable
+         *
+         * @param start
+         * @param end
+         * @return philote::Array
+         */
+		philote::Array CreateChunk(const size_t &start, const size_t &end) const;
 
         /**
          * @brief Sends the variable from the client to the server
@@ -159,15 +168,6 @@ namespace philote
 
         //! raw discrete data (serialized, row major)
         std::vector<int64_t> discrete_data_;
-
-        /**
-         * @brief Create a Chunk of the variable
-         *
-         * @param start
-         * @param end
-         * @return philote::Array
-         */
-        [[nodiscard]] philote::Array CreateChunk(const int64_t &start, const int64_t &end) const;
     };
 
     typedef std::map<std::string, philote::Variable> Variables;

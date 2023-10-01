@@ -92,20 +92,20 @@ void Variable::Segment(const size_t &start, const size_t &end,
 
 std::vector<double> Variable::Segment(const size_t &start, const size_t &end) const
 {
-    std::vector<double> data(end - start);
+    std::vector<double> data(end - start + 1);
 
     // check that the segment matches length of (end - start)
-    if ((end - start) != data_.size())
+    if ((end - start) > data_.size())
     {
-        std::string expected = std::to_string((end - start));
-        std::string actual = std::to_string(data.size());
-        throw std::length_error("Vector data has incompatable length. Should be " +
+        std::string actual = std::to_string((end - start));
+        std::string expected = std::to_string(data_.size());
+        throw std::length_error("Vector data has incompatable length. Should be smaller than " +
                                 expected + ", but received " + actual + ".");
     }
 
     // assign the segment
     for (size_t i = 0; i < (end - start) + 1; i++)
-        data[i] = data_[start + i];
+        data[i] = data_.at(start + i);
 
     return data;
 }
@@ -130,25 +130,17 @@ double &Variable::operator()(const size_t &i)
     return data_[i];
 }
 
-Array Variable::CreateChunk(const int64_t &start, const int64_t &end) const
+Array Variable::CreateChunk(const size_t &start, const size_t &end) const
 {
-    Array out;
+	philote::Array out;
 
-    out.set_start(start);
-    out.set_end(end);
+//    out.set_start(start);
+//    out.set_end(end);
 
     // set the data
-    if (type_ == kInput or type_ == kOutput or type_ == kResidual)
-    {
-        for (const double &value : Segment(start, end))
-        {
-            out.add_data(value);
-        }
-    }
-    else if (type_ == kDiscreteInput or type_ == kDiscreteOutput)
-    {
-        /* code */
-    }
+	const vector<double> segment = Segment(start, end);
+	for (const double value : segment)
+		out.add_data(value);
 
     return out;
 }
