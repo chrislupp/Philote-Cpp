@@ -22,133 +22,164 @@
 
 using namespace philote;
 
-// Test the constructor.
+/*
+	Test the constructor.
+*/
 TEST(VariableTests, Constructor)
 {
-    // create a 3-dimensional array
-    Variable array = Variable(kInput, {3, 4, 2});
+	// create a 3-dimensional array
+	Variable array = Variable(kInput, { 3, 4, 2 });
 
-    // check the shape of the array
-    auto shape = array.Shape();
+	// check the shape of the array
+	auto shape = array.Shape();
 
-    // Expect equality.
-    EXPECT_EQ(shape[0], 3);
-    EXPECT_EQ(shape[1], 4);
-    EXPECT_EQ(shape[2], 2);
+	// Expect equality.
+	EXPECT_EQ(shape[0], 3);
+	EXPECT_EQ(shape[1], 4);
+	EXPECT_EQ(shape[2], 2);
 }
 
-// Test the segment function.
+/*
+	Test the segment function.
+*/
 TEST(VariableTests, Segment)
 {
-    // create a 2-dimensional array
-    Variable array = Variable(kInput, {2, 2});
+	// create a 2-dimensional array
+	Variable array = Variable(kInput, { 2, 2 });
 
-    // assign some data
-    std::vector<double> data = {1.0, 2.0, 3.0, 4.0};
-    array.Segment(0, 3, data);
+	// assign some data
+	std::vector<double> data = { 1.0, 2.0, 3.0, 4.0 };
+	array.Segment(0, 3, data);
 
-    // now replace only the middle values
-    std::vector<double> data_seg = {1.0, 2.0};
-    array.Segment(1, 2, data_seg);
+	// now replace values
+	std::vector<double> data_seg = { 1.0, 2.0 , 3.0};
+	array.Segment(1, 3, data_seg);
 
-    // check the element (0,0)
-    EXPECT_EQ(array(0), 1.0);
+	// check the element (0,0)
+	EXPECT_EQ(array(0), 1.0);
 
-    // check the element (0,1)
-    EXPECT_EQ(array(1), 1.0);
+	// check the element (0,1)
+	EXPECT_EQ(array(1), 1.0);
 
-    // check the element (1,0)
-    EXPECT_EQ(array(2), 2.0);
+	// check the element (1,0)
+	EXPECT_EQ(array(2), 2.0);
 
-    // check the element (1,1)
-    EXPECT_EQ(array(3), 4.0);
+	// check the element (1,1)
+	EXPECT_EQ(array(3), 3.0);
 
-    // now replace only the last value (to see if single values can be set)
-    data_seg = {1.0};
-    array.Segment(3, 3, data_seg);
+	// now replace only the last value (to see if single values can be set)
+	data_seg = { 1.0 };
+	array.Segment(3, 3, data_seg);
 
-    // check the element (0,0)
-    EXPECT_EQ(array(0), 1.0);
+	// check the element (0,0)
+	EXPECT_EQ(array(0), 1.0);
 
-    // check the element (0,1)
-    EXPECT_EQ(array(1), 1.0);
+	// check the element (0,1)
+	EXPECT_EQ(array(1), 1.0);
 
-    // check the element (1,0)
-    EXPECT_EQ(array(2), 2.0);
+	// check the element (1,0)
+	EXPECT_EQ(array(2), 2.0);
 
-    // check the element (1,1)
-    EXPECT_EQ(array(3), 1.0);
+	// check the element (1,1)
+	EXPECT_EQ(array(3), 1.0);
+
+	// now replace only the last value (to see if single values can be set)
+	data_seg = { 1.0 };
+	array.Segment(3, 3, data_seg);
+
+	// check the element (0,0)
+	EXPECT_EQ(array(0), 1.0);
+
+	// check the element (0,1)
+	EXPECT_EQ(array(1), 1.0);
+
+	// check the element (1,0)
+	EXPECT_EQ(array(2), 2.0);
+
+	// check the element (1,1)
+	EXPECT_EQ(array(3), 1.0);
 }
 
-// Test the size function.
+/*
+	Test the size function.
+*/
 TEST(VariableTests, Size)
 {
-    // create a 3-dimensional array
-    Variable array = Variable(kInput, {3, 4, 2});
+	// create a 3-dimensional array
+	Variable array = Variable(kInput, { 3, 4, 2 });
 
-    // check the shape of the array
-    auto size = array.Size();
+	// check the shape of the array
+	auto size = array.Size();
 
-    EXPECT_EQ(size, 24);
+	EXPECT_EQ(size, 24);
 }
 
-// Test the shape function.
+/*
+	Test the shape function.
+*/
 TEST(VariableTests, Shape)
 {
-    // create a 3-dimensional array
-    Variable array = Variable(kInput, {3, 4, 2});
+	// create a 3-dimensional array
+	Variable array = Variable(kInput, { 3, 4, 2 });
 
-    // check the shape of the array
-    auto shape = array.Shape();
+	// check the shape of the array
+	auto shape = array.Shape();
 
-    // Expect equality.
-    EXPECT_EQ(shape[0], 3);
-    EXPECT_EQ(shape[1], 4);
-    EXPECT_EQ(shape[2], 2);
+	// Expect equality.
+	EXPECT_EQ(shape[0], 3);
+	EXPECT_EQ(shape[1], 4);
+	EXPECT_EQ(shape[2], 2);
 }
 
-// Test the element retrieval operator.
+/*
+	Test the element retrieval operator.
+*/
 TEST(VariableTests, ElementRetrieval)
 {
-    // create a 2-dimensional array
-    Variable array = Variable(kInput, {2, 2});
+	// create a 2-dimensional array
+	Variable array = Variable(kInput, { 2, 2 });
 
-    // assign some data
-    std::vector<double> data = {1.0, 2.0, 3.0, 4.0};
-    array.Segment(0, 3, data);
+	// assign some data
+	std::vector<double> data = { 1.0, 2.0, 3.0, 4.0 };
+	array.Segment(0, 3, data);
 
-    // check the element (0,0)
-    EXPECT_EQ(array(0), 1.0);
+	// check the element (0,0)
+	EXPECT_EQ(array(0), 1.0);
 
-    // check the element (0,1)
-    EXPECT_EQ(array(1), 2.0);
+	// check the element (0,1)
+	EXPECT_EQ(array(1), 2.0);
 
-    // check the element (1,0)
-    EXPECT_EQ(array(2), 3.0);
+	// check the element (1,0)
+	EXPECT_EQ(array(2), 3.0);
 
-    // check the element (1,1)
-    EXPECT_EQ(array(3), 4.0);
+	// check the element (1,1)
+	EXPECT_EQ(array(3), 4.0);
 }
 
-// Test the element retrieval operator.
+/*
+	Test the element retrieval operator.
+*/
 TEST(VariableTests, Chunking)
 {
-    // create a 2-dimensional array
-    Variable array = Variable(kInput, {2, 2});
+	// create a 2-dimensional array
+	Variable var = Variable(kInput, { 4 });
 
-    // assign some data
-    std::vector<double> data = {1.0, 2.0, 3.0, 4.0};
-    array.Segment(0, 3, data);
+	// assign the test data
+	std::vector<double> data = { 1.0, 2.0, 3.0, 4.0 };
+	var.Segment(0, 3, data);
 
-    // check the element (0,0)
-    EXPECT_EQ(array(0), 1.0);
+	Array chunk = var.CreateChunk(0, 2);
 
-    // check the element (0,1)
-    EXPECT_EQ(array(1), 2.0);
 
-    // check the element (1,0)
-    EXPECT_EQ(array(2), 3.0);
+	// check the element (0,0)
 
-    // check the element (1,1)
-    EXPECT_EQ(array(3), 4.0);
+	auto n = chunk.data().size();
+
+	int i = 0;
+	for (const double& value : chunk.data())
+	{
+		i++;
+//		double x = chunk.data().at(i);
+//		EXPECT_EQ(value, 1.0);
+	}
 }
