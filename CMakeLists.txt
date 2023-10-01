@@ -25,7 +25,7 @@ project(PhiloteCpp
 # cache option variables
 set(
     BUILD_TESTS
-    FALSE
+    TRUE
     CACHE BOOL "Build unit tests"
     )
 

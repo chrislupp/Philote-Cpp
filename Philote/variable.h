@@ -53,14 +53,14 @@ namespace philote
          *
          * @param meta
          */
-        Variable(const philote::VariableMetaData &meta);
+        explicit Variable(const philote::VariableMetaData &meta);
 
         /**
          * @brief Construct a new Variable object
          *
          * @param meta
          */
-        Variable(const philote::PartialsMetaData &meta);
+        explicit Variable(const philote::PartialsMetaData &meta);
 
         /**
          * @brief Destroy the Variables object
@@ -86,7 +86,7 @@ namespace philote
          * @param end
          * @return std::vector<Type>&
          */
-        std::vector<double> Segment(const size_t &start, const size_t &end) const;
+        [[nodiscard]] std::vector<double> Segment(const size_t &start, const size_t &end) const;
 
         /**
          * @brief Returns the shape of the array
@@ -94,14 +94,14 @@ namespace philote
          * @return std::vector<size_t> vector containing the length of the
          * individual dimensions
          */
-        std::vector<size_t> Shape() const;
+        [[nodiscard]] std::vector<size_t> Shape() const;
 
         /**
          * @brief Returns the size of the array.
          *
          * @return size_t size of the array
          */
-        size_t Size() const;
+        [[nodiscard]] size_t Size() const;
 
         /**
          * @brief Returns the value of the array at a given index
@@ -167,7 +167,7 @@ namespace philote
          * @param end
          * @return philote::Array
          */
-        philote::Array CreateChunk(const size_t &start, const size_t end) const;
+        [[nodiscard]] philote::Array CreateChunk(const int64_t &start, const int64_t &end) const;
     };
 
     typedef std::map<std::string, philote::Variable> Variables;
