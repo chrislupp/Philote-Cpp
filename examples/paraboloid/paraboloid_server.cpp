@@ -42,7 +42,7 @@ public:
 
 private:
     // Defines the variables for the discipline
-    void Setup()
+    void Setup() override
     {
         AddInput("x", {1}, "m");
         AddInput("y", {1}, "m");
@@ -51,14 +51,14 @@ private:
     }
 
     // Defines the partials for the discipline
-    void SetupPartials()
+    void SetupPartials() override
     {
         DeclarePartials("f_xy", "x");
         DeclarePartials("f_xy", "y");
     }
 
     // Computes
-    void Compute(const philote::Variables &inputs, philote::Variables &outputs)
+    void Compute(const philote::Variables &inputs, philote::Variables &outputs) override
     {
         double x = inputs.at("x")(0);
         double y = inputs.at("y")(0);
@@ -67,7 +67,7 @@ private:
                                 pow(y + 4.0, 2.0) - 3.0;
     }
 
-    void ComputePartials(const philote::Variables &inputs, Partials &jac)
+    void ComputePartials(const philote::Variables &inputs, Partials &jac) override
     {
         double x = inputs.at("x")(0);
         double y = inputs.at("y")(0);

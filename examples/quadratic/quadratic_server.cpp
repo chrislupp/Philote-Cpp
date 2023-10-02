@@ -47,7 +47,7 @@ public:
     ~Quadratic() = default;
 
 private:
-    void Setup()
+    void Setup() override
     {
         AddInput("a", {1}, "m");
         AddInput("b", {1}, "m");
@@ -56,7 +56,7 @@ private:
         AddOutput("x", {1}, "m**2");
     }
 
-    void SetupPartials()
+    void SetupPartials() override
     {
         DeclarePartials("x", "a");
         DeclarePartials("x", "b");
@@ -66,7 +66,7 @@ private:
 
     void ComputeResiduals(const philote::Variables &inputs,
                           const philote::Variables &outputs,
-                          philote::Variables &residuals)
+                          philote::Variables &residuals) override
     {
         double a = inputs.at("a")(0);
         double b = inputs.at("b")(0);
@@ -77,7 +77,7 @@ private:
     }
 
     void SolveResiduals(const philote::Variables &inputs,
-                        philote::Variables &outputs)
+                        philote::Variables &outputs) override
     {
         double a = inputs.at("a")(0);
         double b = inputs.at("b")(0);
@@ -88,11 +88,10 @@ private:
 
     void ComputeResidualGradients(const philote::Variables &inputs,
                                   const philote::Variables &outputs,
-                                  Partials &jac)
+                                  Partials &jac) override
     {
         double a = inputs.at("a")(0);
         double b = inputs.at("b")(0);
-        double c = inputs.at("c")(0);
         double x = outputs.at("x")(0);
 
         jac[make_pair("x", "a")](0) = pow(x, 2);

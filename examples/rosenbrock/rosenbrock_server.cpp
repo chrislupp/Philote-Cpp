@@ -56,7 +56,7 @@ private:
     int64_t n_;
 
     // set options
-    void Initialize(const Struct &options)
+    void Initialize(const Struct &options) override
     {
         n_ = options.fields().find("dimension")->second.number_value();
 
@@ -64,7 +64,7 @@ private:
     }
 
     // Defines the variables for the discipline
-    void Setup()
+    void Setup() override
     {
         AddInput("x", {n_}, "");
 
@@ -72,13 +72,13 @@ private:
     }
 
     // Defines the partials for the discipline
-    void SetupPartials()
+    void SetupPartials() override
     {
         DeclarePartials("f", "x");
     }
 
     // Computes
-    void Compute(const philote::Variables &inputs, philote::Variables &outputs)
+    void Compute(const philote::Variables &inputs, philote::Variables &outputs) override
     {
 		// preallocate and assign the inputs
         vector<double> x(n_);
@@ -99,7 +99,7 @@ private:
         outputs.at("f")(0) = f;
     }
 
-    void ComputePartials(const philote::Variables &inputs, Partials &jac)
+    void ComputePartials(const philote::Variables &inputs, Partials &jac) override
     {
 		// preallocate and assign the inputs
 		vector<double> x(n_);
