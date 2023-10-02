@@ -298,7 +298,7 @@ namespace philote
          * @brief Sends the options for the discipline
          *
          */
-        void SendOptions();
+        void SendOptions(const philote::DisciplineOptions &options);
 
         /**
          * @brief Sets up the discipline

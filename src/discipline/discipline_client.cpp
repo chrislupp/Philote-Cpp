@@ -56,8 +56,12 @@ void DisciplineClient::SendStreamOptions()
     stub_->SetStreamOptions(&context, stream_options_, &response);
 }
 
-void DisciplineClient::SendOptions()
+void DisciplineClient::SendOptions(const DisciplineOptions &options)
 {
+	ClientContext context;
+	::google::protobuf::Empty response;
+
+	stub_->SetOptions(&context, options, &response);
 }
 
 void DisciplineClient::Setup()
