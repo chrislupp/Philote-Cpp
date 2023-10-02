@@ -16,6 +16,7 @@
     limitations under the License.
 */
 #include <cmath>
+#include <vector>
 
 #include <grpcpp/grpcpp.h>
 
@@ -32,12 +33,17 @@ using philote::Variables;
 
 using std::make_pair;
 using std::pow;
+using std::vector;
 
 class Rosenbrock : public ExplicitDiscipline
 {
 public:
     // Constructor
-    Rosenbrock() = default;
+    Rosenbrock()
+	{
+		// default dimensions
+		n_ = 2;
+	}
 
     // Destructor
     ~Rosenbrock() = default;
@@ -55,9 +61,9 @@ private:
     // Defines the variables for the discipline
     void Setup()
     {
-        AddInput("x", {n_}, "m");
+        AddInput("x", {n_}, "");
 
-        AddOutput("f", {n_}, "m**2");
+        AddOutput("f", {1}, "");
     }
 
     // Defines the partials for the discipline
@@ -69,14 +75,47 @@ private:
     // Computes
     void Compute(const philote::Variables &inputs, philote::Variables &outputs)
     {
-        double x = inputs.at("x")(0);
+		// preallocate and assign the inputs
+        vector<double> x(n_);
+		for (int i = 0; i < inputs.at("x").Size(); i++)
+		{
+			x.at(i) = inputs.at("x")(i);
+		}
 
-        outputs.at("f")(0) = pow(x - 3.0, 2.0);
+		// compute the function
+		double f = 0.0;
+		for (int i = 0; i < n_ - 1; ++i)
+		{
+			double x_i = x[i];
+			double x_i1 = x[i + 1];
+			f += 100.0 * std::pow(x_i1 - x_i * x_i, 2) + std::pow(1.0 - x_i, 2);
+		}
+
+        outputs.at("f")(0) = f;
     }
 
     void ComputePartials(const philote::Variables &inputs, Partials &jac)
     {
-        double x = inputs.at("x")(0);
+		// preallocate and assign the inputs
+		vector<double> x(n_);
+		for (int i = 0; i < inputs.at("x").Size(); i++)
+		{
+			x.at(i) = inputs.at("x")(i);
+		}
+
+		std::vector<double> gradient(n_, 0.0);
+
+		for (int i = 0; i < n_ - 1; ++i)
+		{
+			double x_i = x[i];
+			double x_i1 = x[i + 1];
+
+			double dx_i = -400.0 * x_i * (x_i1 - x_i * x_i) - 2.0 * (1.0 - x_i);
+			double dx_i1 = 200.0 * (x_i1 - x_i * x_i);
+
+			gradient[i] += dx_i;
+			gradient[i + 1] += dx_i1;
+		}
 
         jac[make_pair("f", "x")](0) = 2.0;
     }
