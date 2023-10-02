@@ -168,18 +168,14 @@ TEST(VariableTests, Chunking)
 	std::vector<double> data = { 1.0, 2.0, 3.0, 4.0 };
 	var.Segment(0, 3, data);
 
+	// create the chunk
 	Array chunk = var.CreateChunk(0, 2);
 
+	// check the results
+	EXPECT_EQ(chunk.data().at(0), 1.0);
+	EXPECT_EQ(chunk.data().at(1), 2.0);
+	EXPECT_EQ(chunk.data().at(2), 3.0);
 
-	// check the element (0,0)
-
-	auto n = chunk.data().size();
-
-	int i = 0;
-	for (const double& value : chunk.data())
-	{
-		i++;
-//		double x = chunk.data().at(i);
-//		EXPECT_EQ(value, 1.0);
-	}
+	// check the chunk size
+	EXPECT_EQ(chunk.data().size(), 3);
 }
