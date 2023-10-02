@@ -38,7 +38,8 @@ using philote::Variables;
 
 int main(int argc, char *argv[])
 {
-	if (argc != 2) {
+	if (argc != 2)
+	{
 		std::cerr << "Usage: " << argv[0] << " <number>" << std::endl;
 		return 1;
 	}
@@ -46,7 +47,7 @@ int main(int argc, char *argv[])
 	// Read the command line argument as a string
 	std::string input = argv[1];
 	char *endptr;
-	unsigned long n = std::strtoll(input.c_str(), &endptr, 10);
+	unsigned long dimension = std::strtoll(input.c_str(), &endptr, 10);
 
 
 	// create the gRPC channel
@@ -59,10 +60,15 @@ int main(int argc, char *argv[])
 	client.SendStreamOptions();
 
 	// create and send discipline options
-	philote::DisciplineOptions options;
-	client.SendOptions(options);
+	google::protobuf::Struct options;
+	(*options.mutable_fields())["dimension"] = google::protobuf::Value();
+	(*options.mutable_fields())["dimension"].set_number_value(dimension);
+	philote::DisciplineOptions options_message;
+	options_message.mutable_options()->CopyFrom(options);
 
-	// send stream options to the analysis server
+	client.SendOptions(options_message);
+
+	// call the discipline server setup RPC
 	client.Setup();
 
 	// get the variable meta data from the server
@@ -106,9 +112,10 @@ int main(int argc, char *argv[])
 
 	// define the inputs and run a function evaluation
 	Variables inputs;
-	inputs["x"] = Variable(philote::kInput, {n});
+	inputs["x"] = Variable(philote::kInput, {dimension});
 
-	inputs["x"](0) = 1.0;
+	for (int i = 0; i < dimension; i++)
+		inputs["x"](i) = 1.0;
 
 	Variables outputs = client.ComputeFunction(inputs);
 

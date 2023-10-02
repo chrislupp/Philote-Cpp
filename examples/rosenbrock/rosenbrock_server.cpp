@@ -16,6 +16,7 @@
     limitations under the License.
 */
 #include <cmath>
+#include <iostream>
 #include <vector>
 
 #include <grpcpp/grpcpp.h>
@@ -31,6 +32,8 @@ using philote::ExplicitDiscipline;
 using philote::Partials;
 using philote::Variables;
 
+using std::cout;
+using std::endl;
 using std::make_pair;
 using std::pow;
 using std::vector;
@@ -55,7 +58,9 @@ private:
     // set options
     void Initialize(const Struct &options)
     {
-        n_ = options.fields().find("n")->second.number_value();
+        n_ = options.fields().find("dimension")->second.number_value();
+
+		cout << "Dimension: " << n_ << endl;
     }
 
     // Defines the variables for the discipline
