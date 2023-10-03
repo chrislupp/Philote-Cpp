@@ -20,7 +20,7 @@ jobs:
             {c: gcc-10, cpp: g++-10},
             {c: gcc-11, cpp: g++-11},
             {c: gcc-12, cpp: g++-12},
-            {c: clang-12, cpp: clang++-12},
+#            {c: clang-12, cpp: clang++-12},
             {c: clang-13, cpp: clang++-13},
             {c: clang-14, cpp: clang++-14}
             ]
@@ -40,8 +40,8 @@ jobs:
       - name: Correct gRPC C++ protoc plugin
         run: ln -s $(which grpc_cpp_plugin) $GRPC_ROOT/bin/protoc-gen-grpc
 
-#      - name: Install GTest
-#        run: sudo apt-get install libgtest-dev
+      - name: Install GTest
+        run: sudo apt-get install libgtest-dev
 
       - name: PhiloteCpp Build
         run: |
