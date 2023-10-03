@@ -166,15 +166,17 @@ void Variable::Send(string name,
     }
     else
     {
-        // find the chunk indices and create the chunk
-        for (size_t i = 0; i < n / chunk_size; i++)
+		// find the chunk indices and create the chunk
+		size_t num_chunks = n / chunk_size;
+		if (num_chunks == 0)
+			num_chunks = 1;
+
+        for (size_t i = 0; i < num_chunks; i++)
         {
             start = i * chunk_size;
             end = start + chunk_size;
             if (end > n)
-            {
-                end = n;
-            }
+                end = n - 1;
 
             array = CreateChunk(start, end);
             array.set_name(name);
@@ -206,13 +208,17 @@ void Variable::Send(string name,
     else
     {
         // find the chunk indices and create the chunk
-        for (size_t i = 0; i < n / chunk_size; i++)
+		size_t num_chunks = n / chunk_size;
+		if (num_chunks == 0)
+			num_chunks = 1;
+
+        for (size_t i = 0; i < num_chunks; i++)
         {
             start = i * chunk_size;
             end = start + chunk_size;
             if (end > n)
             {
-                end = n;
+                end = n - 1;
             }
 
             array = CreateChunk(start, end);
