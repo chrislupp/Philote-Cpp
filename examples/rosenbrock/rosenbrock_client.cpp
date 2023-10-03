@@ -135,8 +135,12 @@ int main(int argc, char *argv[])
 		 << endl
 		 << "Partials" << endl
 		 << "--------" << endl;
-	cout << "df_dx: " << partials[make_pair("f_xy", "x")](0) << endl;
-	cout << "df_dy: " << partials[make_pair("f_xy", "y")](0) << endl;
+	cout << "df_dx: " << endl;
+	for (size_t i = 0; i < dimension; i++)
+	{
+		cout << partials[make_pair("f", "x")](i) << endl;
+	}
+	cout << endl;
 
     return 0;
 }
