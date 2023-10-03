@@ -155,35 +155,23 @@ void Variable::Send(string name,
     size_t start, end;
     size_t n = Size();
 
-    if (n == 1)
-    {
-        start = 0;
-        end = 1;
-        array = CreateChunk(start, end);
-        array.set_name(name);
-        array.set_subname(subname);
-        stream->Write(array);
-    }
-    else
-    {
-		// find the chunk indices and create the chunk
-		size_t num_chunks = n / chunk_size;
-		if (num_chunks == 0)
-			num_chunks = 1;
+	// find the chunk indices and create the chunk
+	size_t num_chunks = n / chunk_size;
+	if (num_chunks == 0)
+		num_chunks = 1;
 
-        for (size_t i = 0; i < num_chunks; i++)
-        {
-            start = i * chunk_size;
-            end = start + chunk_size;
-            if (end > n)
-                end = n - 1;
+	for (size_t i = 0; i < num_chunks; i++)
+	{
+		start = i * chunk_size;
+		end = start + chunk_size;
+		if (end > n)
+			end = n - 1;
 
-            array = CreateChunk(start, end);
-            array.set_name(name);
-            array.set_subname(subname);
-            stream->Write(array);
-        }
-    }
+		array = CreateChunk(start, end);
+		array.set_name(name);
+		array.set_subname(subname);
+		stream->Write(array);
+	}
 }
 
 void Variable::Send(string name,
@@ -196,37 +184,25 @@ void Variable::Send(string name,
     size_t start = 0, end;
     size_t n = Size();
 
-    if (n == 1)
-    {
-        start = 0;
-        end = 1;
-        array = CreateChunk(start, end);
-        array.set_name(name);
-        array.set_subname(subname);
-        stream->Write(array);
-    }
-    else
-    {
-        // find the chunk indices and create the chunk
-		size_t num_chunks = n / chunk_size;
-		if (num_chunks == 0)
-			num_chunks = 1;
+	// find the chunk indices and create the chunk
+	size_t num_chunks = n / chunk_size;
+	if (num_chunks == 0)
+		num_chunks = 1;
 
-        for (size_t i = 0; i < num_chunks; i++)
-        {
-            start = i * chunk_size;
-            end = start + chunk_size;
-            if (end > n)
-            {
-                end = n - 1;
-            }
+	for (size_t i = 0; i < num_chunks; i++)
+	{
+		start = i * chunk_size;
+		end = start + chunk_size;
+		if (end > n)
+		{
+			end = n - 1;
+		}
 
-            array = CreateChunk(start, end);
-            array.set_name(name);
-            array.set_subname(subname);
-            stream->Write(array);
-        }
-    }
+		array = CreateChunk(start, end);
+		array.set_name(name);
+		array.set_subname(subname);
+		stream->Write(array);
+	}
 }
 
 void Variable::AssignChunk(const Array &data)

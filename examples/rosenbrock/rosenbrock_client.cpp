@@ -115,7 +115,7 @@ int main(int argc, char *argv[])
 	inputs["x"] = Variable(philote::kInput, {dimension});
 
 	for (int i = 0; i < dimension; i++)
-		inputs["x"](i) = 1.0;
+		inputs["x"](i) = 0.5;
 
 	Variables outputs = client.ComputeFunction(inputs);
 
