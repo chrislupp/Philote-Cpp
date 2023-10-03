@@ -40,6 +40,9 @@ jobs:
       - name: Correct gRPC C++ protoc plugin
         run: ln -s $(which grpc_cpp_plugin) $GRPC_ROOT/bin/protoc-gen-grpc
 
+      - name: Install GTest
+        run: sudo apt-get install libgtest-dev && cd /usr/src/gtest && sudo cmake CMakeLists.txt && sudo make && sudo cp lib/*.a /usr/lib && sudo ln -s /usr/lib/libgtest.a /usr/local/lib/libgtest.a && sudo ln -s /usr/lib/libgtest_main.a /usr/local/lib/libgtest_main.a
+
       - name: PhiloteCpp Build
         run: |
           mkdir build
