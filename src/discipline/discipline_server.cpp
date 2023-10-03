@@ -18,16 +18,20 @@
 #include <vector>
 #include <Philote/discipline.h>
 
+using std::string;
+using std::vector;
+
 using google::protobuf::Empty;
+using google::protobuf::Struct;
+
 using grpc::Server;
 using grpc::ServerBuilder;
 using grpc::ServerContext;
 using grpc::ServerReaderWriter;
 using grpc::ServerWriter;
 using grpc::Status;
+
 using philote::DisciplineServer;
-using std::string;
-using std::vector;
 
 DisciplineServer::~DisciplineServer()
 {
@@ -62,6 +66,17 @@ Status DisciplineServer::SetStreamOptions(ServerContext *context,
     return Status::OK;
 }
 
+grpc::Status DisciplineServer::SetOptions(ServerContext *context,
+                                          const DisciplineOptions *request,
+                                          Empty *response)
+{
+    const Struct &options = request->options();
+
+    discipline_->Initialize(options);
+
+    return Status::OK;
+}
+
 Status DisciplineServer::GetVariableDefinitions(ServerContext *context,
                                                 const Empty *request,
                                                 ServerWriter<VariableMetaData> *writer)
@@ -86,7 +101,7 @@ grpc::Status DisciplineServer::Setup(grpc::ServerContext *context,
                                      const Empty *request,
                                      Empty *response)
 {
-    if (discipline_->var_meta().size() > 0 or discipline_->partials_meta().size() > 0)
+    if (!discipline_->var_meta().empty() or !discipline_->partials_meta().empty())
     {
         // clear any existing meta data
         discipline_->var_meta().clear();

@@ -53,14 +53,14 @@ namespace philote
          *
          * @param meta
          */
-        Variable(const philote::VariableMetaData &meta);
+        explicit Variable(const philote::VariableMetaData &meta);
 
         /**
          * @brief Construct a new Variable object
          *
          * @param meta
          */
-        Variable(const philote::PartialsMetaData &meta);
+        explicit Variable(const philote::PartialsMetaData &meta);
 
         /**
          * @brief Destroy the Variables object
@@ -119,6 +119,15 @@ namespace philote
          */
         double &operator()(const size_t &i);
 
+		/**
+         * @brief Create a Chunk of the variable
+         *
+         * @param start
+         * @param end
+         * @return philote::Array
+         */
+		philote::Array CreateChunk(const size_t &start, const size_t &end) const;
+
         /**
          * @brief Sends the variable from the client to the server
          *
@@ -159,15 +168,6 @@ namespace philote
 
         //! raw discrete data (serialized, row major)
         std::vector<int64_t> discrete_data_;
-
-        /**
-         * @brief Create a Chunk of the variable
-         *
-         * @param start
-         * @param end
-         * @return philote::Array
-         */
-        philote::Array CreateChunk(const size_t &start, const size_t end) const;
     };
 
     typedef std::map<std::string, philote::Variable> Variables;

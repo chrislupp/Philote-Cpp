@@ -68,17 +68,9 @@ Status ExplicitServer::ComputeFunction(ServerContext *context,
     {
         // get variables from the stream message
         const string &name = array.name();
-        auto start = array.start();
-        auto end = array.end();
-
-        // get the variable corresponding to the current message
-        auto var = std::find_if(implementation_->var_meta().begin(),
-                                implementation_->var_meta().end(),
-                                [&name](const VariableMetaData &var)
-                                { return var.name() == name; });
 
         // obtain the inputs and discrete inputs from the stream
-        if (var->type() == VariableType::kInput)
+        if (array.type() == VariableType::kInput)
         {
             // set the variable slice
             inputs[name].AssignChunk(array);

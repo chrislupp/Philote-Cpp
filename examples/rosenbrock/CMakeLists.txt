@@ -15,9 +15,16 @@
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
 #===============================================================================
-add_library(Discipline OBJECT
-    discipline_server.cpp
-    discipline.cpp
-    discipline_client.cpp
+add_executable(ExampleRosenbrockServer rosenbrock_server.cpp)
+target_link_libraries(ExampleRosenbrockServer
+                      PhiloteCpp
+                      protobuf::libprotobuf
+                      gRPC::grpc++
 )
-target_link_libraries(Discipline PRIVATE protobuf::libprotobuf gRPC::grpc++)
+
+add_executable(ExampleRosenbrockClient rosenbrock_client.cpp)
+target_link_libraries(ExampleRosenbrockClient
+                      PhiloteCpp
+                      protobuf::libprotobuf
+                      gRPC::grpc++
+)
