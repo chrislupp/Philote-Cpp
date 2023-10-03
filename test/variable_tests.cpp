@@ -19,6 +19,9 @@
 #include <gtest/gtest.h>
 
 #include <iostream>
+#include <vector>
+
+using std::vector;
 
 using namespace philote;
 
@@ -178,4 +181,32 @@ TEST(VariableTests, Chunking)
 
 	// check the chunk size
 	EXPECT_EQ(chunk.data().size(), 3);
+}
+
+/*
+	Test the element retrieval operator.
+*/
+TEST(VariableTests, AssignChunk)
+{
+	// create a 2-dimensional array
+	Variable var = Variable(kInput, { 4 });
+
+	// assign the test data
+	std::vector<double> data = { 1.0, 2.0, 3.0, 4.0 };
+	var.Segment(0, 3, data);
+
+	// create the chunk
+	vector<double> chunk_vector = {4.0, 3.0, 2.0};
+	Array chunk;
+	chunk.set_start(1);
+	chunk.set_end(3);
+	for (const double value : chunk_vector)
+		chunk.add_data(value);
+	var.AssignChunk(chunk);
+
+	// check the results
+	EXPECT_EQ(var(0), 1.0);
+	EXPECT_EQ(var(1), 4.0);
+	EXPECT_EQ(var(2), 3.0);
+	EXPECT_EQ(var(3), 2.0);
 }

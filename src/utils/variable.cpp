@@ -134,8 +134,8 @@ Array Variable::CreateChunk(const size_t &start, const size_t &end) const
 {
 	philote::Array out;
 
-//    out.set_start(start);
-//    out.set_end(end);
+    out.set_start(start);
+    out.set_end(end);
 
     // set the data
 	const vector<double> segment = Segment(start, end);
@@ -228,6 +228,6 @@ void Variable::AssignChunk(const Array &data)
     size_t start = data.start();
     size_t end = data.end();
 
-    for (size_t i = 0; i < end - start; i++)
+    for (size_t i = 0; i < end - start + 1; i++)
         data_[start + i] = data.data(i);
 }
