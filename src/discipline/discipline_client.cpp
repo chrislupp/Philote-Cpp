@@ -32,12 +32,10 @@ DisciplineClient::DisciplineClient()
 {
     // set default streaming options
     stream_options_.set_num_double(1000);
-    stream_options_.set_num_int(1000);
-
     stub_ = nullptr;
 }
 
-void DisciplineClient::ConnectChannel(std::shared_ptr<ChannelInterface> channel)
+void DisciplineClient::ConnectChannel(const std::shared_ptr<ChannelInterface> &channel)
 {
     stub_ = DisciplineService::NewStub(channel);
 }
@@ -58,8 +56,12 @@ void DisciplineClient::SendStreamOptions()
     stub_->SetStreamOptions(&context, stream_options_, &response);
 }
 
-void DisciplineClient::SendOptions()
+void DisciplineClient::SendOptions(const DisciplineOptions &options)
 {
+	ClientContext context;
+	::google::protobuf::Empty response;
+
+	stub_->SetOptions(&context, options, &response);
 }
 
 void DisciplineClient::Setup()
@@ -76,7 +78,7 @@ void DisciplineClient::GetVariableDefinitions()
     Empty request;
     std::unique_ptr<ClientReader<VariableMetaData>> reactor;
 
-    if (var_meta_.size() > 0 or partials_meta_.size() > 0)
+    if (!var_meta_.empty() or !partials_meta_.empty())
     {
         // clear any existing meta data
         var_meta_.clear();
@@ -108,7 +110,8 @@ void DisciplineClient::GetPartialDefinitions()
 vector<string> DisciplineClient::GetVariableNames()
 {
     vector<string> keys;
-    for (auto &var : var_meta_)
+    keys.reserve(var_meta_.size());
+    for (const auto &var : var_meta_)
     {
         keys.push_back(var.name());
     }
@@ -120,7 +123,7 @@ VariableMetaData DisciplineClient::GetVariableMeta(const string &name)
 {
     VariableMetaData out;
 
-    for (auto &var : var_meta_)
+    for (const auto &var : var_meta_)
     {
         if (var.name() == name)
         {

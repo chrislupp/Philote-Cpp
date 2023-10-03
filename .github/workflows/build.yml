@@ -16,13 +16,13 @@ jobs:
         matrix:
           os: [ubuntu-22.04]
           compiler: [
-            # {c: gcc-9, cpp: g++-9},
-            # {c: gcc-10, cpp: g++-10},
-            # {c: gcc-11, cpp: g++-11},
+            {c: gcc-9, cpp: g++-9},
+            {c: gcc-10, cpp: g++-10},
+            {c: gcc-11, cpp: g++-11},
             {c: gcc-12, cpp: g++-12},
-            # {c: clang-12, cpp: clang++-12},
-            # {c: clang-13, cpp: clang++-13},
-            # {c: clang-14, cpp: clang++-14}
+#            {c: clang-12, cpp: clang++-12},
+            {c: clang-13, cpp: clang++-13},
+            {c: clang-14, cpp: clang++-14}
             ]
           build_type: [Release, Debug]
             
@@ -37,12 +37,19 @@ jobs:
         with:
           grpc-version: 1.51.1
 
+      - name: Correct gRPC C++ protoc plugin
+        run: ln -s $(which grpc_cpp_plugin) $GRPC_ROOT/bin/protoc-gen-grpc
+
+      - name: Install GTest
+        run: sudo apt-get install libgtest-dev
+
       - name: PhiloteCpp Build
         run: |
           mkdir build
           cd build
-          cmake .. -DCMAKE_C_COMPILER=${{ matrix.compiler.c }} -DCMAKE_CXX_COMPILER=${{ matrix.compiler.cpp }} -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
+          cmake .. -DCMAKE_C_COMPILER=${{ matrix.compiler.c }} -DCMAKE_CXX_COMPILER=${{ matrix.compiler.cpp }} -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DBUILD_TESTS=TRUE
           make
+          make test
         working-directory: ${{github.workspace}}
 
 

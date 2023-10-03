@@ -15,71 +15,38 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */
-#include <Philote/discipline.h>
+#include <grpcpp/grpcpp.h>
+
+#include <Philote/implicit.h>
 
 using std::string;
 using std::vector;
 
-using google::protobuf::Struct;
+using grpc::Server;
+using grpc::ServerBuilder;
 
-using philote::Discipline;
-using philote::DisciplineProperties;
-using philote::StreamOptions;
+using philote::ImplicitDiscipline;
+using philote::Partials;
+using philote::Variables;
 
-Discipline::Discipline()
+ImplicitDiscipline::ImplicitDiscipline()
 {
-    discipline_server_.LinkPointers(this);
+    // link to discipline server and this object
+    implicit_.LinkPointers(this);
 }
 
-std::vector<philote::VariableMetaData> &Discipline::var_meta()
+ImplicitDiscipline::~ImplicitDiscipline()
 {
-    return var_meta_;
+    implicit_.UnlinkPointers();
 }
 
-std::vector<philote::PartialsMetaData> &Discipline::partials_meta()
+void ImplicitDiscipline::RegisterServices(ServerBuilder &builder)
 {
-    return partials_meta_;
+    builder.RegisterService(&discipline_server_);
+    builder.RegisterService(&implicit_);
 }
 
-DisciplineProperties &Discipline::properties()
-{
-    return properties_;
-}
-
-StreamOptions &Discipline::stream_opts()
-{
-    return stream_opts_;
-}
-
-void Discipline::AddInput(const string &name,
-                          const vector<int64_t> &shape,
-                          const string &units)
-{
-    VariableMetaData var;
-    var.set_name(name);
-    for (const int64_t dim : shape)
-        var.add_shape(dim);
-    var.set_units(units);
-    var.set_type(philote::kInput);
-
-    var_meta().push_back(var);
-}
-
-void Discipline::AddOutput(const string &name,
-                           const vector<int64_t> &shape,
-                           const string &units)
-{
-    VariableMetaData var;
-    var.set_name(name);
-    for (const int64_t dim : shape)
-        var.add_shape(dim);
-    var.set_units(units);
-    var.set_type(philote::kOutput);
-
-    var_meta().push_back(var);
-}
-
-void Discipline::DeclarePartials(const string &f, const string &x)
+void ImplicitDiscipline::DeclarePartials(const string &f, const string &x)
 {
 
     // determine and assign the shape of the partials array
@@ -92,7 +59,7 @@ void Discipline::DeclarePartials(const string &f, const string &x)
                 shape_f.push_back(dim);
         }
 
-        if (var.name() == x and var.type() == kInput)
+        if (var.name() == x and (var.type() == kInput or var.type() == kOutput))
         {
             for (const auto &dim : var.shape())
                 shape_x.push_back(dim);
@@ -134,14 +101,19 @@ void Discipline::DeclarePartials(const string &f, const string &x)
     partials_meta_.push_back(meta);
 }
 
-void Discipline::Initialize(const Struct &options_struct)
-{ 
-}
-
-void Discipline::Setup()
+void ImplicitDiscipline::ComputeResiduals(const Variables &inputs,
+                                          const philote::Variables &outputs,
+                                          philote::Variables &residuals)
 {
 }
 
-void Discipline::SetupPartials()
+void ImplicitDiscipline::SolveResiduals(const Variables &inputs,
+                                        philote::Variables &outputs)
+{
+}
+
+void ImplicitDiscipline::ComputeResidualGradients(const Variables &inputs,
+                                                  const philote::Variables &outputs,
+                                                  Partials &partials)
 {
 }

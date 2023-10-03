@@ -15,9 +15,16 @@
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
 #===============================================================================
-add_library(Discipline OBJECT
-    discipline_server.cpp
-    discipline.cpp
-    discipline_client.cpp
+add_executable(ExampleQuadraticServer quadratic_server.cpp)
+target_link_libraries(ExampleQuadraticServer
+                      PhiloteCpp
+                      protobuf::libprotobuf
+                      gRPC::grpc++
 )
-target_link_libraries(Discipline PRIVATE protobuf::libprotobuf gRPC::grpc++)
+
+add_executable(ExampleQuadraticClient quadratic_client.cpp)
+target_link_libraries(ExampleQuadraticClient
+                      PhiloteCpp
+                      protobuf::libprotobuf
+                      gRPC::grpc++
+)
