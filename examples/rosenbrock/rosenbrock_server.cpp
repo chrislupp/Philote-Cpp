@@ -16,10 +16,14 @@
     limitations under the License.
 */
 #include <cmath>
+#include <iostream>
+#include <vector>
 
 #include <grpcpp/grpcpp.h>
 
 #include <Philote/explicit.h>
+
+using google::protobuf::Struct;
 
 using grpc::Server;
 using grpc::ServerBuilder;
@@ -28,59 +32,105 @@ using philote::ExplicitDiscipline;
 using philote::Partials;
 using philote::Variables;
 
+using std::cout;
+using std::endl;
 using std::make_pair;
 using std::pow;
+using std::vector;
 
-class Paraboloid : public ExplicitDiscipline
+class Rosenbrock : public ExplicitDiscipline
 {
 public:
     // Constructor
-    Paraboloid() = default;
+    Rosenbrock()
+	{
+		// default dimensions
+		n_ = 2;
+	}
 
     // Destructor
-    ~Paraboloid() = default;
+    ~Rosenbrock() = default;
 
 private:
+    // dimension of the Rosenbrock function
+    int64_t n_;
+
+    // set options
+    void Initialize(const Struct &options) override
+    {
+        n_ = options.fields().find("dimension")->second.number_value();
+
+		cout << "Dimension: " << n_ << endl;
+    }
+
     // Defines the variables for the discipline
     void Setup() override
     {
-        AddInput("x", {1}, "m");
-        AddInput("y", {1}, "m");
+        AddInput("x", {n_}, "");
 
-        AddOutput("f_xy", {1}, "m**2");
+        AddOutput("f", {1}, "");
     }
 
     // Defines the partials for the discipline
     void SetupPartials() override
     {
-        DeclarePartials("f_xy", "x");
-        DeclarePartials("f_xy", "y");
+        DeclarePartials("f", "x");
     }
 
     // Computes
     void Compute(const philote::Variables &inputs, philote::Variables &outputs) override
     {
-        double x = inputs.at("x")(0);
-        double y = inputs.at("y")(0);
+		// preallocate and assign the inputs
+        vector<double> x(n_);
+		for (int i = 0; i < inputs.at("x").Size(); i++)
+		{
+			x.at(i) = inputs.at("x")(i);
+		}
 
-        outputs.at("f_xy")(0) = pow(x - 3.0, 2.0) + x * y +
-                                pow(y + 4.0, 2.0) - 3.0;
+		// compute the function
+		double f = 0.0;
+		for (int i = 0; i < n_ - 1; ++i)
+		{
+			double x_i = x[i];
+			double x_i1 = x[i + 1];
+			f += 100.0 * std::pow(x_i1 - x_i * x_i, 2) + std::pow(1.0 - x_i, 2);
+		}
+
+        outputs.at("f")(0) = f;
     }
 
     void ComputePartials(const philote::Variables &inputs, Partials &jac) override
     {
-        double x = inputs.at("x")(0);
-        double y = inputs.at("y")(0);
+		// preallocate and assign the inputs
+		vector<double> x(n_);
+		for (int i = 0; i < inputs.at("x").Size(); i++)
+		{
+			x.at(i) = inputs.at("x")(i);
+		}
 
-        jac[make_pair("f_xy", "x")](0) = 2.0 * x - 6.0 + y;
-        jac[make_pair("f_xy", "y")](0) = 2.0 * y + 8.0 + x;
+		std::vector<double> gradient(n_, 0.0);
+
+		for (int i = 0; i < n_ - 1; ++i)
+		{
+			double x_i = x.at(i);
+			double x_i1 = x.at(i + 1);
+
+			double dx_i = -400.0 * x_i * (x_i1 - x_i * x_i) - 2.0 * (1.0 - x_i);
+			double dx_i1 = 200.0 * (x_i1 - x_i * x_i);
+
+			gradient.at(i) += dx_i;
+			gradient.at(i + 1) += dx_i1;
+		}
+
+		for (int i = 0; i < n_; ++i)
+			jac[make_pair("f", "x")](i) = gradient.at(i);
     }
 };
 
 int main()
 {
     std::string address("localhost:50051");
-    Paraboloid service;
+    Rosenbrock service;
 
     ServerBuilder builder;
     builder.AddListeningPort(address, grpc::InsecureServerCredentials());

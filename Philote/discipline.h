@@ -17,6 +17,8 @@
 */
 #pragma once
 
+#include "google/protobuf/struct.pb.h"
+
 #include <Philote/variable.h>
 
 #include <data.pb.h>
@@ -45,7 +47,7 @@ namespace philote
          *
          * Deallocates all pointers required by the discipline base class
          */
-        ~DisciplineServer();
+        ~DisciplineServer() override;
 
         /**
          * @brief Links all pointers needed by the discipline base class
@@ -81,7 +83,19 @@ namespace philote
          */
         grpc::Status SetStreamOptions(grpc::ServerContext *context,
                                       const ::philote::StreamOptions *request,
-                                      google::protobuf::Empty *response);
+                                      google::protobuf::Empty *response) override;
+
+        /**
+         * @brief Set the discipline options
+         * 
+         * @param context 
+         * @param request 
+         * @param response 
+         * @return grpc::Status 
+         */
+        grpc::Status SetOptions(grpc::ServerContext *context,
+                                      const ::philote::DisciplineOptions *request,
+                                      google::protobuf::Empty *response) override;
 
         /**
          * @brief RPC to define the discipline variables on the client side
@@ -93,7 +107,7 @@ namespace philote
          */
         grpc::Status GetVariableDefinitions(grpc::ServerContext *context,
                                             const google::protobuf::Empty *request,
-                                            grpc::ServerWriter<::philote::VariableMetaData> *writer);
+                                            grpc::ServerWriter<::philote::VariableMetaData> *writer) override;
 
         /**
          * @brief RPC to define the discipline partials on the client side
@@ -117,7 +131,7 @@ namespace philote
          */
         grpc::Status Setup(grpc::ServerContext *context,
                            const google::protobuf::Empty *request,
-                           google::protobuf::Empty *response);
+                           google::protobuf::Empty *response) override;
 
     private:
         //! Pointer to the discipline implementation
@@ -198,6 +212,15 @@ namespace philote
          */
         void DeclarePartials(const std::string &f, const std::string &x);
 
+
+        /**
+         * @brief Sets up all discipline options based on a protobuf struct that
+         * the server received from the client.
+         * 
+         * @param options_struct 
+         */
+        virtual void Initialize(const google::protobuf::Struct &options_struct);
+
         /**
          * @brief Sets up the analysis server before any function or gradient
          * evaluation.
@@ -256,7 +279,7 @@ namespace philote
          *
          * @param channel
          */
-        void ConnectChannel(std::shared_ptr<grpc::ChannelInterface> channel);
+        void ConnectChannel(const std::shared_ptr<grpc::ChannelInterface> &channel);
 
         /**
          * @brief Get the fundamental properties of the discipline
@@ -275,7 +298,7 @@ namespace philote
          * @brief Sends the options for the discipline
          *
          */
-        void SendOptions();
+        void SendOptions(const philote::DisciplineOptions &options);
 
         /**
          * @brief Sets up the discipline

@@ -20,6 +20,8 @@
 using std::string;
 using std::vector;
 
+using google::protobuf::Struct;
+
 using philote::Discipline;
 using philote::DisciplineProperties;
 using philote::StreamOptions;
@@ -130,6 +132,10 @@ void Discipline::DeclarePartials(const string &f, const string &x)
         meta.add_shape(dim);
 
     partials_meta_.push_back(meta);
+}
+
+void Discipline::Initialize(const Struct &options_struct)
+{ 
 }
 
 void Discipline::Setup()
