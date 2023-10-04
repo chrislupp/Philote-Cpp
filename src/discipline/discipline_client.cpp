@@ -78,20 +78,17 @@ void DisciplineClient::GetVariableDefinitions()
     Empty request;
     std::unique_ptr<ClientReader<VariableMetaData>> reactor;
 
-    if (!var_meta_.empty() or !partials_meta_.empty())
+    if (!var_meta_.empty())
     {
         // clear any existing meta data
         var_meta_.clear();
-        partials_meta_.clear();
     }
-    else
-    {
-        reactor = stub_->GetVariableDefinitions(&context, request);
+	// get the meta data
+	reactor = stub_->GetVariableDefinitions(&context, request);
 
-        VariableMetaData meta;
-        while (reactor->Read(&meta))
-            var_meta_.push_back(meta);
-    }
+	VariableMetaData meta;
+	while (reactor->Read(&meta))
+		var_meta_.push_back(meta);
 }
 
 void DisciplineClient::GetPartialDefinitions()
@@ -100,11 +97,17 @@ void DisciplineClient::GetPartialDefinitions()
     Empty request;
     std::unique_ptr<ClientReader<PartialsMetaData>> reactor;
 
-    reactor = stub_->GetPartialDefinitions(&context, request);
+	if (!partials_meta_.empty())
+	{
+		// clear any existing meta data
+		partials_meta_.clear();
+	}
+	// get the meta data
+	reactor = stub_->GetPartialDefinitions(&context, request);
 
-    PartialsMetaData meta;
-    while (reactor->Read(&meta))
-        partials_meta_.push_back(meta);
+	PartialsMetaData meta;
+	while (reactor->Read(&meta))
+		partials_meta_.push_back(meta);
 }
 
 vector<string> DisciplineClient::GetVariableNames()
