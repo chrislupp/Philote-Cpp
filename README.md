@@ -58,6 +58,7 @@ Philote-Cpp is tested against the following platforms and compilers:
             - gcc-9/g++-9
             - gcc-10/g++-10
             - gcc-11/g++-11
+            - gcc-12/g++-12
             - clang-13/clang++-13
             - clang-14/clang++-14
 
