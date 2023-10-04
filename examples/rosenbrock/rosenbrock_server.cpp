@@ -112,17 +112,18 @@ private:
 
 		for (int i = 0; i < n_ - 1; ++i)
 		{
-			double x_i = x[i];
-			double x_i1 = x[i + 1];
+			double x_i = x.at(i);
+			double x_i1 = x.at(i + 1);
 
 			double dx_i = -400.0 * x_i * (x_i1 - x_i * x_i) - 2.0 * (1.0 - x_i);
 			double dx_i1 = 200.0 * (x_i1 - x_i * x_i);
 
-			gradient[i] += dx_i;
-			gradient[i + 1] += dx_i1;
+			gradient.at(i) += dx_i;
+			gradient.at(i + 1) += dx_i1;
 		}
 
-        jac[make_pair("f", "x")](0) = 2.0;
+		for (int i = 0; i < n_; ++i)
+			jac[make_pair("f", "x")](i) = gradient.at(i);
     }
 };
 
