@@ -147,7 +147,7 @@ Array Variable::CreateChunk(const size_t &start, const size_t &end) const
 
 void Variable::Send(string name,
                     string subname,
-                    shared_ptr<ClientReaderWriter<Array, Array>> stream,
+                    ClientReaderWriter<Array, Array> *stream,
                     const size_t &chunk_size) const
 {
     Array array;

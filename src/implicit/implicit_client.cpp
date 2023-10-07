@@ -47,11 +47,11 @@ Variables ImplicitClient::ComputeResiduals(const Variables &vars)
         const string &name = var.name();
 
         if (var.type() == kInput)
-            vars.at(name).Send(name, "", stream, stream_options_.num_double());
+            vars.at(name).Send(name, "", stream.get(), stream_options_.num_double());
 
         if (var.type() == kOutput)
         {
-            vars.at(name).Send(name, "", stream, stream_options_.num_double());
+            vars.at(name).Send(name, "", stream.get(), stream_options_.num_double());
             res[name] = Variable(var);
         }
     }
@@ -84,11 +84,11 @@ Variables ImplicitClient::SolveResiduals(const Variables &vars)
         const string &name = var.name();
 
         if (var.type() == kInput)
-            vars.at(name).Send(name, "", stream, stream_options_.num_double());
+            vars.at(name).Send(name, "", stream.get(), stream_options_.num_double());
 
         if (var.type() == kOutput)
         {
-            vars.at(name).Send(name, "", stream, stream_options_.num_double());
+            vars.at(name).Send(name, "", stream.get(), stream_options_.num_double());
             out[name] = Variable(var);
         }
     }
@@ -121,11 +121,11 @@ Partials ImplicitClient::ComputeResidualGradients(const Variables &vars)
         const string &name = var.name();
 
         if (var.type() == kInput)
-            vars.at(name).Send(name, "", stream, stream_options_.num_double());
+            vars.at(name).Send(name, "", stream.get(), stream_options_.num_double());
 
         if (var.type() == kOutput)
         {
-            vars.at(name).Send(name, "", stream, stream_options_.num_double());
+            vars.at(name).Send(name, "", stream.get(), stream_options_.num_double());
             out[name] = Variable(var);
         }
     }

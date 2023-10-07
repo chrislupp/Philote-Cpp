@@ -16,7 +16,12 @@
     limitations under the License.
 */
 #include <Philote/variable.h>
+
 #include <gtest/gtest.h>
+#include <gmock/gmock.h>
+#include <grpcpp/test/mock_stream.h>
+
+#include <disciplines.grpc.pb.h>
 
 #include <iostream>
 #include <vector>
@@ -209,4 +214,29 @@ TEST(VariableTests, AssignChunk)
 	EXPECT_EQ(var(1), 4.0);
 	EXPECT_EQ(var(2), 3.0);
 	EXPECT_EQ(var(3), 2.0);
+}
+
+
+
+/*
+	Test the element retrieval operator.
+*/
+using MockClientReaderWriter = grpc::testing::MockClientReaderWriter<Array, Array>;
+
+TEST(VariableTest, SendTest) {
+	// Create a mock gRPC client stream
+	testing::NiceMock<MockClientReaderWriter> mockClient;
+
+	// Create an instance of your Variable class
+	Variable variable;
+
+	// Set up your test data
+	std::string name = "test_name";
+	std::string subname = "test_subname";
+	size_t chunk_size = 10;
+
+	// Call the Send method with the mock gRPC client stream
+	variable.Send(name, subname, &mockClient, chunk_size);
+
+	// Add your assertions and expectations here to verify the behavior of the Send method
 }

@@ -53,7 +53,7 @@ philote::Variables ExplicitClient::ComputeFunction(const Variables &inputs)
         const string &name = var.name();
 
         if (var.type() == kInput)
-            inputs.at(name).Send(name, "", stream, stream_options_.num_double());
+            inputs.at(name).Send(name, "", stream.get(), stream_options_.num_double());
 
         if (var.type() == kOutput)
             outputs[var.name()] = Variable(var);
@@ -87,7 +87,7 @@ philote::Partials ExplicitClient::ComputeGradient(const Variables &inputs)
         const string subname = var.name();
 
         if (var.type() == kInput)
-            inputs.at(name).Send(name, subname, stream, stream_options_.num_double());
+            inputs.at(name).Send(name, subname, stream.get(), stream_options_.num_double());
     }
 
     // finish streaming data to the server

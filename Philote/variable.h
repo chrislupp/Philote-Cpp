@@ -135,7 +135,7 @@ namespace philote
          */
         void Send(std::string name,
                   std::string subname,
-                  std::shared_ptr<grpc::ClientReaderWriter<::philote::Array, ::philote::Array>> stream,
+                  grpc::ClientReaderWriter<::philote::Array, ::philote::Array> *stream,
                   const size_t &chunk_size) const;
 
         /**
