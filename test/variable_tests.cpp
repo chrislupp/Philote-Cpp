@@ -14,9 +14,27 @@
     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
     See the License for the specific language governing permissions and
     limitations under the License.
+
+    This work has been cleared for public release, distribution unlimited, case
+    number: AFRL-2023-5716.
+
+    The views expressed are those of the authors and do not reflect the
+    official guidance or position of the United States Government, the
+    Department of Defense or of the United States Air Force.
+
+    Statement from DoD: The Appearance of external hyperlinks does not
+    constitute endorsement by the United States Department of Defense (DoD) of
+    the linked websites, of the information, products, or services contained
+    therein. The DoD does not exercise any editorial, security, or other
+    control over the information you may find at these locations.
 */
 #include <Philote/variable.h>
+
 #include <gtest/gtest.h>
+// #include <gmock/gmock.h>
+// #include <grpcpp/test/mock_stream.h>
+
+#include <disciplines.grpc.pb.h>
 
 #include <iostream>
 #include <vector>
@@ -210,3 +228,28 @@ TEST(VariableTests, AssignChunk)
 	EXPECT_EQ(var(2), 3.0);
 	EXPECT_EQ(var(3), 2.0);
 }
+
+
+
+// /*
+// 	Test the element retrieval operator.
+// */
+// using MockClientReaderWriter = grpc::testing::MockClientReaderWriter<Array, Array>;
+
+// TEST(VariableTest, SendTest) {
+// 	// Create a mock gRPC client stream
+// 	testing::NiceMock<MockClientReaderWriter> mockClient;
+
+// 	// Create an instance of your Variable class
+// 	Variable variable;
+
+// 	// Set up your test data
+// 	std::string name = "test_name";
+// 	std::string subname = "test_subname";
+// 	size_t chunk_size = 10;
+
+// 	// Call the Send method with the mock gRPC client stream
+// 	variable.Send(name, subname, &mockClient, chunk_size);
+
+// 	// Add your assertions and expectations here to verify the behavior of the Send method
+// }

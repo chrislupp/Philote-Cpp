@@ -2,6 +2,7 @@
 .idea/
 cmake-*/
 build/
+doxer.*
 
 *.DS_Store
 

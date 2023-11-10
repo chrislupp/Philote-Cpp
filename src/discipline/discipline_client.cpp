@@ -14,6 +14,19 @@
     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
     See the License for the specific language governing permissions and
     limitations under the License.
+
+    This work has been cleared for public release, distribution unlimited, case
+    number: AFRL-2023-5716.
+
+    The views expressed are those of the authors and do not reflect the
+    official guidance or position of the United States Government, the
+    Department of Defense or of the United States Air Force.
+
+    Statement from DoD: The Appearance of external hyperlinks does not
+    constitute endorsement by the United States Department of Defense (DoD) of
+    the linked websites, of the information, products, or services contained
+    therein. The DoD does not exercise any editorial, security, or other
+    control over the information you may find at these locations.
 */
 #include <Philote/discipline.h>
 
@@ -78,20 +91,17 @@ void DisciplineClient::GetVariableDefinitions()
     Empty request;
     std::unique_ptr<ClientReader<VariableMetaData>> reactor;
 
-    if (!var_meta_.empty() or !partials_meta_.empty())
+    if (!var_meta_.empty())
     {
         // clear any existing meta data
         var_meta_.clear();
-        partials_meta_.clear();
     }
-    else
-    {
-        reactor = stub_->GetVariableDefinitions(&context, request);
+	// get the meta data
+	reactor = stub_->GetVariableDefinitions(&context, request);
 
-        VariableMetaData meta;
-        while (reactor->Read(&meta))
-            var_meta_.push_back(meta);
-    }
+	VariableMetaData meta;
+	while (reactor->Read(&meta))
+		var_meta_.push_back(meta);
 }
 
 void DisciplineClient::GetPartialDefinitions()
@@ -100,11 +110,17 @@ void DisciplineClient::GetPartialDefinitions()
     Empty request;
     std::unique_ptr<ClientReader<PartialsMetaData>> reactor;
 
-    reactor = stub_->GetPartialDefinitions(&context, request);
+	if (!partials_meta_.empty())
+	{
+		// clear any existing meta data
+		partials_meta_.clear();
+	}
+	// get the meta data
+	reactor = stub_->GetPartialDefinitions(&context, request);
 
-    PartialsMetaData meta;
-    while (reactor->Read(&meta))
-        partials_meta_.push_back(meta);
+	PartialsMetaData meta;
+	while (reactor->Read(&meta))
+		partials_meta_.push_back(meta);
 }
 
 vector<string> DisciplineClient::GetVariableNames()
