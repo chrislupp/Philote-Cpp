@@ -1,3 +1,5 @@
+![Philote](https://github.com/chrislupp/Philote-MDO/blob/main/doc/graphics/logos/philote.svg?raw=true)
+
 [![Build and Regression Tests](https://github.com/chrislupp/Philote-Cpp/actions/workflows/build.yml/badge.svg?branch=main)](https://github.com/chrislupp/Philote-Cpp/actions/workflows/build.yml)
 
 # Philote-Cpp
