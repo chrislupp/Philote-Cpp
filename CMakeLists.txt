@@ -32,7 +32,7 @@ cmake_minimum_required (VERSION 3.9)
 
 
 project(PhiloteCpp
-    VERSION 0.1.0
+    VERSION 0.3.0
 )
 
 # cache option variables
@@ -41,6 +41,11 @@ set(
     TRUE
     CACHE BOOL "Build unit tests"
     )
+set(
+    BUILD_EXAMPLES
+    FALSE
+    CACHE BOOL "Build examples"
+)
 
 # add cmake scripts
 LIST(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
@@ -62,7 +67,9 @@ include_directories(${CMAKE_SOURCE_DIR}/generated)
 # add subdirectories
 add_subdirectory(generated)
 add_subdirectory(src)
-add_subdirectory(examples)
+if (BUILD_EXAMPLES)
+    add_subdirectory(examples)
+endif ()
 
 
 
