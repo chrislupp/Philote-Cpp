@@ -32,7 +32,7 @@ cmake_minimum_required (VERSION 3.9)
 
 
 project(PhiloteCpp
-    VERSION 0.1.0
+    VERSION 0.3.0
 )
 
 # cache option variables

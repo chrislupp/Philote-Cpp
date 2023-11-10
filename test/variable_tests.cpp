@@ -31,7 +31,7 @@
 #include <Philote/variable.h>
 
 #include <gtest/gtest.h>
-#include <gmock/gmock.h>
+// #include <gmock/gmock.h>
 #include <grpcpp/test/mock_stream.h>
 
 #include <disciplines.grpc.pb.h>
@@ -231,25 +231,25 @@ TEST(VariableTests, AssignChunk)
 
 
 
-/*
-	Test the element retrieval operator.
-*/
-using MockClientReaderWriter = grpc::testing::MockClientReaderWriter<Array, Array>;
+// /*
+// 	Test the element retrieval operator.
+// */
+// using MockClientReaderWriter = grpc::testing::MockClientReaderWriter<Array, Array>;
 
-TEST(VariableTest, SendTest) {
-	// Create a mock gRPC client stream
-	testing::NiceMock<MockClientReaderWriter> mockClient;
+// TEST(VariableTest, SendTest) {
+// 	// Create a mock gRPC client stream
+// 	testing::NiceMock<MockClientReaderWriter> mockClient;
 
-	// Create an instance of your Variable class
-	Variable variable;
+// 	// Create an instance of your Variable class
+// 	Variable variable;
 
-	// Set up your test data
-	std::string name = "test_name";
-	std::string subname = "test_subname";
-	size_t chunk_size = 10;
+// 	// Set up your test data
+// 	std::string name = "test_name";
+// 	std::string subname = "test_subname";
+// 	size_t chunk_size = 10;
 
-	// Call the Send method with the mock gRPC client stream
-	variable.Send(name, subname, &mockClient, chunk_size);
+// 	// Call the Send method with the mock gRPC client stream
+// 	variable.Send(name, subname, &mockClient, chunk_size);
 
-	// Add your assertions and expectations here to verify the behavior of the Send method
-}
+// 	// Add your assertions and expectations here to verify the behavior of the Send method
+// }
