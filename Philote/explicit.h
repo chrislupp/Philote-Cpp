@@ -22,7 +22,6 @@
 #include <utility>
 
 #include <Philote/discipline.h>
-#include <Philote/options.h>
 #include <Philote/variable.h>
 
 #include <disciplines.grpc.pb.h>
