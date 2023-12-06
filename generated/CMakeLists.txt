@@ -23,7 +23,6 @@ foreach(elem ${PROTO_FILES})
     list(APPEND PROTO_HEADERS ${CMAKE_CURRENT_SOURCE_DIR}/${file_no_ext}.pb.h)
     list(APPEND PROTO_SRC ${CMAKE_CURRENT_SOURCE_DIR}/${file_no_ext}.pb.cc)
     list(APPEND GRPC_SRC ${CMAKE_CURRENT_SOURCE_DIR}/${file_no_ext}.grpc.pb.cc)
-
 endforeach()
 
 # Add a custom target to generate the C++ headers from the .proto files using
@@ -36,8 +35,7 @@ add_custom_command(
         ${PROTO_FILES}
     # WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/proto
     DEPENDS ${PROTO_FILES_DEPEND}
-    COMMENT "Generating C++ stubs from protobuf files" 
-    VERBATIM
+    COMMENT "Generating C++ stubs from protobuf files"
 )
 
 
