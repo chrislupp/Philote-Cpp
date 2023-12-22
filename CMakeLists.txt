@@ -81,3 +81,23 @@ if (BUILD_TESTS)
     include(GoogleTest)
     add_subdirectory(test)
 endif (BUILD_TESTS)
+
+
+# installation (and package definitions)
+install(TARGETS
+    PhiloteCpp
+    EXPORT Philote-CppConfig
+    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+)
+export(TARGETS
+    PhiloteCpp
+    NAMESPACE PhiloteCpp::
+    FILE "${CMAKE_CURRENT_BINARY_DIR}/Philote-CppConfig.cmake"
+)
+install(EXPORT
+    Philote-CppConfig
+    DESTINATION "${CMAKE_INSTALL_PREFIX}/cmake"
+    NAMESPACE PhiloteCpp::
+)
