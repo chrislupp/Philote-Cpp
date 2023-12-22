@@ -62,14 +62,13 @@ find_package(Protobuf CONFIG REQUIRED)
 find_package(gRPC CONFIG REQUIRED)
 
 # add include directories
-include_directories(${CMAKE_SOURCE_DIR})
-include_directories(${CMAKE_SOURCE_DIR}/generated)
+include_directories(${CMAKE_SOURCE_DIR}/include)
+include_directories(${CMAKE_SOURCE_DIR}/src/generated)
 
 
 # add subdirectories
-add_subdirectory(generated)
 add_subdirectory(src)
-add_subdirectory(Philote)
+add_subdirectory(include)
 
 if (BUILD_EXAMPLES)
     add_subdirectory(examples)
