@@ -30,12 +30,12 @@
 */
 #pragma once
 
-#include "../../../installed/grpc/include/google/protobuf/struct.pb.h"
+#include <google/protobuf/struct.pb.h>
 
-#include "variable.h"
+#include <variable.h>
 
-#include "../src/generated/data.pb.h"
-#include "../src/generated/disciplines.grpc.pb.h"
+#include <data.pb.h>
+#include <disciplines.grpc.pb.h>
 
 namespace philote
 {

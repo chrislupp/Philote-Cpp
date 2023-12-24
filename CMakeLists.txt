@@ -89,7 +89,7 @@ endif (BUILD_TESTS)
 # installation (and package definitions)
 install(TARGETS
     PhiloteCpp
-    EXPORT Philote-CppConfig
+    EXPORT PhiloteCppConfig
     ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
@@ -98,10 +98,10 @@ install(TARGETS
 export(TARGETS
     PhiloteCpp
     NAMESPACE PhiloteCpp::
-    FILE "${CMAKE_CURRENT_BINARY_DIR}/Philote-CppConfig.cmake"
+    FILE "${CMAKE_CURRENT_BINARY_DIR}/PhiloteCppConfig.cmake"
 )
 install(EXPORT
-    Philote-CppConfig
+    PhiloteCppConfig
     DESTINATION "${CMAKE_INSTALL_PREFIX}/cmake"
     NAMESPACE PhiloteCpp::
 )

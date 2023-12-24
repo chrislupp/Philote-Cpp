@@ -30,12 +30,12 @@
 */
 #pragma once
 
-#include "../../../../../../Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/string"
-#include "../../../../../../Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/map"
-#include "../../../../../../Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/vector"
+#include <string>
+#include <map>
+#include <vector>
 
-#include "../src/generated/data.pb.h"
-#include "../src/generated/disciplines.grpc.pb.h"
+#include <data.pb.h>
+#include <disciplines.grpc.pb.h>
 
 namespace philote
 {

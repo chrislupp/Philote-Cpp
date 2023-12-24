@@ -30,15 +30,14 @@
 */
 #pragma once
 
-#include "../../../../../../Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/string"
-#include "../../../../../../Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/map"
-#include "../../../../../../Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/utility"
+#include <string>
+#include <map>
+#include <utility>
 
-#include "discipline.h"
-#include "options.h"
-#include "variable.h"
+#include <discipline.h>
+#include <variable.h>
 
-#include "../src/generated/disciplines.grpc.pb.h"
+#include <disciplines.grpc.pb.h>
 
 namespace philote
 {
