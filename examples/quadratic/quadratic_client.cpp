@@ -32,8 +32,8 @@
 
 #include <grpcpp/grpcpp.h>
 
-#include <Philote/variable.h>
-#include <Philote/implicit.h>
+#include <variable.h>
+#include <implicit.h>
 
 using std::cout;
 using std::endl;

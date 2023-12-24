@@ -30,9 +30,9 @@
 */
 #pragma once
 
-#include "google/protobuf/struct.pb.h"
+#include <google/protobuf/struct.pb.h>
 
-#include <Philote/variable.h>
+#include <variable.h>
 
 #include <data.pb.h>
 #include <disciplines.grpc.pb.h>

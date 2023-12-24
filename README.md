@@ -29,8 +29,8 @@ To build Philote-Cpp you must have
 [gRPC](https://grpc.io/docs/languages/cpp/quickstart/) 
 and [protobuf](https://protobuf.dev) 
 installed (building gRPC should also install protobuf). This library uses 
-the C++-20 standard, so you must use a compliant compiler. Finally, CMake is 
-used to configure and build the code.
+the C++-20 standard, so you must use a compliant compiler. Finally, CMake 
+(version 3.23 or higher) is used to configure and build the code.
 
 ### Build Process
 

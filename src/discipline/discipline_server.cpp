@@ -29,7 +29,7 @@
     control over the information you may find at these locations.
 */
 #include <vector>
-#include <Philote/discipline.h>
+#include "discipline.h"
 
 using std::string;
 using std::vector;

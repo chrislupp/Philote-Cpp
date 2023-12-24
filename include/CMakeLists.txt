@@ -29,79 +29,14 @@
 #    control over the information you may find at these locations.
 #===============================================================================
 
-# cmake 3.23 is required due to the use of file sets
-cmake_minimum_required (VERSION 3.23)
-
-
-project(PhiloteCpp
-    VERSION 0.3.0
-)
-
-# cache option variables
-set(
-    BUILD_TESTS
-    TRUE
-    CACHE BOOL "Build unit tests"
-    )
-set(
-    BUILD_EXAMPLES
-    FALSE
-    CACHE BOOL "Build examples"
-)
-
-# add cmake scripts
-LIST(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
-
-# set the C++ standard
-set(CMAKE_CXX_STANDARD 17)
-
-
-
-# Find gRPC and its dependencies
-find_package(Protobuf CONFIG REQUIRED)
-find_package(gRPC CONFIG REQUIRED)
-
-# add include directories
-include_directories(${CMAKE_SOURCE_DIR}/include)
-include_directories(${CMAKE_SOURCE_DIR}/src/generated)
-
-
-# add subdirectories
-add_subdirectory(src)
-add_subdirectory(include)
-
-if (BUILD_EXAMPLES)
-    add_subdirectory(examples)
-endif ()
-
-
-
-if (BUILD_TESTS)
-    message("Building with tests.")
-
-    enable_testing()
-    find_package(GTest REQUIRED)
-    include(GoogleTest)
-    add_subdirectory(test)
-endif (BUILD_TESTS)
-
-
-# installation (and package definitions)
-install(TARGETS
+target_sources(
     PhiloteCpp
-    EXPORT PhiloteCppConfig
-    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+    PUBLIC
     FILE_SET public_headers
-)
-export(TARGETS
-    PhiloteCpp
-    NAMESPACE PhiloteCpp::
-    FILE "${CMAKE_CURRENT_BINARY_DIR}/PhiloteCppConfig.cmake"
-)
-install(EXPORT
-    PhiloteCppConfig
-    DESTINATION "${CMAKE_INSTALL_PREFIX}/cmake"
-    NAMESPACE PhiloteCpp::
+    TYPE HEADERS
+    FILES
+        discipline.h
+        explicit.h
+        implicit.h
+        variable.h
 )
