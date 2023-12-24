@@ -14,12 +14,27 @@
 #    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
+#
+#    This work has been cleared for public release, distribution unlimited, case
+#    number: AFRL-2023-5716.
+#
+#    The views expressed are those of the authors and do not reflect the
+#    official guidance or position of the United States Government, the
+#    Department of Defense or of the United States Air Force.
+#
+#    Statement from DoD: The Appearance of external hyperlinks does not
+#    constitute endorsement by the United States Department of Defense (DoD) of
+#    the linked websites, of the information, products, or services contained
+#    therein. The DoD does not exercise any editorial, security, or other
+#    control over the information you may find at these locations.
 #===============================================================================
-cmake_minimum_required (VERSION 3.9)
+
+# cmake 3.23 is required due to the use of file sets
+cmake_minimum_required (VERSION 3.23)
 
 
 project(PhiloteCpp
-    VERSION 0.1.0
+    VERSION 0.3.0
 )
 
 # cache option variables
@@ -28,6 +43,11 @@ set(
     TRUE
     CACHE BOOL "Build unit tests"
     )
+set(
+    BUILD_EXAMPLES
+    FALSE
+    CACHE BOOL "Build examples"
+)
 
 # add cmake scripts
 LIST(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
@@ -42,14 +62,17 @@ find_package(Protobuf CONFIG REQUIRED)
 find_package(gRPC CONFIG REQUIRED)
 
 # add include directories
-include_directories(${CMAKE_SOURCE_DIR})
-include_directories(${CMAKE_SOURCE_DIR}/generated)
+include_directories(${CMAKE_SOURCE_DIR}/include)
+include_directories(${CMAKE_SOURCE_DIR}/src/generated)
 
 
 # add subdirectories
-add_subdirectory(generated)
 add_subdirectory(src)
-add_subdirectory(examples)
+add_subdirectory(include)
+
+if (BUILD_EXAMPLES)
+    add_subdirectory(examples)
+endif ()
 
 
 
@@ -61,3 +84,24 @@ if (BUILD_TESTS)
     include(GoogleTest)
     add_subdirectory(test)
 endif (BUILD_TESTS)
+
+
+# installation (and package definitions)
+install(TARGETS
+    PhiloteCpp
+    EXPORT PhiloteCppConfig
+    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+    FILE_SET public_headers
+)
+export(TARGETS
+    PhiloteCpp
+    NAMESPACE PhiloteCpp::
+    FILE "${CMAKE_CURRENT_BINARY_DIR}/PhiloteCppConfig.cmake"
+)
+install(EXPORT
+    PhiloteCppConfig
+    DESTINATION "${CMAKE_INSTALL_PREFIX}/cmake"
+    NAMESPACE PhiloteCpp::
+)

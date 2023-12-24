@@ -14,6 +14,19 @@
     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
     See the License for the specific language governing permissions and
     limitations under the License.
+
+    This work has been cleared for public release, distribution unlimited, case
+    number: AFRL-2023-5716.
+
+    The views expressed are those of the authors and do not reflect the
+    official guidance or position of the United States Government, the
+    Department of Defense or of the United States Air Force.
+
+    Statement from DoD: The Appearance of external hyperlinks does not
+    constitute endorsement by the United States Department of Defense (DoD) of
+    the linked websites, of the information, products, or services contained
+    therein. The DoD does not exercise any editorial, security, or other
+    control over the information you may find at these locations.
 */
 #include <cmath>
 #include <iostream>
@@ -21,7 +34,7 @@
 
 #include <grpcpp/grpcpp.h>
 
-#include <Philote/explicit.h>
+#include <explicit.h>
 
 using google::protobuf::Struct;
 
@@ -112,17 +125,18 @@ private:
 
 		for (int i = 0; i < n_ - 1; ++i)
 		{
-			double x_i = x[i];
-			double x_i1 = x[i + 1];
+			double x_i = x.at(i);
+			double x_i1 = x.at(i + 1);
 
 			double dx_i = -400.0 * x_i * (x_i1 - x_i * x_i) - 2.0 * (1.0 - x_i);
 			double dx_i1 = 200.0 * (x_i1 - x_i * x_i);
 
-			gradient[i] += dx_i;
-			gradient[i + 1] += dx_i1;
+			gradient.at(i) += dx_i;
+			gradient.at(i + 1) += dx_i1;
 		}
 
-        jac[make_pair("f", "x")](0) = 2.0;
+		for (int i = 0; i < n_; ++i)
+			jac[make_pair("f", "x")](i) = gradient.at(i);
     }
 };
 
