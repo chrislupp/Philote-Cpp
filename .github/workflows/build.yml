@@ -30,14 +30,11 @@ jobs:
       steps:
       - uses: actions/checkout@v3
         with:
-          submodules: recursive
+          submodules: true
 
       - uses: eWaterCycle/setup-grpc@v5
         with:
           grpc-version: 1.51.1
-
-      - name: Correct gRPC C++ protoc plugin
-        run: ln -s $(which grpc_cpp_plugin) $GRPC_ROOT/bin/protoc-gen-grpc
 
       - name: Install GTest
         run: sudo apt-get install libgtest-dev
