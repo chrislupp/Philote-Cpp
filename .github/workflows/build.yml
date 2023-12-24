@@ -44,6 +44,7 @@ jobs:
           mkdir build
           cd build
           cmake .. -DCMAKE_C_COMPILER=${{ matrix.compiler.c }} -DCMAKE_CXX_COMPILER=${{ matrix.compiler.cpp }} -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DBUILD_TESTS=TRUE
+          make GrpcGenerated
           make
           make test
         working-directory: ${{github.workspace}}
