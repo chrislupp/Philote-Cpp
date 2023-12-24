@@ -35,8 +35,8 @@ target_sources(
     FILE_SET public_headers
     TYPE HEADERS
     FILES
-    Philote/discipline.h
-    Philote/explicit.h
-    Philote/implicit.h
-    Philote/variable.h
+        discipline.h
+        explicit.h
+        implicit.h
+        variable.h
 )

@@ -42,3 +42,4 @@ add_library(PhiloteCpp STATIC
     $<TARGET_OBJECTS:ExplicitDiscipline>
     $<TARGET_OBJECTS:ImplicitDiscipline>
 )
+

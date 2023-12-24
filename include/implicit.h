@@ -32,7 +32,7 @@
 
 #include <disciplines.grpc.pb.h>
 
-#include <Philote/discipline.h>
+#include <discipline.h>
 
 namespace philote
 {

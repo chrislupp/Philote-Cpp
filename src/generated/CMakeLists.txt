@@ -42,7 +42,9 @@ add_custom_command(
 install(FILES ${PROTO_FILES_DEPEND}
     DESTINATION proto
 )
-
+install(FILES ${PROTO_HEADERS} ${GRPC_HEADERS} ${GRPC_MOCK_HEADERS}
+        DESTINATION include
+)
 
 add_library(GrpcGenerated OBJECT ${PROTO_HEADERS} ${PROTO_SRC} ${GRPC_SRC})
 
