@@ -1,7 +1,7 @@
 #===============================================================================
 #    Philote C++ Bindings
 #
-#    Copyright 2022-2023 Christopher A. Lupp
+#    Copyright 2022-2024 Christopher A. Lupp
 #
 #    Licensed under the Apache License, Version 2.0 (the "License");
 #    you may not use this file except in compliance with the License.
@@ -28,7 +28,9 @@
 #    therein. The DoD does not exercise any editorial, security, or other
 #    control over the information you may find at these locations.
 #===============================================================================
-cmake_minimum_required (VERSION 3.9)
+
+# cmake 3.23 is required due to the use of file sets
+cmake_minimum_required (VERSION 3.23)
 
 
 project(PhiloteCpp
@@ -60,13 +62,14 @@ find_package(Protobuf CONFIG REQUIRED)
 find_package(gRPC CONFIG REQUIRED)
 
 # add include directories
-include_directories(${CMAKE_SOURCE_DIR})
-include_directories(${CMAKE_SOURCE_DIR}/generated)
+include_directories(${CMAKE_SOURCE_DIR}/include)
+include_directories(${CMAKE_SOURCE_DIR}/src/generated)
 
 
 # add subdirectories
-add_subdirectory(generated)
 add_subdirectory(src)
+add_subdirectory(include)
+
 if (BUILD_EXAMPLES)
     add_subdirectory(examples)
 endif ()
@@ -81,3 +84,24 @@ if (BUILD_TESTS)
     include(GoogleTest)
     add_subdirectory(test)
 endif (BUILD_TESTS)
+
+
+# installation (and package definitions)
+install(TARGETS
+    PhiloteCpp
+    EXPORT PhiloteCppConfig
+    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+    FILE_SET public_headers
+)
+export(TARGETS
+    PhiloteCpp
+    NAMESPACE PhiloteCpp::
+    FILE "${CMAKE_CURRENT_BINARY_DIR}/PhiloteCppConfig.cmake"
+)
+install(EXPORT
+    PhiloteCppConfig
+    DESTINATION "${CMAKE_INSTALL_PREFIX}/cmake"
+    NAMESPACE PhiloteCpp::
+)

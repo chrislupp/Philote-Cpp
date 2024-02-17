@@ -29,11 +29,14 @@
 #    control over the information you may find at these locations.
 #===============================================================================
 
-# explicit disciplines
-add_subdirectory(paraboloid)
-
-# implicit disciplines
-add_subdirectory(quadratic)
-
-# explicit Rosenbrock function (to demonstrate options functionality)
-add_subdirectory(rosenbrock)
+target_sources(
+    PhiloteCpp
+    PUBLIC
+    FILE_SET public_headers
+    TYPE HEADERS
+    FILES
+        discipline.h
+        explicit.h
+        implicit.h
+        variable.h
+)

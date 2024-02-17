@@ -1,3 +1,5 @@
+![Philote](https://github.com/chrislupp/Philote-MDO/blob/main/doc/graphics/logos/philote.svg?raw=true)
+
 [![Build and Regression Tests](https://github.com/chrislupp/Philote-Cpp/actions/workflows/build.yml/badge.svg?branch=main)](https://github.com/chrislupp/Philote-Cpp/actions/workflows/build.yml)
 
 # Philote-Cpp
@@ -29,8 +31,8 @@ To build Philote-Cpp you must have
 [gRPC](https://grpc.io/docs/languages/cpp/quickstart/) 
 and [protobuf](https://protobuf.dev) 
 installed (building gRPC should also install protobuf). This library uses 
-the C++-20 standard, so you must use a compliant compiler. Finally, CMake is 
-used to configure and build the code.
+the C++-20 standard, so you must use a compliant compiler. Finally, CMake 
+(version 3.23 or higher) is used to configure and build the code.
 
 ### Build Process
 
@@ -74,7 +76,7 @@ to the same C++ standards as gRPC.
 
 This library is open source and licensed under the Apache 2 license:
 
-    Copyright 2022-2023 Christopher A. Lupp
+    Copyright 2022-2024 Christopher A. Lupp
     
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
