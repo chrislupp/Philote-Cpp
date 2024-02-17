@@ -48,3 +48,7 @@ jobs:
           make
           make test
         working-directory: ${{github.workspace}}
+
+
+# documentation cleanup
+#find docs/hdoc-output -type f -exec sed -i 's/<footer class="footer">.*<\/footer>//g' {} +
