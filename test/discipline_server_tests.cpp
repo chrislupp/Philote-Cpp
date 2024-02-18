@@ -42,6 +42,7 @@ class TestDiscipline: public Discipline
 public:
 	TestDiscipline()
 	{
+		// discipline properties
 		philote::DisciplineProperties props;
 
 		props.set_continuous(true);
@@ -50,6 +51,10 @@ public:
 		props.set_version("0.1");
 
 		properties_ = props;
+
+		// stream options
+//		philote::StreamOptions stream_opts;
+//		stream_opts.set_num_double(123);
 	}
 
 	~TestDiscipline() = default;
@@ -102,12 +107,22 @@ TEST(DisciplineServerTests, GetInfo)
 */
 TEST(DisciplineServerTests, SetStreamOptions)
 {
-	Discipline disc;
+	TestDiscipline disc;
 	DisciplineServer server;
-
 	server.LinkPointers(&disc);
 
-	server.UnlinkPointers();
+	// define function arguments
+	grpc::ServerContext context;
+	google::protobuf::Empty response;
+	philote::StreamOptions request;
+	request.set_num_double(123);
+
+	// call the stream options function
+	server.SetStreamOptions(&context, &request, &response);
+
+	// check the streaming options
+	philote::StreamOptions opts = disc.stream_opts();
+	EXPECT_EQ(opts.num_double(), 123);
 }
 
 /*
