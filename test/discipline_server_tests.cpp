@@ -36,6 +36,27 @@
 using philote::DisciplineServer;
 using philote::Discipline;
 
+
+class TestDiscipline: public Discipline
+{
+public:
+	TestDiscipline()
+	{
+		philote::DisciplineProperties props;
+
+		props.set_continuous(true);
+		props.set_differentiable(true);
+		props.set_name("test");
+		props.set_version("0.1");
+
+		properties_ = props;
+	}
+
+	~TestDiscipline() = default;
+
+private:
+};
+
 /*
 	Test the link and unlink pointers functions.
 */
@@ -51,7 +72,6 @@ TEST(DisciplineServerTests, LinkPointers)
 
 	server.UnlinkPointers();
 	EXPECT_TRUE(server.DisiplinePointerNull());
-
 }
 
 /*
@@ -59,12 +79,22 @@ TEST(DisciplineServerTests, LinkPointers)
 */
 TEST(DisciplineServerTests, GetInfo)
 {
-	Discipline disc;
+	TestDiscipline disc;
 	DisciplineServer server;
-
 	server.LinkPointers(&disc);
 
-	server.UnlinkPointers();
+	grpc::ServerContext context;
+	google::protobuf::Empty request;
+	philote::DisciplineProperties response;
+
+	// call the get info function
+	server.GetInfo(&context, &request, &response);
+
+	// check the discipline properties
+	EXPECT_TRUE(response.continuous());
+	EXPECT_TRUE(response.differentiable());
+	EXPECT_EQ(response.name(), "test");
+	EXPECT_EQ(response.version(), "0.1");
 }
 
 /*
