@@ -44,26 +44,27 @@ add_executable(DisciplineClientTests discipline_client_tests.cpp)
 target_link_libraries(DisciplineClientTests PhiloteCpp GTest::gtest_main GTest::gmock protobuf::libprotobuf gRPC::grpc++)
 gtest_discover_tests(DisciplineClientTests)
 
-# # explicit server
-# add_executable(DiscreteArrayTests discrete_array_tests.cpp)
-# target_link_libraries(DiscreteArrayTests PhiloteCpp)
-# target_link_libraries(DiscreteArrayTests GTest::gtest_main)
-# gtest_discover_tests(DiscreteArrayTests)
+# explicit server tests
+add_executable(ExplicitServerTests explicit_server_tests.cpp)
+target_link_libraries(ExplicitServerTests PhiloteCpp GTest::gtest_main GTest::gmock protobuf::libprotobuf gRPC::grpc++)
+gtest_discover_tests(ExplicitServerTests)
 
-# # explicit client
-# add_executable(DiscreteArrayTests discrete_array_tests.cpp)
-# target_link_libraries(DiscreteArrayTests PhiloteCpp)
-# target_link_libraries(DiscreteArrayTests GTest::gtest_main)
-# gtest_discover_tests(DiscreteArrayTests)
+# explicit client tests
+add_executable(ExplicitClientTests explicit_client_tests.cpp)
+target_link_libraries(ExplicitClientTests PhiloteCpp GTest::gtest_main GTest::gmock protobuf::libprotobuf gRPC::grpc++)
+gtest_discover_tests(ExplicitClientTests)
 
-# # implicit server
-# add_executable(DiscreteArrayTests discrete_array_tests.cpp)
-# target_link_libraries(DiscreteArrayTests PhiloteCpp)
-# target_link_libraries(DiscreteArrayTests GTest::gtest_main)
-# gtest_discover_tests(DiscreteArrayTests)
+# implicit server tests
+add_executable(ImplicitServerTests implicit_server_tests.cpp)
+target_link_libraries(ImplicitServerTests PhiloteCpp GTest::gtest_main GTest::gmock protobuf::libprotobuf gRPC::grpc++)
+gtest_discover_tests(ImplicitServerTests)
 
-# # implicit client
-# add_executable(DiscreteArrayTests discrete_array_tests.cpp)
-# target_link_libraries(DiscreteArrayTests PhiloteCpp)
-# target_link_libraries(DiscreteArrayTests GTest::gtest_main)
-# gtest_discover_tests(DiscreteArrayTests)
+# implicit client tests
+add_executable(ImplicitClientTests implicit_client_tests.cpp)
+target_link_libraries(ImplicitClientTests PhiloteCpp GTest::gtest_main GTest::gmock protobuf::libprotobuf gRPC::grpc++)
+gtest_discover_tests(ImplicitClientTests)
+
+# example disciplines
+add_executable(ExampleDisciplineTests example_tests.cpp)
+target_link_libraries(ExampleDisciplineTests PhiloteCpp GTest::gtest_main GTest::gmock protobuf::libprotobuf gRPC::grpc++)
+gtest_discover_tests(ExampleDisciplineTests)
