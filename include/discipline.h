@@ -349,7 +349,7 @@ namespace philote
          *
          * @return std::vector<philote::PartialsMetaData>
          */
-        std::vector<philote::PartialsMetaData> partials_meta();
+        std::vector<philote::PartialsMetaData> GetPartialsMeta();
 
     protected:
         //! streaming options for the client/server connection

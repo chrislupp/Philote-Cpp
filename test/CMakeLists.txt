@@ -34,13 +34,15 @@ add_executable(VariableTests variable_tests.cpp)
 target_link_libraries(VariableTests PhiloteCpp GTest::gtest_main GTest::gmock protobuf::libprotobuf gRPC::grpc++)
 gtest_discover_tests(VariableTests)
 
-# discipline tests
-add_executable(DisciplineTests discipline_tests.cpp)
-target_link_libraries(DisciplineTests PhiloteCpp)
-target_link_libraries(DisciplineTests GTest::gtest_main)
-target_link_libraries(DisciplineTests  protobuf::libprotobuf gRPC::grpc++)
-gtest_discover_tests(DisciplineTests)
+# discipline server tests
+add_executable(DisciplineServerTests discipline_server_tests.cpp)
+target_link_libraries(DisciplineServerTests PhiloteCpp GTest::gtest_main GTest::gmock protobuf::libprotobuf gRPC::grpc++)
+gtest_discover_tests(DisciplineServerTests)
 
+# discipline client tests
+add_executable(DisciplineClientTests discipline_client_tests.cpp)
+target_link_libraries(DisciplineClientTests PhiloteCpp GTest::gtest_main GTest::gmock protobuf::libprotobuf gRPC::grpc++)
+gtest_discover_tests(DisciplineClientTests)
 
 # # explicit server
 # add_executable(DiscreteArrayTests discrete_array_tests.cpp)

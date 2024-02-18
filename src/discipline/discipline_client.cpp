@@ -151,7 +151,7 @@ VariableMetaData DisciplineClient::GetVariableMeta(const string &name)
     return out;
 }
 
-std::vector<philote::PartialsMetaData> DisciplineClient::partials_meta()
+std::vector<philote::PartialsMetaData> DisciplineClient::GetPartialsMeta()
 {
     return partials_meta_;
 }
