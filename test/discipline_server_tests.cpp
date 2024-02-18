@@ -44,9 +44,14 @@ TEST(DisciplineServerTests, LinkPointers)
 	Discipline disc;
 	DisciplineServer server;
 
+	EXPECT_TRUE(server.DisiplinePointerNull());
+
 	server.LinkPointers(&disc);
+	EXPECT_FALSE(server.DisiplinePointerNull());
 
 	server.UnlinkPointers();
+	EXPECT_TRUE(server.DisiplinePointerNull());
+
 }
 
 /*

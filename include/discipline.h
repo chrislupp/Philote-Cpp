@@ -62,6 +62,13 @@ namespace philote
          */
         ~DisciplineServer() override;
 
+		/**
+		 *	Checks if the Discipline pointer is null.
+		 *
+		 * @return true if the pointer is null, otherwise false.
+		 */
+		bool DisiplinePointerNull();
+
         /**
          * @brief Links all pointers needed by the discipline base class
          *
@@ -148,7 +155,7 @@ namespace philote
 
     private:
         //! Pointer to the discipline implementation
-        philote::Discipline *discipline_;
+        philote::Discipline *discipline_ = nullptr;
     };
 
     /**

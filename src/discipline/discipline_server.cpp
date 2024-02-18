@@ -51,6 +51,14 @@ DisciplineServer::~DisciplineServer()
     UnlinkPointers();
 }
 
+bool DisciplineServer::DisiplinePointerNull()
+{
+	if (discipline_ == nullptr)
+		return true;
+	else
+		return false;
+}
+
 void DisciplineServer::LinkPointers(philote::Discipline *discipline)
 {
     discipline_ = discipline;
