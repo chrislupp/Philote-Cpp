@@ -40,6 +40,9 @@ using philote::Discipline;
 class TestDiscipline: public Discipline
 {
 public:
+	// a test option flag
+	int option_ = 0;
+
 	TestDiscipline()
 	{
 		// discipline properties
@@ -58,6 +61,11 @@ public:
 	}
 
 	~TestDiscipline() = default;
+
+	void Initialize(const google::protobuf::Struct &options_struct) override
+	{
+		option_ = options_struct.fields().find("n")->second.number_value();
+	}
 
 private:
 };
@@ -130,12 +138,26 @@ TEST(DisciplineServerTests, SetStreamOptions)
 */
 TEST(DisciplineServerTests, SetOptions)
 {
-	Discipline disc;
+	TestDiscipline disc;
 	DisciplineServer server;
-
 	server.LinkPointers(&disc);
 
-	server.UnlinkPointers();
+	// function arguments
+	grpc::ServerContext context;
+	philote::DisciplineOptions request;
+	google::protobuf::Empty response;
+
+	// set the options
+	google::protobuf::Struct options;
+	(*options.mutable_fields())["n"] = google::protobuf::Value();
+	(*options.mutable_fields())["n"].set_number_value(2);
+	request.mutable_options()->CopyFrom(options);
+
+	// call set options functions
+	server.SetOptions(&context, &request, &response);
+
+	// check the option value
+	EXPECT_TRUE(disc.option_ == 2);
 }
 
 /*
